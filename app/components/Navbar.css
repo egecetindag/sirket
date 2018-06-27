@@ -1,0 +1,13 @@
+.navbar-icon{
+    text-align: center;    
+    font-size: 32px;
+    margin-bottom: -12px;
+}
+    
+.navbar-menu > .ant-menu-item{
+    width: 10%;
+    text-align: center;    
+}
+.navbar-menu > .ant-menu-item  .anticon{
+    margin-right: 0px
+}
