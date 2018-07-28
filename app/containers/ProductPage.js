@@ -3,7 +3,7 @@ type Props = {};
 
 import { Link } from 'react-router-dom';
 
-export default class ProductPage extends Component<Props> {
+class ProductPage extends Component<Props> {
   props:Props
 
 
@@ -15,3 +15,5 @@ export default class ProductPage extends Component<Props> {
         );
       }
     }
+
+    export {ProductPage}
