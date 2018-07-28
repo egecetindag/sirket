@@ -12,3 +12,17 @@
     color: #2C3A47
 
 }
+.stock-form > div > .ant-form-item >.ant-form-item-label{
+    width: 25%;
+    text-align: left;
+}
+.stock-form > .ant-form-item >.ant-form-item-label{
+    width: 25%;
+    text-align: left;
+}
+.ant-form-item-children{
+    display: flex
+}
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td{
+    text-align: center
+}
