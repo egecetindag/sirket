@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "product": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "stock": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "person": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "payment": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "collection": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "expenses": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "user": {
+    "dataSource": "mysql",
+    "public": true
+  },
+  "activity": {
+    "dataSource": "mysql",
+    "public": true
+  }
+}

@@ -1,0 +1,15 @@
+  const connector = app.dataSources.mysql.connector;
+
+  var sql = 'ALTER TABLE `stock` ADD CONSTRAINT stock_fk1 FOREIGN KEY (product_id) REFERENCES `product` (id)';
+
+  connector.execute(sql, null, (err, resultObjects) => {
+      console.log(err);
+      console.log(resultObjects);
+  });
+
+  sql = 'ALTER TABLE `stock` ADD CONSTRAINT stock_fk2 FOREIGN KEY (dealer_id) REFERENCES `person` (id)';
+
+  connector.execute(sql, null, (err, resultObjects) => {
+      console.log(err);
+      console.log(resultObjects);
+  });
