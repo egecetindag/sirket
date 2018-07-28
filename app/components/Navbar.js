@@ -11,7 +11,7 @@ const Option = Select.Option;
 
 type Props = {};
 
-export default class Navbar extends Component<Props> {
+class Navbar extends Component<Props> {
     props: Props
     constructor(props) {
         super(props);
@@ -32,6 +32,9 @@ export default class Navbar extends Component<Props> {
                 break;
             case '3':
                 history.push('/product');
+                break;
+            case '4':
+                history.push('/stock');
                 break;
         }
     }
@@ -86,3 +89,5 @@ export default class Navbar extends Component<Props> {
         );
     }
 }
+
+export { Navbar }
