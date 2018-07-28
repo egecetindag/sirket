@@ -11,3 +11,14 @@
 .navbar-menu > .ant-menu-item  .anticon{
     margin-right: 0px
 }
+
+
+.navbar-menu > .ant-menu-item >.navbar-icon > div> .icon{
+    background:white;
+    transition: background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+-webkit-transition:  background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)
+}
+
+  .ant-menu-horizontal >.ant-menu-item:hover > .navbar-icon > div> .icon, .ant-menu-horizontal > .ant-menu-submenu:hover > .navbar-icon > div> .icon, .ant-menu-horizontal > .ant-menu-item-active > .navbar-icon > div> .icon, .ant-menu-horizontal > .ant-menu-submenu-active > .navbar-icon > div> .icon, .ant-menu-horizontal > .ant-menu-item-open > .navbar-icon > div> .icon, .ant-menu-horizontal > .ant-menu-submenu-open, .ant-menu-horizontal > .ant-menu-item-selected > .navbar-icon > div> .icon, .ant-menu-horizontal > .ant-menu-submenu-selected > .navbar-icon > div> .icon{
+      background: #9AECDB
+  }
