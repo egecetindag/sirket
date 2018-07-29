@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import '../assets/styles/stock.css'
 const Search = Input.Search;
 const FormItem = Form.Item;
+import { connect } from 'react-redux';
 
 const dataSource = [{ name: 'ege', age: 11, address: 'snne' }]
 class StockPage extends Component<Props> {
@@ -151,7 +152,7 @@ class StockPage extends Component<Props> {
                     <Table dataSource={dataSource} columns={columns} />
                 </div>
                 <Modal
-                    title="Yeni Urun"
+                    title="Yeni Stock"
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
