@@ -36,6 +36,12 @@ class Navbar extends Component<Props> {
             case '4':
                 history.push('/stock');
                 break;
+            case '5':
+                history.push('/client');
+                break;
+            case '6':
+              history.push('/dealer');
+              break;
         }
     }
 

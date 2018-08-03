@@ -5,6 +5,8 @@ import {HomePage} from './containers/HomePage';
 import {NavbarPage} from './containers/NavbarPage';
 import {ProductPage} from './containers/ProductPage';
 import {StockPage} from './containers/StockPage';
+import {ClientPage} from './containers/ClientPage';
+import {DealerPage} from "./containers/DealerPage";
 
 import App from './containers/App';
 import {Layout} from 'antd'
@@ -17,7 +19,10 @@ export default () => (
       <Content style={{background: 'white', margin:'10px'}}>
       <Route exact path="/" component={HomePage} />
       <Route path = '/product' component= {ProductPage} />
-      <Route path = '/stock' component= {StockPage} />      
+      <Route path = '/stock' component= {StockPage} />
+      <Route path = '/client' component= {ClientPage} />
+      <Route path = '/dealer' component= {DealerPage} />
+
       </Content>
     </Layout>
     </Switch>

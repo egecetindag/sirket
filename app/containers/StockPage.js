@@ -6,12 +6,11 @@ import '../assets/styles/stock.css'
 const Search = Input.Search;
 const FormItem = Form.Item;
 import { connect } from 'react-redux';
+import {retrieveStocks,createStock,editStock} from '../actions/StockActions'
 
-const dataSource = [{ name: 'ege', age: 11, address: 'snne' }]
 class StockPage extends Component<Props> {
     props: Props
     constructor(props) {
-        true
         super(props);
         this.state = {
             visible: false,
@@ -19,6 +18,9 @@ class StockPage extends Component<Props> {
             barkod: '',
             editVisible:false,
         }
+    }
+    componentDidMount(){
+        this.props.retrieveStocks();
     }
     handleEdit = () =>{
          this.setState({
@@ -149,7 +151,7 @@ class StockPage extends Component<Props> {
                     </div>
                 </div>
                 <div className='page-body'>
-                    <Table dataSource={dataSource} columns={columns} />
+                    <Table dataSource={this.props.stocks} columns={columns} />
                 </div>
                 <Modal
                     title="Yeni Stock"
@@ -271,5 +273,15 @@ class StockPage extends Component<Props> {
         );
     }
 }
-const WrappedStockPage = Form.create()(StockPage);
-export { WrappedStockPage as StockPage }
+
+function mapStateToProps({stockReducer}) {
+    const {stocks} = stockReducer;
+	return {
+        stocks
+    }
+}
+
+const ConnectedPage = connect (mapStateToProps,{retrieveStocks,createStock,editStock})(StockPage);
+
+const WrappedPage = Form.create()(StockPage);
+export { WrappedPage as StockPage}
