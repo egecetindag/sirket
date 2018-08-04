@@ -72,8 +72,8 @@ class ProductPage extends Component<Props> {
         },
         {
             title: 'Kategori',
-            dataIndex: 'kategori',
-            key: 'kategori',
+            dataIndex: 'category',
+            key: 'category',
         },
         {
             title: 'Alis Fiyati',

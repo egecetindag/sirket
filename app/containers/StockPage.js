@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 type Props = {};
 import { Table, Button, Icon, Modal, Form, Input, InputNumber } from 'antd'
-import { Link } from 'react-router-dom';
-import '../assets/styles/stock.css'
 const Search = Input.Search;
 const FormItem = Form.Item;
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {retrieveStocks,createStock,editStock} from '../actions/StockActions'
-
+import moment from 'moment'
 class StockPage extends Component<Props> {
     props: Props
     constructor(props) {
@@ -22,14 +21,16 @@ class StockPage extends Component<Props> {
     componentDidMount(){
         this.props.retrieveStocks();
     }
-    handleEdit = () =>{
-         this.setState({
-             editVisible:true
-         })
-    }
     handleOk = () => {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
+                const dataToSend = {
+                    productId: values.productId,
+                    qty: values.qty,
+                    dealerId: values.dealerId
+                }
+                console.log('data', dataToSend)
+                this.props.createStock(dataToSend);
                 setTimeout(() => {
                     this.setState({
                         visible: false
@@ -37,45 +38,41 @@ class StockPage extends Component<Props> {
                 }, 1000);
             }
         });
-
     }
-    handleModalOpen = () => {
-        this.setState({
-            visible: true,
-            continue: false,
-            barkod: ''
-        })
+    handleEdit = () => {
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                const dataToSend = {
+                    id: values.id,
+                    productId: values.productId,
+                    qty: values.qty,
+                    dealerId: values.dealerId
+                }
+                console.log('data', dataToSend)     // ??
+                this.props.editStock(dataToSend);
+                setTimeout(() => {
+                    this.setState({
+                        visible: true
+                    })
+                }, 1000);
+            }
+        });
     }
     handleCancel = () => {
         this.props.form.resetFields();
         this.setState({
             visible: false,
-            continue: false,
-            barkod: ''
         })
     }
-    // handleContinue =() =>{
-    //     this.props.form.validateFieldsAndScroll((err, values) => {
-    //             console.log(values.barkd)
-    //             if(values.barkod){
-    //                 this.setState({
-    //                     continue:true
-    //                 })
-    //             }
-    //     })
+    handleModalOpen = () => {
+        this.setState({
+            visible: true,
 
-    // }
-    handleSearch = () =>{
-        console.log('selam')
+        })
     }
     handleWithoutBarcode = () =>{
         this.setState({
             continue: true
-        })
-    }
-    handleEditCancel =() =>{
-        this.setState({
-            editVisible:false
         })
     }
     handleBarcode = (e) => {
@@ -94,47 +91,49 @@ class StockPage extends Component<Props> {
             barkod: e.target.value
         })
     }
+
     render() {
-        
         const columns = [{
-        title: 'Barkod',
-        dataIndex: 'barcode',
-        key: 'barcode',
-    }, {
-        title: 'Isim',
-        dataIndex: 'name',
-        key: 'name',
-    }, {
-        title: 'Description',
-        dataIndex: 'description',
-        key: 'description',
-    },
-    {
-        title: 'Kategori',
-        dataIndex: 'kategori',
-        key: 'kategori',
-    },
-    {
-        title: 'Alis Fiyati',
-        dataIndex: 'purchase_price',
-        key: 'purchase_price',
-    },
-    {
-        title: 'Satis Fiyati',
-        dataIndex: 'sale_price',
-        key: 'sale_price',
-    },
-    {
-        title: 'Giris Tarihi',
-        dataIndex: 'date',
-        key: 'date',
-    },
-    {
-        title: 'Duzenle',
-        render:() => <Button onClick={this.handleEdit} style={{border:'0', background:'transparent'}}><Icon type="edit" /></Button>
-    }
-    
-    ];
+            title: 'Barkod',
+            dataIndex: 'productId.barcode',
+            key: 'barcode',
+        }, {
+            title: 'Isim',
+            dataIndex: 'productId.name',
+            key: 'name',
+        },
+        {
+            title: 'Kategori',
+            dataIndex: 'productId.kategori',
+            key: 'kategori',
+        },
+        {
+            title: 'Alis Fiyati',
+            dataIndex: 'productId.purchasePrice',
+            key: 'purchasePrice',
+        },
+        {
+            title: 'Satis Fiyati',
+            dataIndex: 'productId.salePrice',
+            key: 'salePrice',
+        },
+        {
+            title: 'Giris Tarihi',
+            dataIndex: 'creationDate',
+            key: 'creationDate',
+            render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
+        },
+        {
+            title: 'Adet',
+            dataIndex: 'qty',
+            key: 'qty',
+        },
+        {
+            title: 'Duzenle',
+            render:() => <Button onClick={this.handleEdit} style={{border:'0', background:'transparent'}}><Icon type="edit" /></Button>
+        }
+        
+        ];
         const { getFieldDecorator } = this.props.form;
         return (
             <div>
@@ -153,13 +152,15 @@ class StockPage extends Component<Props> {
                 <div className='page-body'>
                     <Table dataSource={this.props.stocks} columns={columns} />
                 </div>
+
+
                 <Modal
                     title="Yeni Stock"
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
                         <Button onClick={this.handleCancel}>Iptal</Button>,
-                        <Button type="primary" disabled={!this.state.continue} onClick={this.handleOk}>
+                        <Button type="primary" onClick={this.handleOk}>
                             Kaydet
                         </Button>,
                     ]}
@@ -180,11 +181,7 @@ class StockPage extends Component<Props> {
                                 <Button style={{border: '0',fontSize:'0.8em' }}onClick={this.handleWithoutBarcode}>Barkodsuz devam et</Button>
                             
                         </FormItem>
-                        {/* {!this.state.continue &&
-                        // <div style={{textAlign:'center'}}><Button onClick={this.handleContinue}type='primary' >Devam Et</Button></div>
-                        } */}
                         {this.state.continue &&
-
                             <div>
                                 <FormItem
                                     label="Isim"
@@ -273,7 +270,6 @@ class StockPage extends Component<Props> {
         );
     }
 }
-
 function mapStateToProps({stockReducer}) {
     const {stocks} = stockReducer;
 	return {
@@ -282,6 +278,5 @@ function mapStateToProps({stockReducer}) {
 }
 
 const ConnectedPage = connect (mapStateToProps,{retrieveStocks,createStock,editStock})(StockPage);
-
-const WrappedPage = Form.create()(StockPage);
-export { WrappedPage as StockPage}
+const WrappedPage = Form.create()(ConnectedPage);
+export { WrappedPage as StockPage }

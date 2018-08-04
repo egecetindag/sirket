@@ -15,7 +15,7 @@ export default () => (
   <App>
     <Switch>
     <Layout  style={{background:'white',height:"100vh"}}>
-      <NavbarPage/>
+      <NavbarPage />
       <Content style={{background: 'white', margin:'10px'}}>
       <Route exact path="/" component={HomePage} />
       <Route path = '/product' component= {ProductPage} />

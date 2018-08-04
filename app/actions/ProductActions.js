@@ -30,9 +30,9 @@ export const createProduct = (dataToSend) => {
             let response = await dispatch(()=>s.createProductService(dataToSend))           
             if (response.status === 200) {
                 dispatch({
-                    type: t.CREATE_PRODUCT_SUCCESS,
-                    payload: response.data
-                })
+                    type: t.CREATE_PRODUCT_SUCCESS
+                });
+                dispatch(retrieveProducts());
             } else {
                 throw Error
             }

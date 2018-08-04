@@ -3,7 +3,7 @@ import axios from 'axios'
 
 
 export const retrieveStocksService = () =>{
-    return axios.get(host +"/getStocks?barcode=&name=gofret&description=&category=&pageNumber=1&pageSize=10&orderBy=&orderAs=")
+    return axios.get(host +"/getStocks?barcode=&name=&description=&category=&pageNumber=1&pageSize=10&orderBy=&orderAs=")
 }
 export const createStockService = (dataToSend) =>{
     return axios.post(host+"/createStock",dataToSend)
