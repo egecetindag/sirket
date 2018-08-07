@@ -6,6 +6,8 @@ const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {retrieveStocks,createStock,editStock} from '../actions/StockActions'
+import style from '../assets/styles/stock.css'
+
 import moment from 'moment'
 class StockPage extends Component<Props> {
     props: Props
@@ -69,6 +71,8 @@ class StockPage extends Component<Props> {
             visible: true,
 
         })
+     }
+    handleSearch = () =>{
     }
     handleWithoutBarcode = () =>{
         this.setState({

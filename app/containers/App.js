@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import '../assets/styles/stock.css'
 
 type Props = {
   children: React.Node

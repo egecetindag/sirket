@@ -13,6 +13,8 @@ class ProductPage extends Component<Props> {
         super(props);
         this.state = {
             visible: false,
+            type:'edit',
+            selected: {}
             // continue: false,
             // barkod: '',
             // editVisible:false,
@@ -32,7 +34,6 @@ class ProductPage extends Component<Props> {
                     purchasePrice: values.purchasePrice,
                     salePrice: values.salePrice
                 }
-                console.log('data', dataToSend)
                 this.props.createProduct(dataToSend);
                 setTimeout(() => {
                     this.setState({
@@ -49,9 +50,10 @@ class ProductPage extends Component<Props> {
             visible: false,
         })
     }
-    handleModalOpen = () => {
+    handleModalOpen = (type) => {
         this.setState({
             visible: true,
+            type,
         
         })
     }
@@ -93,9 +95,16 @@ class ProductPage extends Component<Props> {
         },
         {
             title: 'Duzenle',
-            render:() => <Button onClick={this.handleEdit} style={{border:'0', background:'transparent'}}><Icon type="edit" /></Button>
-        }]
-        const { getFieldDecorator } = this.props.form;        
+            render:() => <Button onClick={()=>this.handleModalOpen('edit')} style={{border:'0', background:'transparent'}}><Icon type="edit" /></Button>
+        },
+        {
+            title: 'Sil',
+            render:() => <Button onClick={this.handleDelete} style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button>
+        },
+    
+    ]
+        const { getFieldDecorator } = this.props.form;   
+        const {selected,type} = this.state     
         return (
             <div>
                 <div className='page-header' >
@@ -106,17 +115,25 @@ class ProductPage extends Component<Props> {
                             placeholder="Urun Ara"
                             onSearch={this.handleSearch}
                         />
-                        <Button onClick={this.handleModalOpen} >Yeni Urun Girisi<Icon type='plus' /></Button>
+                        <Button onClick={()=>this.handleModalOpen('create')} >Yeni Urun Girisi<Icon type='plus' /></Button>
 
                     </div>
                 </div>
                 <div className='page-body'>
-                    <Table dataSource={this.props.products} columns={columns} />
+                    <Table 
+                        dataSource={this.props.products} columns={columns} 
+                        onRow={(record) => {
+                            return {
+                                onClick: () => this.setState({selected: record})
+                            }
+                        }}
+                    
+                    />
                 </div>
                 
 
                 <Modal
-                    title="Yeni Urun"
+                    title= {this.state.type === 'edit' ? 'Urun Duzenle': 'Yeni Urun'}
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
@@ -132,7 +149,7 @@ class ProductPage extends Component<Props> {
                             style={{ display: 'flex' }}
                         >
                             {getFieldDecorator('barcode', {
-                                initialValue: this.state.barkod,
+                                initialValue: type === 'edit' ? selected.barcode : this.state.barkod,
                                 rules: [{
                                     required: false, message: 'Barkodu girin!'
                                 }],
@@ -146,6 +163,7 @@ class ProductPage extends Component<Props> {
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('name', {
+                                    initialValue: type === 'edit' ? selected.name : '',
                                     rules: [{
                                         required: true, message: 'Isim girin!'
                                     }],
@@ -159,6 +177,7 @@ class ProductPage extends Component<Props> {
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('description', {
+                                    initialValue: type === 'edit' ? selected.description : '',                                    
                                     rules: [{
                                         required: false
                                     }],
@@ -171,6 +190,7 @@ class ProductPage extends Component<Props> {
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('category', {
+                                    initialValue: type === 'edit' ? selected.category : '',                                    
                                     rules: [{
                                         required: false
                                     }],
@@ -183,6 +203,7 @@ class ProductPage extends Component<Props> {
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('purchasePrice', {
+                                    initialValue: type === 'edit' ? selected.purchasePrice : '',                                    
                                     rules: [{
                                         required: true, message: 'Alis fiyatini girin!'
                                     }],
@@ -195,6 +216,7 @@ class ProductPage extends Component<Props> {
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('salePrice', {
+                                    initialValue: type === 'edit' ? selected.salePrice : '',                                    
                                     rules: [{
                                         required: true, message: 'Satis fiyatini girin!'
                                     }],
@@ -205,8 +227,8 @@ class ProductPage extends Component<Props> {
                         </div>
                         
                     </Form>
-
                 </Modal>
+                
             </div>
         );
     }
