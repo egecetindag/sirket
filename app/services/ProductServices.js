@@ -7,3 +7,9 @@ export const retrieveProductsService = () =>{
 export const createProductService = (dataToSend) =>{
     return axios.post(host+"/createProduct",dataToSend)
 }
+export const updateProductService = (dataToSend) =>{
+    return axios.post(host+"/updateProduct",dataToSend)
+}
+export const deleteProductService = (id) =>{
+    return axios.get(host+`/deleteProducts?ids=${id}`)
+}

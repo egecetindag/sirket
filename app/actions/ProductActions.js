@@ -46,3 +46,46 @@ export const createProduct = (dataToSend) => {
 
     }
 }
+export const updateProduct = (dataToSend) => {
+    return async (dispatch) => {
+        try {
+            let response = await dispatch(()=>s.updateProductService(dataToSend))           
+            if (response.status === 200) {
+                dispatch({
+                    type: t.EDIT_PRODUCT_SUCCESS
+                });
+                dispatch(retrieveProducts());
+            } else {
+                throw Error
+            }
+        }
+        catch (error) {
+            console.log('error', error)
+            dispatch({
+                type: t.EDIT_PRODUCT_SUCCESS
+            })
+        }
+
+    }
+}
+export const deleteProduct = (id) => {
+    return async (dispatch) => {
+        try {
+            let response = await dispatch(()=>s.deleteProductService(id))           
+            if (response.status === 200) {
+                dispatch({
+                    type: t.DELETE_PRODUCT_SUCCESS
+                });
+                dispatch(retrieveProducts());
+            } else {
+                throw Error
+            }
+        }
+        catch (error) {
+            dispatch({
+                type: t.DELETE_PRODUCT_SUCCESS
+            })
+        }
+
+    }
+}

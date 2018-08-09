@@ -50,7 +50,6 @@ class StockPage extends Component<Props> {
                     qty: values.qty,
                     dealerId: values.dealerId
                 }
-                console.log('data', dataToSend)     // ??
                 this.props.editStock(dataToSend);
                 setTimeout(() => {
                     this.setState({

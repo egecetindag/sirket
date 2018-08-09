@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 type Props = {};
-import { Table, Button, Icon, Modal, Form, Input, InputNumber } from 'antd'
+import { Table, Button, Icon, Modal, Form, Input, InputNumber,Popconfirm } from 'antd'
 const Search = Input.Search;
 const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {retrieveProducts,createProduct} from '../actions/ProductActions'
+import {retrieveProducts,createProduct, updateProduct,deleteProduct} from '../actions/ProductActions'
 import moment from 'moment'
 class ProductPage extends Component<Props> {
     props: Props
@@ -34,15 +34,25 @@ class ProductPage extends Component<Props> {
                     purchasePrice: values.purchasePrice,
                     salePrice: values.salePrice
                 }
-                this.props.createProduct(dataToSend);
+                if(this.state.type === 'create'){
+                    this.props.createProduct(dataToSend);
+                }
+                if(this.state.type === 'edit'){
+                    dataToSend.id =this.state.selected.id;
+                    this.props.updateProduct(dataToSend);
+                }
                 setTimeout(() => {
                     this.setState({
                         visible: false
                     })
                 }, 1000);
+                this.props.form.resetFields()
             }
         });
 
+    }
+    handleDelete = () =>{
+        this.props.deleteProduct(this.state.selected.id)
     }
     handleCancel = () => {
         this.props.form.resetFields();
@@ -99,7 +109,7 @@ class ProductPage extends Component<Props> {
         },
         {
             title: 'Sil',
-            render:() => <Button onClick={this.handleDelete} style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button>
+            render:() =><Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button></Popconfirm>
         },
     
     ]
@@ -240,6 +250,6 @@ function mapStateToProps({productReducer}) {
     }
 }
 
-const ConnectedPage = connect (mapStateToProps,{retrieveProducts,createProduct})(ProductPage);
+const ConnectedPage = connect (mapStateToProps,{retrieveProducts,createProduct,updateProduct,deleteProduct})(ProductPage);
 const WrappedPage = Form.create()(ConnectedPage);
 export { WrappedPage as ProductPage }
