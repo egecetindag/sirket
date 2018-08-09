@@ -14,14 +14,15 @@ class ProductPage extends Component<Props> {
         this.state = {
             visible: false,
             type:'edit',
-            selected: {}
+            selected: {},
+            name: ''
             // continue: false,
             // barkod: '',
             // editVisible:false,
         }
     }
     componentDidMount(){
-        this.props.retrieveProducts();
+        this.props.retrieveProducts(this.state.name);
     }
     handleOk = () => {
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -35,11 +36,11 @@ class ProductPage extends Component<Props> {
                     salePrice: values.salePrice
                 }
                 if(this.state.type === 'create'){
-                    this.props.createProduct(dataToSend);
+                    this.props.createProduct(dataToSend, this.state.name);
                 }
                 if(this.state.type === 'edit'){
                     dataToSend.id =this.state.selected.id;
-                    this.props.updateProduct(dataToSend);
+                    this.props.updateProduct(dataToSend, this.state.name);
                 }
                 setTimeout(() => {
                     this.setState({
@@ -51,8 +52,16 @@ class ProductPage extends Component<Props> {
         });
 
     }
+    handleSearch =(value) =>{
+        this.props.retrieveProducts(value);
+    }
+    onSearchChange = (e) =>{
+        this.setState({
+            name: e.target.value
+        })
+    }
     handleDelete = () =>{
-        this.props.deleteProduct(this.state.selected.id)
+        this.props.deleteProduct(this.state.selected.id, this.state.name)
     }
     handleCancel = () => {
         this.props.form.resetFields();
@@ -124,6 +133,7 @@ class ProductPage extends Component<Props> {
                             style={{ height: '32px', marginRight: '10px' }}
                             placeholder="Urun Ara"
                             onSearch={this.handleSearch}
+                            onChange = {this.onSearchChange}
                         />
                         <Button onClick={()=>this.handleModalOpen('create')} >Yeni Urun Girisi<Icon type='plus' /></Button>
 

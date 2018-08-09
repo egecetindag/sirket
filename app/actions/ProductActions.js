@@ -2,10 +2,10 @@ import * as s from '../services/ProductServices'
 import axios from 'axios'
 import * as t from './types' 
 //axios.defaults.adapter = require('axios/lib/adapters/http');
-export const retrieveProducts = (dataToSend) => {
+export const retrieveProducts = (str) => {
     return async (dispatch) => {
         try {
-            let response = await dispatch(s.retrieveProductsService)           
+            let response = await dispatch(()=>s.retrieveProductsService(str))           
             if (response.status === 200) {
                 dispatch({
                     type: t.RETRIEVE_PRODUCTS_SUCCESS,
@@ -24,7 +24,7 @@ export const retrieveProducts = (dataToSend) => {
 
     }
 }
-export const createProduct = (dataToSend) => {
+export const createProduct = (dataToSend,str) => {
     return async (dispatch) => {
         try {
             let response = await dispatch(()=>s.createProductService(dataToSend))           
@@ -32,7 +32,7 @@ export const createProduct = (dataToSend) => {
                 dispatch({
                     type: t.CREATE_PRODUCT_SUCCESS
                 });
-                dispatch(retrieveProducts());
+                dispatch(retrieveProducts(str));
             } else {
                 throw Error
             }
@@ -46,7 +46,7 @@ export const createProduct = (dataToSend) => {
 
     }
 }
-export const updateProduct = (dataToSend) => {
+export const updateProduct = (dataToSend,str) => {
     return async (dispatch) => {
         try {
             let response = await dispatch(()=>s.updateProductService(dataToSend))           
@@ -54,7 +54,7 @@ export const updateProduct = (dataToSend) => {
                 dispatch({
                     type: t.EDIT_PRODUCT_SUCCESS
                 });
-                dispatch(retrieveProducts());
+                dispatch(retrieveProducts(str));
             } else {
                 throw Error
             }
@@ -68,7 +68,7 @@ export const updateProduct = (dataToSend) => {
 
     }
 }
-export const deleteProduct = (id) => {
+export const deleteProduct = (id,str) => {
     return async (dispatch) => {
         try {
             let response = await dispatch(()=>s.deleteProductService(id))           
@@ -76,7 +76,7 @@ export const deleteProduct = (id) => {
                 dispatch({
                     type: t.DELETE_PRODUCT_SUCCESS
                 });
-                dispatch(retrieveProducts());
+                dispatch(retrieveProducts(str));
             } else {
                 throw Error
             }
