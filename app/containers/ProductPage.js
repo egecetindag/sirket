@@ -133,7 +133,7 @@ class ProductPage extends Component<Props> {
                     <div style={{ display: 'flex' }}>
                         <Search
                             style={{ height: '32px', marginRight: '10px' }}
-                            placeholder="Urun Ara"
+                            placeholder="Ürün Ara"
                             onSearch={this.handleSearch}
                             onChange = {this.onSearchChange}
                         />
