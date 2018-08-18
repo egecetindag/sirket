@@ -7,6 +7,7 @@ import {ProductPage} from './containers/ProductPage';
 import {StockPage} from './containers/StockPage';
 import {ClientPage} from './containers/ClientPage';
 import {DealerPage} from "./containers/DealerPage";
+import {PricePage} from "./containers/PricePage";
 
 import App from './containers/App';
 import {Layout} from 'antd'
@@ -22,7 +23,7 @@ export default () => (
       <Route path = '/stock' component= {StockPage} />
       <Route path = '/client' component= {ClientPage} />
       <Route path = '/dealer' component= {DealerPage} />
-
+      <Route path = '/price' component= {PricePage} />
       </Content>
     </Layout>
     </Switch>

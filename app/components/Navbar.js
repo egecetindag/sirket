@@ -26,9 +26,10 @@ class Navbar extends Component<Props> {
                 history.push('/')
                 break;
             case '1':
-                history.push('/counter')
+                history.push('/price')
                 break;
             case '2':
+                history.push('/price')
                 break;
             case '3':
                 history.push('/product');

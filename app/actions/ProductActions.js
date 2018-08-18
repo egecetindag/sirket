@@ -5,6 +5,9 @@ import * as t from './types'
 export const retrieveProducts = (str) => {
     return async (dispatch) => {
         try {
+            dispatch({
+                type: t.RETRIEVE_PRODUCTS_REQUEST,
+            })
             let response = await dispatch(()=>s.retrieveProductsService(str))           
             if (response.status === 200) {
                 dispatch({
@@ -24,6 +27,32 @@ export const retrieveProducts = (str) => {
 
     }
 }
+
+export const retrieveProduct = (id,barcode) => {
+    return async (dispatch) => {
+        dispatch({
+            type: t.RETRIEVE_PRODUCT_REQUEST,
+        })
+        try {
+            let response = await dispatch(()=>s.retrieveProduct(id))           
+            if (response.status === 200) {
+                dispatch({
+                    type: t.RETRIEVE_PRODUCT_SUCCESS,
+                    payload: response.data
+                })
+            } else {
+                throw Error
+            }
+        }
+        catch (error) {
+            dispatch({
+                type: t.RETRIEVE_PRODUCT_FAILURE
+            })
+        }
+
+    }
+}
+
 export const createProduct = (dataToSend,str) => {
     return async (dispatch) => {
         try {

@@ -1,23 +1,58 @@
 const initialState = {
-    products: []
+    products: [],
+    product: {},
+    getProductRequest: false,
+    getProductSuccess: false,
+    getProductsSuccess: false,
+    getProductsRequest: false
 };
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case 'RETRIEVE_PRODUCTS_SUCCESS':
-            return { 
+            return {
                 ...state,
-                products: action.payload.data.items
-            
+                products: action.payload.data.items,
+                getProductsSuccess: true,
+
             };
-      // case 'RETRIEVE_PRODUCTS_FAILURE':
-      //   return {
-      //     ...state
-      //   };
-    default:
-    return{
-        ...state
-    }
+        case 'RETRIEVE_PRODUCTS_REQUEST':
+            return {
+                ...state,
+                products: action.payload.data.items,
+                getProductsSuccess: true,
+            };
+        case 'RETRIEVE_PRODUCTS_FAILURE':
+            return {
+                ...state
+            };
+        case 'RETRIEVE_PRODUCT_SUCCESS':
+            return {
+                ...state,
+                product: action.payload,
+                getProductSuccess: true,
+                getProductRequest: false,
+
+            };
+        case 'RETRIEVE_PRODUCT_FAILURE':
+            return {
+                ...state,
+                getProductSuccess: false,
+                getProductRequest: false,
+
+
+            };
+        case 'RETRIEVE_PRODUCT_REQUEST':
+            return {
+                ...state,
+                getProductRequest: true,
+                getProductSuccess: false,
+
+            };
+        default:
+            return {
+                ...state
+            }
     }
 
 }
