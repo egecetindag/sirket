@@ -10,6 +10,10 @@ export default (state = initialState, action) => {
                 products: action.payload.data.items
             
             };
+      // case 'RETRIEVE_PRODUCTS_FAILURE':
+      //   return {
+      //     ...state
+      //   };
     default:
     return{
         ...state

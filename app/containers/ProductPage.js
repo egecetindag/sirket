@@ -59,6 +59,7 @@ class ProductPage extends Component<Props> {
         this.setState({
             name: e.target.value
         })
+        this.handleSearch(e.target.value);
     }
     handleDelete = () =>{
         this.props.deleteProduct(this.state.selected.id, this.state.name)
@@ -123,7 +124,8 @@ class ProductPage extends Component<Props> {
     
     ]
         const { getFieldDecorator } = this.props.form;   
-        const {selected,type} = this.state     
+        const {selected,type} = this.state ;
+        console.log(selected);
         return (
             <div>
                 <div className='page-header' >
@@ -141,12 +143,17 @@ class ProductPage extends Component<Props> {
                 </div>
                 <div className='page-body'>
                     <Table 
-                        dataSource={this.props.products} columns={columns} 
+                        dataSource={this.props.products}
+                        columns={columns}
+                        rowKey={(record) => {
+                          return record.id+1;
+                        }}
                         onRow={(record) => {
                             return {
                                 onClick: () => this.setState({selected: record})
                             }
                         }}
+                        pagination={{ pageSize: 6 }}
                     
                     />
                 </div>

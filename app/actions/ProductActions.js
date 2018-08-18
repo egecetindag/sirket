@@ -40,7 +40,7 @@ export const createProduct = (dataToSend,str) => {
         catch (error) {
             console.log('error', error)
             dispatch({
-                type: t.CREATE_PRODUCT_SUCCESS
+                type: t.CREATE_PRODUCT_FAILURE
             })
         }
 
@@ -62,7 +62,7 @@ export const updateProduct = (dataToSend,str) => {
         catch (error) {
             console.log('error', error)
             dispatch({
-                type: t.EDIT_PRODUCT_SUCCESS
+                type: t.EDIT_PRODUCT_FAILURE
             })
         }
 
@@ -83,7 +83,7 @@ export const deleteProduct = (id,str) => {
         }
         catch (error) {
             dispatch({
-                type: t.DELETE_PRODUCT_SUCCESS
+                type: t.DELETE_PRODUCT_FAILURE
             })
         }
 
