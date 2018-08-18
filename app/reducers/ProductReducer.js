@@ -19,11 +19,14 @@ export default (state = initialState, action) => {
         case 'RETRIEVE_PRODUCTS_REQUEST':
             return {
                 ...state,
-                products: action.payload.data.items,
-                getProductsSuccess: true,
+                getProductsSuccess: false,
+                getProductsRequest: true,
+                
             };
         case 'RETRIEVE_PRODUCTS_FAILURE':
             return {
+                getProductsSuccess: false,
+                getProductsRequest: false,
                 ...state
             };
         case 'RETRIEVE_PRODUCT_SUCCESS':

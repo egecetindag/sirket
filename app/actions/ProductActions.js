@@ -28,13 +28,13 @@ export const retrieveProducts = (str) => {
     }
 }
 
-export const retrieveProduct = (id,barcode) => {
+export const retrieveProduct = (id) => {
     return async (dispatch) => {
         dispatch({
             type: t.RETRIEVE_PRODUCT_REQUEST,
         })
         try {
-            let response = await dispatch(()=>s.retrieveProduct(id))           
+            let response = await dispatch(()=>s.retrieveProductService(id))           
             if (response.status === 200) {
                 dispatch({
                     type: t.RETRIEVE_PRODUCT_SUCCESS,
