@@ -2,10 +2,10 @@ import * as s from '../services/DealerServices'
 import axios from 'axios'
 import * as t from './types'
 //axios.defaults.adapter = require('axios/lib/adapters/http');
-export const retrieveDealers = (dataToSend) => {
+export const retrieveDealers = (str) => {
     return async (dispatch) => {
         try {
-            let response = await dispatch(s.retrieveDealersService)
+            let response = await dispatch(()=>s.retrieveDealersService(str))
             if (response.status === 200) {
                 dispatch({
                     type: t.RETRIEVE_DEALERS_SUCCESS,
@@ -24,15 +24,15 @@ export const retrieveDealers = (dataToSend) => {
 
     }
 }
-export const createDealer = (dataToSend) => {
+export const createDealer = (dataToSend,str) => {
     return async (dispatch) => {
         try {
             let response = await dispatch(()=>s.createDealerService(dataToSend))
             if (response.status === 200) {
                 dispatch({
-                    type: t.CREATE_DEALER_SUCCESS,
-                    payload: response.data
-                })
+                    type: t.CREATE_DEALER_SUCCESS
+                });
+               dispatch(retrieveDealers(str));
             } else {
                 throw Error
             }
@@ -46,15 +46,15 @@ export const createDealer = (dataToSend) => {
 
     }
 }
-export const editDealer = (dataToSend) => {
+export const editDealer = (dataToSend,str) => {
     return async (dispatch) => {
         try {
-            let response = await dispatch(()=>s.editDealerService(dataToSend))
+            let response = await dispatch(()=>s.updateDealerService(dataToSend))
             if (response.status === 200) {
                 dispatch({
                     type: t.EDIT_DEALER_SUCCESS
                 })
-                dispatch(retrieveDealers())
+                dispatch(retrieveDealers(str))
             } else {
                 throw Error
             }
@@ -67,4 +67,25 @@ export const editDealer = (dataToSend) => {
         }
 
     }
+}
+export const deleteDealer = (id,str) => {
+  return async (dispatch) => {
+    try {
+      let response = await dispatch(()=>s.deleteDealerService(id))
+      if (response.status === 200) {
+        dispatch({
+          type: t.DELETE_DEALER_SUCCESS
+        });
+        dispatch(retrieveDealers(str));
+      } else {
+        throw Error
+      }
+    }
+    catch (error) {
+      dispatch({
+        type: t.DELETE_DEALER_FAILURE
+      })
+    }
+
+  }
 }
