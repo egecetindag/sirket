@@ -42,6 +42,9 @@ class Navbar extends Component<Props> {
             case '6':
               history.push('/dealer');
               break;
+            case '7':
+              history.push('/receiving');
+              break;
         }
     }
 
@@ -55,19 +58,19 @@ class Navbar extends Component<Props> {
                 >
                     <Menu.Item key="0">
                         <div className='navbar-icon'><Icons iconName='sale' /></div>
-                        <div>Satis</div>
+                        <div>Satış</div>
                     </Menu.Item>
                     <Menu.Item key="1">
                         <div className='navbar-icon'><Icons iconName='turkish-lira' /></div>
-                        <div>Fiyat Gor</div>
+                        <div>Fiyat Gör</div>
                     </Menu.Item>
                     <Menu.Item key="2">
                         <div className='navbar-icon'><Icons iconName='return' /></div>
-                        <div>Urun Iade</div>
+                        <div>Ürün İade</div>
                     </Menu.Item>
                     <Menu.Item key="3">
                         <div className='navbar-icon'><Icons iconName='shopping' /></div>
-                        <div>Urun</div>
+                        <div>Ürün</div>
                     </Menu.Item>
                     <Menu.Item key="4">
                         <div className='navbar-icon'><Icons iconName='home' /></div>
@@ -75,11 +78,11 @@ class Navbar extends Component<Props> {
                     </Menu.Item>
                     <Menu.Item key="5">
                         <div className='navbar-icon'><Icons iconName="user-plus" /></div>
-                        <div>Musteri</div>
+                        <div>Müşteri</div>
                     </Menu.Item>
                     <Menu.Item key="6">
                         <div className='navbar-icon'><Icons iconName="users" /></div>
-                        <div>Tedarikci</div>
+                        <div>Tedarikçi</div>
                     </Menu.Item>
                     <Menu.Item key="7">
                         <div className='navbar-icon'><Icons iconName="notepad" /></div>
