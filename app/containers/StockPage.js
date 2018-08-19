@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 type Props = {};
-import { Table, Button, Icon, Modal,Select, Form, Input, InputNumber, Popconfirm } from 'antd'
+import { Table, Button, Icon, Modal, Select, Form, Input, InputNumber, Popconfirm } from 'antd'
 const Search = Input.Search;
 const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { retrieveStocks, retrieveStockByBarcode, createStock, updateStock, deleteStock } from '../actions/StockActions';
+import {retrieveDealers} from '../actions/DealerActions';
 import { retrieveProducts } from '../actions/ProductActions'
 import style from '../assets/styles/stock.css'
 
@@ -26,7 +27,9 @@ class StockPage extends Component<Props> {
   }
   componentDidMount() {
     this.props.retrieveStocks(this.state.name);
-    this.props.retrieveProducts('')
+    this.props.retrieveProducts('');
+    this.props.retrieveDealers('');
+    
   }
   componentDidUpdate(oldProps) {
     if (!oldProps.getProductsSuccess && this.props.getProductsSuccess) {
@@ -41,7 +44,7 @@ class StockPage extends Component<Props> {
         const dataToSend = {
           productId: this.state.product.id,
           qty: values.adet,
-          dealerId: this.state.selected.dealerId
+          dealerId: parseInt(values.dealer)
         }
         // console.log('data', dataToSend)
         if (this.state.type === 'create') {
@@ -113,7 +116,7 @@ class StockPage extends Component<Props> {
     }
 
   };
-  search = () =>{
+  search = () => {
 
   }
   handleWithoutBarcode = () => {
@@ -121,15 +124,15 @@ class StockPage extends Component<Props> {
       continue: true
     })
   }
-  handleSelect = (e,a) => {
-      this.setState({
-        continue: true,
-        product: a.props.a
-      })
+  handleSelect = (e, a) => {
+    this.setState({
+      continue: true,
+      product: a.props.a
+    })
 
-    }
+  }
 
-  
+
 
   render() {
     const columns = [{
@@ -145,6 +148,11 @@ class StockPage extends Component<Props> {
       title: 'Kategori',
       dataIndex: 'product.kategori',
       key: 'kategori',
+    },
+    {
+      title: 'Tedarikci',
+      dataIndex: 'dealerName',
+      key: 'dealerName',
     },
     {
       title: 'Alis Fiyati',
@@ -178,8 +186,8 @@ class StockPage extends Component<Props> {
 
     ];
     const { getFieldDecorator } = this.props.form;
-    const { selected, type,product } = this.state;
-console.log(selected,type )
+    const { selected, type, product } = this.state;
+    console.log(selected, type)
     return (
       <div>
         <div className='page-header' >
@@ -228,25 +236,42 @@ console.log(selected,type )
               label="Barkod"
               style={{ display: 'flex' }}
             >
-              {getFieldDecorator('barkod', {              
-                initialValue: type === 'edit' ? selected.barcode : 'Barkodu taratin veya arama yapin' ,
+              {getFieldDecorator('barkod', {
+                initialValue: type === 'edit' ? selected.barcode : 'Barkodu taratin veya arama yapin',
                 rules: [{
                   required: false, message: 'Bir urun secin!'
                 }],
               })(
                 <Select
-                  style={{ width: '300px'}}
+                  style={{ width: '300px' }}
                   onSelect={this.handleSelect}
-                  optionLabelProp = 'id'
+                  optionLabelProp='id'
                   showSearch
                   filterOption={(input, option) => (option.props.children + option.props.id).toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                >{this.props.products.map(p => <Option key={p.id} a={p} id ={p.barcode}>{p.name}</Option>)}</Select>
+                >{this.props.products.map(p => <Option key={p.id} a={p} id={p.barcode}>{p.name}</Option>)}</Select>
               )}
               {/* <Button style={{ border: '0', fontSize: '0.8em' }} onClick={this.handleWithoutBarcode}>Barkodsuz devam et</Button> */}
 
             </FormItem>
+            
             {this.state.continue &&
               <div>
+                 <FormItem
+                  label="Tedarikci"
+                  style={{ display: 'flex' }}
+                >
+                  {getFieldDecorator('dealer', {
+                    initialValue: type === 'edit' ? selected.dealerId : 'Tedarikci seciniz',
+                    rules: [{
+                      required: false
+                    }],
+                  })(
+                    <Select style={{ width: '300px' }}
+                      showSearch
+                      filterOption={(input, option) => (option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >{this.props.dealers.map(p => <Option key={p.id}>{p.name}</Option>)}</Select>
+                  )}
+                </FormItem>
                 <FormItem
                   label="Isim"
                   style={{ display: 'flex' }}
@@ -287,6 +312,7 @@ console.log(selected,type )
                     <Input />
                   )}
                 </FormItem>
+               
                 <FormItem
                   label="Alis Fiyati"
                   style={{ display: 'flex' }}
@@ -337,15 +363,17 @@ console.log(selected,type )
     );
   }
 }
-function mapStateToProps({ stockReducer, productReducer }) {
+function mapStateToProps({ stockReducer, productReducer, dealerReducer }) {
   const { stocks } = stockReducer;
-  const { getProductsSuccess,products } = productReducer;
+  const { getProductsSuccess, products } = productReducer;
+  const {dealers} = dealerReducer;
   return {
     stocks,
-    products
+    products,
+    dealers
   }
 }
 
-const ConnectedPage = connect(mapStateToProps, { retrieveStocks, retrieveProducts, retrieveStockByBarcode, createStock, updateStock, deleteStock })(StockPage);
+const ConnectedPage = connect(mapStateToProps, { retrieveStocks, retrieveProducts,retrieveDealers, retrieveStockByBarcode, createStock, updateStock, deleteStock })(StockPage);
 const WrappedPage = Form.create()(ConnectedPage);
 export { WrappedPage as StockPage }
