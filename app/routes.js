@@ -9,6 +9,7 @@ import {ClientPage} from './containers/ClientPage';
 import {DealerPage} from "./containers/DealerPage";
 import {PricePage} from "./containers/PricePage";
 import {ReceivingPage} from "./containers/ReceivingPage";
+import {PaymentPage} from "./containers/PaymentPage";
 
 import App from './containers/App';
 import {Layout} from 'antd'
@@ -26,6 +27,7 @@ export default () => (
       <Route path = '/dealer' component= {DealerPage} />
       <Route path = '/price' component= {PricePage} />
       <Route path = '/receiving' component= {ReceivingPage} />
+      <Route path = '/payment' component= {PaymentPage} />
 
       </Content>
     </Layout>
