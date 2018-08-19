@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 type Props = {};
-import { Table, Button, Icon, Modal, Form, Input, InputNumber,Popconfirm } from 'antd'
+import { Table, Button, Icon, Modal, Form, Input, InputNumber,Popconfirm,Tabs } from 'antd'
 const Search = Input.Search;
 const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {retrieveReceivings,createReceiving, updateReceiving,deleteReceiving} from '../actions/ReceivingActions'
+import {retrieveReceivings,createReceiving, updateReceiving,deleteReceiving,setReceivingStatus} from '../actions/ReceivingActions'
 import moment from 'moment'
 class ReceivingPage extends Component<Props> {
     props: Props
@@ -48,6 +48,19 @@ class ReceivingPage extends Component<Props> {
         });
 
     }
+    handlePaymentOk = () => {
+        const idToUpdate = this.state.selected.id
+        const status = 'Bitti'
+
+        this.props.setReceivingStatus(idToUpdate,status)
+
+        setTimeout(() => {
+          this.setState({
+            visible: false
+          })
+        }, 1000);
+
+    }
     handleSearch =(value) =>{
         this.props.retrieveReceivings(value,this.state.receivingStatus);
     }
@@ -75,7 +88,34 @@ class ReceivingPage extends Component<Props> {
             type,
         
         })
-    }
+    };
+
+    handleTabClick = (key)=>{
+
+      if (key === '1'){
+          this.setState({
+              receivingStatus:'',
+          });
+          this.props.retrieveReceivings('','')
+      }else if ( key === '2'){
+          this.setState({
+            receivingStatus: 'Bekliyor',
+          });
+          this.props.retrieveReceivings('','Bekliyor')
+      }else if ( key === '3'){
+          this.setState({
+            receivingStatus: 'Gecikmiş',
+          });
+          this.props.retrieveReceivings('','Gecikmiş')
+      }else if ( key === '4'){
+          this.setState({
+            receivingStatus: 'Bitti',
+          });
+          this.props.retrieveReceivings('','Bitti')
+      }
+
+    };
+
 
     render() {
         const columns = [{
@@ -107,6 +147,18 @@ class ReceivingPage extends Component<Props> {
             title: 'Durum',
             dataIndex: 'status',
             key: 'status',
+
+            render: (text) => {
+
+                if (text === 'Bekliyor'){
+                  return <div><Icon type='clock-circle-o' /> {text} </div>
+                }else if (text === 'Bitti'){
+                  return <div><Icon type='check' /> {text} </div>
+                }else if (text === 'Gecikmiş'){
+                  return <div><Icon type='exclamation-circle-o' /> {text} </div>
+                }
+            }
+
         },
         {
             title: 'Duzenle',
@@ -118,8 +170,20 @@ class ReceivingPage extends Component<Props> {
         },
     
     ]
+
+    const columnsForModal = [{
+        title: 'Ürün',
+        dataIndex: 'name',
+        key: 'name',
+      }, {
+        title: 'Satış Fiyatı',
+        dataIndex: 'salePrice',
+        key: 'salePrice',
+      },
+    ]
         const { getFieldDecorator } = this.props.form;   
         const {selected,type} = this.state ;
+        const TabPane = Tabs.TabPane;
         console.log(selected);
         return (
             <div>
@@ -132,123 +196,73 @@ class ReceivingPage extends Component<Props> {
                             onSearch={this.handleSearch}
                             onChange = {this.onSearchChange}
                         />
-                        <Button onClick={()=>this.handleModalOpen('create')} >Yeni Kayıt<Icon type='plus' /></Button>
 
                     </div>
                 </div>
                 <div className='page-body'>
-                    <Table 
-                        dataSource={this.props.receivings}
-                        columns={columns}
-                        rowKey={(record) => {
-                          return record.id+1;
-                        }}
-                        onRow={(record) => {
-                            return {
-                                onClick: () => this.setState({selected: record})
-                            }
-                        }}
-                        pagination={{ pageSize: 6 }}
-                    
-                    />
+
+                  <Tabs defaultActiveKey="1" onChange={this.handleTabClick}>
+                    <TabPane tab={<span><Icon type="info-circle" />Hepsi</span>} key="1">
+
+                    </TabPane>
+                    <TabPane tab={<span><Icon type="clock-circle" />Bekliyor</span>} key="2">
+
+                    </TabPane>
+                    <TabPane tab={<span><Icon type="exclamation-circle" />Gecikmiş</span>} key="3">
+
+                    </TabPane>
+                    <TabPane tab={<span><Icon type="check-circle" />Alındı</span>} key="4">
+
+                    </TabPane>
+                  </Tabs>
+
+                  <Table
+                    dataSource={this.props.receivings}
+                    columns={columns}
+                    rowKey={(record) => {
+                      return record.id+1;
+                    }}
+                    onRow={(record) => {
+                      return {
+                        onClick: () => {
+                          this.setState({selected: record});
+                          //this.setState({visible:true});
+                        }
+                      }
+                    }}
+                    pagination={{ pageSize: 6 }}
+
+                  />
+
                 </div>
                 
 
                 <Modal
-                    title= {this.state.type === 'edit' ? 'Tahsilat Kaydı Düzenle': 'Yeni Kayıt'}
+                    title= 'Tahsilat Kaydı'
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
-                        <Button onClick={this.handleCancel}>İptal</Button>,
-                        <Button type="primary" onClick={this.handleOk}>
-                            Kaydet
+                        <Button onClick={this.handleCancel}>Kapat</Button>,
+                        <Button type="primary" onClick={this.handlePaymentOk} icon="check">
+                            Ödeme Yapıldı
                         </Button>,
                     ]}
                 >
-                    <Form className='stock-form'>
-                        <FormItem
-                            label="Müşteri"
-                            style={{ display: 'flex' }}
-                        >
-                            {getFieldDecorator('personName', {
-                                initialValue: type === 'edit' ? selected.personName : this.state.personName,
-                                rules: [{
-                                    required: false, message: 'Müşteri Seçin!'
-                                }],
-                            })(
-                                <Input onChange={this.handlePerson} />
-                            )}
-                        </FormItem>
-                        <div>
-                            {/*<FormItem*/}
-                                {/*label="Telefon"*/}
-                                {/*style={{ display: 'flex' }}*/}
-                            {/*>*/}
-                                {/*{getFieldDecorator('name', {*/}
-                                    {/*initialValue: type === 'edit' ? selected.name : '',*/}
-                                    {/*rules: [{*/}
-                                        {/*required: true, message: 'Isim girin!'*/}
-                                    {/*}],*/}
-                                {/*})(*/}
-                                    {/*<Input />*/}
-                                {/*)}*/}
-
-                            {/*</FormItem>*/}
-                            {/*<FormItem*/}
-                                {/*label="Aciklama"*/}
-                                {/*style={{ display: 'flex' }}*/}
-                            {/*>*/}
-                                {/*{getFieldDecorator('description', {*/}
-                                    {/*initialValue: type === 'edit' ? selected.description : '',                                    */}
-                                    {/*rules: [{*/}
-                                        {/*required: false*/}
-                                    {/*}],*/}
-                                {/*})(*/}
-                                    {/*<Input />*/}
-                                {/*)}*/}
-                            {/*</FormItem>*/}
-                            {/*<FormItem*/}
-                                {/*label="Kategori"*/}
-                                {/*style={{ display: 'flex' }}*/}
-                            {/*>*/}
-                                {/*{getFieldDecorator('category', {*/}
-                                    {/*initialValue: type === 'edit' ? selected.category : '',                                    */}
-                                    {/*rules: [{*/}
-                                        {/*required: false*/}
-                                    {/*}],*/}
-                                {/*})(*/}
-                                    {/*<Input />*/}
-                                {/*)}*/}
-                            {/*</FormItem>*/}
-                            {/*<FormItem*/}
-                                {/*label="Alis Fiyati"*/}
-                                {/*style={{ display: 'flex' }}*/}
-                            {/*>*/}
-                                {/*{getFieldDecorator('purchasePrice', {*/}
-                                    {/*initialValue: type === 'edit' ? selected.purchasePrice : '',                                    */}
-                                    {/*rules: [{*/}
-                                        {/*required: true, message: 'Alis fiyatini girin!'*/}
-                                    {/*}],*/}
-                                {/*})(*/}
-                                    {/*<InputNumber min={0} formatter={value => `${value}₺`} />*/}
-                                {/*)}*/}
-                            {/*</FormItem>*/}
-                            {/*<FormItem*/}
-                                {/*label="Satis Fiyati"*/}
-                                {/*style={{ display: 'flex' }}*/}
-                            {/*>*/}
-                                {/*{getFieldDecorator('salePrice', {*/}
-                                    {/*initialValue: type === 'edit' ? selected.salePrice : '',                                    */}
-                                    {/*rules: [{*/}
-                                        {/*required: true, message: 'Satis fiyatini girin!'*/}
-                                    {/*}],*/}
-                                {/*})(*/}
-                                    {/*<InputNumber min={0} formatter={value => `${value}₺`} />*/}
-                                {/*)}*/}
-                            {/*</FormItem>*/}
-                        </div>
-                        
-                    </Form>
+                    <Table
+                      dataSource={selected.productList}
+                      columns={columnsForModal}
+                      rowKey={(record) => {
+                        return record.id+1000;
+                      }}
+                      onRow={(record) => {
+                        return {
+                          onClick: () => {
+                            console.log(record);
+                          }
+                        }
+                      }}
+                      pagination={false}
+                    />
                 </Modal>
                 
             </div>
@@ -262,6 +276,6 @@ function mapStateToProps({receivingReducer}) {
     }
 }
 
-const ConnectedPage = connect (mapStateToProps,{retrieveReceivings,createReceiving,updateReceiving,deleteReceiving})(ReceivingPage);
+const ConnectedPage = connect (mapStateToProps,{retrieveReceivings,createReceiving,updateReceiving,deleteReceiving,setReceivingStatus})(ReceivingPage);
 const WrappedPage = Form.create()(ConnectedPage);
 export { WrappedPage as ReceivingPage }

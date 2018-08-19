@@ -13,3 +13,6 @@ export const updateReceivingService = (dataToSend) =>{
 export const deleteReceivingService = (id) =>{
     return axios.get(host+`/deleteReceivings?ids=${id}`)
 }
+export const setReceivingStatus = (id,status) =>{
+  return axios.get(host +`/setReceivingStatus?id=${id}&status=${status}`)
+}

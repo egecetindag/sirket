@@ -89,3 +89,26 @@ export const deleteReceiving = (id,str) => {
 
     }
 }
+
+export const setReceivingStatus = (idToUpdate,status) => {
+  return async (dispatch) => {
+    try {
+      let response = await dispatch(()=>s.setReceivingStatus(idToUpdate,status))
+      if (response.status === 200) {
+        dispatch({
+          type: t.SET_RECEIVING_STATUS_SUCCESS
+        });
+        dispatch(retrieveReceivings('',status));
+      } else {
+        throw Error
+      }
+    }
+    catch (error) {
+      console.log('error', error)
+      dispatch({
+        type: t.SET_RECEIVING_STATUS_FAILURE
+      })
+    }
+
+  }
+}

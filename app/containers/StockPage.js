@@ -9,10 +9,6 @@ import { retrieveStocks, retrieveStockByBarcode, createStock, updateStock, delet
 import { retrieveProducts } from '../actions/ProductActions'
 import style from '../assets/styles/stock.css'
 
-// TODO: update çalışmıyor modal'ın içi boş
-//       create için barkode'u yazdıktan sonra diğer alanlar otomatik dolacak
-//       retrieveStocks backendinde nil for int hatası aldım.
-
 import moment from 'moment'
 class StockPage extends Component<Props> {
   props: Props
@@ -138,26 +134,26 @@ class StockPage extends Component<Props> {
   render() {
     const columns = [{
       title: 'Barkod',
-      dataIndex: 'productId.barcode',
+      dataIndex: 'product.barcode',
       key: 'barcode',
     }, {
       title: 'Isim',
-      dataIndex: 'productId.name',
+      dataIndex: 'product.name',
       key: 'name',
     },
     {
       title: 'Kategori',
-      dataIndex: 'productId.kategori',
+      dataIndex: 'product.kategori',
       key: 'kategori',
     },
     {
       title: 'Alis Fiyati',
-      dataIndex: 'productId.purchasePrice',
+      dataIndex: 'product.purchasePrice',
       key: 'purchasePrice',
     },
     {
       title: 'Satis Fiyati',
-      dataIndex: 'productId.salePrice',
+      dataIndex: 'product.salePrice',
       key: 'salePrice',
     },
     {
