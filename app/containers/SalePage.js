@@ -21,10 +21,16 @@ class SalePage extends Component<Props> {
     handleSearch= (e) =>{
         this.props.retrieveStocks('',e);
     }
+    calculateTotal = (e) =>{
+        let total = 0;
+        this.state.products.map(product =>
+            total = total + product.product.salePrice* this.state.quantities[product.id]
+        )
+        return total;
+    }
     componentDidUpdate(oldProps){
-        if(!oldProps.retrieveStocksSuccess && this.props.retrieveStocksSuccess){
+        if(!oldProps.retrieveStocksSuccess && this.props.retrieveStocksSuccess && this.props.stocks[0]){
             const a = this.state.products.slice();
-            console.log(this.props.stock)
             const item =this.props.stocks[0];
             if(!this.state.quantities[item.id]){
                 a.push(item);
@@ -40,22 +46,26 @@ class SalePage extends Component<Props> {
         const columns = [
             {
                 key:'aa',
+                width:'10%',
                 render: (record) => <div>IMG</div>
             },
             {
                 title:'Urun',
+                width:'30%',                
                 dataIndex:'product.name',
                 key:'urun',
             },
             {
                 title:'Adet',
+                width:'30%',                
                 key:'qty',
                 render: (text,record) => <div>{this.state.quantities[record.id]}</div>
             },
             {
                 title:'Fiyat',
+                width:'30%' ,               
                 key:'salePrice',
-                render: (text, record) => record.product.salePrice * this.state.quantities[record.id]
+                render: (text, record) =><div>{ record.product.salePrice * this.state.quantities[record.id]} ₺ </div>
             }
         ]
         return (
@@ -78,6 +88,7 @@ class SalePage extends Component<Props> {
                     )}
                 /> */}
                 <Table className='sale-list' dataSource={this.state.products} columns={columns} pagination={false}/>
+                <div className='sale-total'><div>Toplam:</div><div>{this.calculateTotal()}₺</div></div>
                 <Search style={{width:'40%'}} onSearch= {this.handleSearch} />
                 
                 </div>
