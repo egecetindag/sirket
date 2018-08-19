@@ -1,7 +1,8 @@
 import * as t from '../actions/types'
 
 const initialState = {
-    stocks: []
+    stocks: [],
+    retrieveStocksSuccess:false,
 };
 
 export default (state = initialState, action) => {
@@ -9,13 +10,23 @@ export default (state = initialState, action) => {
         case t.RETRIEVE_STOCKS_SUCCESS:
             return {
                 ...state,
-                stocks: action.payload.data.items
-
+                stocks: action.payload.data.items,
+                retrieveStocksSuccess: true,
             };
-    default:
-    return{
-        ...state
-    }
+        case t.RETRIEVE_STOCKS_REQUEST:
+            return {
+                ...state,
+                retrieveStocksSuccess: false,
+            };
+        case t.RETRIEVE_STOCKS_FAILURE:
+            return {
+                ...state,
+                retrieveStocksSuccess: false,
+            };
+        default:
+            return {
+                ...state
+            }
     }
 
 }

@@ -1,7 +1,7 @@
 /* eslint flowtype-errors/show-errors: 0 */
 import React from 'react';
 import { Switch, Route } from 'react-router';
-import {HomePage} from './containers/HomePage';
+import {SalePage} from './containers/SalePage';
 import {NavbarPage} from './containers/NavbarPage';
 import {ProductPage} from './containers/ProductPage';
 import {StockPage} from './containers/StockPage';
@@ -20,7 +20,7 @@ export default () => (
     <Layout  style={{background:'white',height:"100vh"}}>
       <NavbarPage />
       <Content style={{background: 'white', margin:'10px'}}>
-      <Route exact path="/" component={HomePage} />
+      <Route exact path="/" component={SalePage} />
       <Route path = '/product' component= {ProductPage} />
       <Route path = '/stock' component= {StockPage} />
       <Route path = '/client' component= {ClientPage} />
@@ -28,7 +28,6 @@ export default () => (
       <Route path = '/price' component= {PricePage} />
       <Route path = '/receiving' component= {ReceivingPage} />
       <Route path = '/payment' component= {PaymentPage} />
-
       </Content>
     </Layout>
     </Switch>

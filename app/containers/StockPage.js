@@ -20,7 +20,7 @@ class StockPage extends Component<Props> {
       continue: false,
       editVisible: false,
       type: 'edit',
-      selected: {},
+      selected: {product:{}},
       name: '',
       product: { name: '' }
     }
@@ -146,7 +146,7 @@ class StockPage extends Component<Props> {
     },
     {
       title: 'Kategori',
-      dataIndex: 'product.kategori',
+      dataIndex: 'product.category',
       key: 'kategori',
     },
     {
@@ -237,7 +237,7 @@ class StockPage extends Component<Props> {
               style={{ display: 'flex' }}
             >
               {getFieldDecorator('barkod', {
-                initialValue: type === 'edit' ? selected.barcode : 'Barkodu taratin veya arama yapin',
+                initialValue: type === 'edit' ? selected.product.barcode : 'Barkodu taratin veya arama yapin',
                 rules: [{
                   required: false, message: 'Bir urun secin!'
                 }],
@@ -277,12 +277,12 @@ class StockPage extends Component<Props> {
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('isim', {
-                    initialValue: type === 'edit' ? selected.prd.name : product.name,
+                    initialValue: type === 'edit' ? selected.product.name : product.name,
                     rules: [{
                       required: true, message: 'Isim girin!'
                     }],
                   })(
-                    <Input />
+                    <Input disabled ={type === 'edit'}/>
                   )}
 
                 </FormItem>
@@ -291,12 +291,12 @@ class StockPage extends Component<Props> {
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('aciklama', {
-                    initialValue: type === 'edit' ? selected.description : product.description,
+                    initialValue: type === 'edit' ? selected.product.description : product.description,
                     rules: [{
                       required: false
                     }],
                   })(
-                    <Input />
+                    <Input disabled ={type === 'edit'}/>
                   )}
                 </FormItem>
                 <FormItem
@@ -304,12 +304,12 @@ class StockPage extends Component<Props> {
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('kategori', {
-                    initialValue: type === 'edit' ? selected.category : product.category,
+                    initialValue: type === 'edit' ? selected.product.category : product.category,
                     rules: [{
                       required: false
                     }],
                   })(
-                    <Input />
+                    <Input disabled ={type === 'edit'}/>
                   )}
                 </FormItem>
                
@@ -318,7 +318,7 @@ class StockPage extends Component<Props> {
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('alisFiyati', {
-                    initialValue: type === 'edit' ? selected.purchasePrice : product.purchasePrice,
+                    initialValue: type === 'edit' ? selected.product.purchasePrice : product.purchasePrice,
                     rules: [{
                       required: true, message: 'Alis fiyatini girin!'
                     }],
@@ -331,7 +331,7 @@ class StockPage extends Component<Props> {
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('satisFiyati', {
-                    initialValue: type === 'edit' ? selected.salePrice : product.salePrice,
+                    initialValue: type === 'edit' ? selected.product.salePrice : product.salePrice,
                     rules: [{
                       required: true, message: 'Satis fiyatini girin!'
                     }],

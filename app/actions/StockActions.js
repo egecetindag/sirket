@@ -2,10 +2,13 @@ import * as s from '../services/StockServices'
 import axios from 'axios'
 import * as t from './types'
 
-export const retrieveStocks = (str) => {
+export const retrieveStocks = (str,barcode) => {
     return async (dispatch) => {
         try {
-            let response = await dispatch(()=>s.retrieveStocksService(str));
+            dispatch({
+                type: t.RETRIEVE_STOCKS_REQUEST,
+            })
+            let response = await dispatch(()=>s.retrieveStocksService(str,barcode));
             if (response.status === 200) {
                 dispatch({
                     type: t.RETRIEVE_STOCKS_SUCCESS,
