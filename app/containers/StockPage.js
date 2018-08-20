@@ -277,7 +277,7 @@ class StockPage extends Component<Props> {
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('isim', {
-                    initialValue: type === 'edit' ? selected.prd.name : product.name,
+                    initialValue: type === 'edit' ? selected.product.name : product.name,
                     rules: [{
                       required: true, message: 'Isim girin!'
                     }],

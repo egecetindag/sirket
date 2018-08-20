@@ -9,8 +9,6 @@ type Props = {};
 const Search = Input.Search;
 const FormItem = Form.Item;
 
-// TODO: ödeme ile ilgili summary alanı ekle
-
 class PaymentPage extends Component<Props> {
     props: Props
     constructor(props) {
