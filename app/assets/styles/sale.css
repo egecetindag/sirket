@@ -1,7 +1,6 @@
 .sale-list{
-    width: 40%;
-    height: 63vh;
-    border: 2px solid #ededed;
+    height: 74%;
+    border: 2px solid #d9d9d9;
     padding: 20px;
     overflow-y: auto;
 }
@@ -9,11 +8,22 @@
     height: 30px;
     margin: 10px 0px;
     background: #e2e2e2;
-    width: 40%;
     display: flex;
     align-items: center;
     padding: 20px;
     font-weight: bold;
     font-size: 1.1em;
     justify-content: space-between;
+}
+.sale-calculate{
+    border: 1px solid;
+    height: 15.7%;
+    margin-top: 10px;
+    border: 1px solid #d9d9d9
+}
+.sale-header{
+    font-size: 1.2em;
+    font-weight: bold;
+    display: flex;
+    align-items: center
 }

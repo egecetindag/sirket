@@ -69,7 +69,7 @@ class SalePage extends Component<Props> {
             }
         ]
         return (
-            <div>
+            <div  style ={{display:'flex',position:'absolute', height:'89%', width:'98%'}}>
                 {/* <List
                     className="sale-list"
                     itemLayout="horizontal"
@@ -87,11 +87,34 @@ class SalePage extends Component<Props> {
                         </List.Item>
                     )}
                 /> */}
-                <Table className='sale-list' dataSource={this.state.products} columns={columns} pagination={false}/>
-                <div className='sale-total'><div>Toplam:</div><div>{this.calculateTotal()}₺</div></div>
-                <Search style={{width:'40%'}} onSearch= {this.handleSearch} />
-                
+                        <div style={{width:'30%'}}>
+                            <Table className='sale-list' dataSource={this.state.products} columns={columns} pagination={false}/>
+                            <div className='sale-total'><div>Toplam:</div><div>{this.calculateTotal()}₺</div></div>
+                            <Search onSearch= {this.handleSearch} />
+                            <div className='sale-calculate'/>
+                        </div>
+                  
+            <div style={{border:'1px solid #d9d9d9', width:'70%', marginLeft:'2%'}}>
+                <div style={{display:'flex',height:'45px',padding:'15px', backgroundColor:'#d9d9d9', justifyContent:'space-between'}}>
+                    <div className='sale-header'>Urunler</div>
+                    <div style={{alignItems:'center', display:'flex'}}>
+                    <Search
+                    placeholder='Urun Ara'
+                    />
+                    </div>
                 </div>
+
+                <div>
+                    {console.log(this.props.stocks)}
+                    {
+                        this.props.stocks.map(stock => (
+                            <div>{stock.name}</div>
+                        ))
+                    }
+                </div>
+
+            </div>
+            </div>
                 );
             }
     
