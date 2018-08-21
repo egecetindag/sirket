@@ -225,6 +225,7 @@ class ProductPage extends Component<Props> {
                                     <Input />
                                 )}
                             </FormItem>
+                           
                             <FormItem
                                 label="Alis Fiyati"
                                 style={{ display: 'flex' }}
