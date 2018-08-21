@@ -12,7 +12,7 @@ import {ReceivingPage} from "./containers/ReceivingPage";
 import {PaymentPage} from "./containers/PaymentPage";
 import {ExpensePage} from "./containers/ExpensePage";
 
-import App from './containers/App';
+import {App} from './containers/App';
 import {Layout} from 'antd'
 const { Header, Footer, Sider, Content } = Layout;
 export default () => (

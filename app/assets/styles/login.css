@@ -1,0 +1,27 @@
+    
+    .login{
+        background-color: #526372;
+        height: 60%;
+        width: 40%;
+        min-width: 400px;
+        max-width: 550px;
+        box-shadow: 5px 6px 2px #19242e;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+    .input-login{
+        border: 1px solid white;
+        background: transparent;
+        color: white;
+        margin-bottom: 5%;
+        border-radius: 0px
+    }
+    .input-login > .ant-input{
+        background: transparent;
+        color: white;
+        border:none;
+        
+    }
+

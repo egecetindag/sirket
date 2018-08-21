@@ -18,6 +18,9 @@ class SalePage extends Component<Props> {
             quantities:{}
         }
     }
+    componentDidMount (){
+        
+    }
     handleSearch= (e) =>{
         this.props.retrieveStocks('',e);
     }
