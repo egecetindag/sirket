@@ -11,7 +11,7 @@ const FormItem = Form.Item;
 
 // TODO: edit için kişi seçilmemiş geliyor
 //       select için düzeltilmesi gereken warning'ler var
-//       date formatı düzeltilecek. moment.unix(..).format()  kabul etmedi, format is not a function hatası aldım
+//       date formatı düzeltilecek. moment.unix(..).format()  kabul etmedi, format is not a function hatası aldımupdate
 
 class PaymentPage extends Component<Props> {
     props: Props

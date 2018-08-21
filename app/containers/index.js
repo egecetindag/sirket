@@ -9,3 +9,4 @@ import DealerPage from './DealerPage';
 import StockPage from './StockPage';
 import ReceivingPage from './ReceivingPage'
 import PaymentPage from '.PaymentPage'
+import ExpensePage from '.ExpensePage'

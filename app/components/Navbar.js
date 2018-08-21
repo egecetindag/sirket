@@ -47,6 +47,9 @@ class Navbar extends Component<Props> {
               history.push('/payment');
               break;
             case '8':
+              history.push('/expense');
+              break;
+            case '9':
               history.push('/receiving');
               break;
 
@@ -94,11 +97,15 @@ class Navbar extends Component<Props> {
                       <div>Ödemeler</div>
                     </Menu.Item>
                     <Menu.Item key="8">
+                      <div className='navbar-icon'><Icons iconName="chart" /></div>
+                      <div>Masraf</div>
+                    </Menu.Item>
+                    <Menu.Item key="9">
                         <div className='navbar-icon'><Icons iconName="notepad" /></div>
-                        <div>Veresiye</div>
+                        <div>Tahsilat</div>
                     </Menu.Item>
 
-                    <Menu.Item key="9">
+                    <Menu.Item key="10">
                       <div className='navbar-icon'><Icons iconName="chart" /></div>
                       <div>Raporlar</div>
                     </Menu.Item>

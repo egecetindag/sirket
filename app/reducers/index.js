@@ -6,6 +6,7 @@ import DealerReducer from './DealerReducer';
 import StockReducer from './StockReducer';
 import ReceivingReducer from "./ReceivingReducer";
 import PaymentReducer from "./PaymentReducer";
+import ExpenseReducer from "./ExpenseReducer";
 
 const rootReducer = combineReducers({
   productReducer: ProductReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   stockReducer:StockReducer,
   receivingReducer:ReceivingReducer,
   paymentReducer:PaymentReducer,
+  expenseReducer:ExpenseReducer,
 });
 
 export default rootReducer;
