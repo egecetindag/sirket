@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import moment from 'moment'
-import { Table, Button, Icon, Modal, Form, Input, InputNumber,Popconfirm,Tabs } from 'antd'
+import { Table, Button, Icon, Modal, Form, Input, InputNumber, Popconfirm, Tabs, Select, DatePicker } from "antd";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {retrievePayments,createPayment, updatePayment,deletePayment,setPaymentStatus} from '../actions/PaymentActions'
-
+import {retrieveDealers} from '../actions/DealerActions';
 type Props = {};
 const Search = Input.Search;
 const FormItem = Form.Item;
+
+// TODO: edit için kişi seçilmemiş geliyor
+//       select için düzeltilmesi gereken warning'ler var
+//       date formatı düzeltilecek. moment.unix(..).format()  kabul etmedi, format is not a function hatası aldım
 
 class PaymentPage extends Component<Props> {
     props: Props
@@ -18,19 +22,21 @@ class PaymentPage extends Component<Props> {
             type:'edit',
             selected: {},
             name: '',
-            paymentStatus:''
+            paymentStatus:'',
         }
     }
     componentDidMount(){
         this.props.retrievePayments(this.state.name,this.state.paymentStatus);
+        this.props.retrieveDealers('');
     }
     handleOk = () => {
         this.props.form.validateFieldsAndScroll((err, values) => {
+            console.log(values);
             if (!err) {
                 const dataToSend = {
-                    personId: values.personId,
-                    amount: values.amount,
-                    expectedDate: values.expectedDate,
+                    personId: parseInt(values.personId),
+                    amount: parseFloat(values.amount),
+                    expectedDate: parseInt(moment(values.expectedDate).format('X')),
                     status: values.status,
                     summary: values.summary
                 }
@@ -251,45 +257,80 @@ class PaymentPage extends Component<Props> {
                   label="İsim"
                   style={{ display: 'flex' }}
                 >
-                  {getFieldDecorator('name', {
+                  {getFieldDecorator('personId', {
                         initialValue: type === 'edit' ? selected.name : '',
                         rules: [{
                           required: false, message: 'İsim girin!'
                         }],
                       })(
-                        <Input />
+                    <Select placeholder="Kişi seçin" style={{ width: '200px' }}
+                            showSearch
+                            filterOption={(input, option) => (option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >{this.props.dealers.map(p => <Option key={p.id}>{p.name}</Option>)}</Select>
                       )}
-                </FormItem>
-                <div>
-                  <FormItem
-                    label="Telefon"
-                    style={{ display: 'flex' }}
-                  >
-                    {getFieldDecorator('phone', {
-                          initialValue: type === 'edit' ? selected.phone : '',
-                          rules: [{
-                            required: true, message: 'Telefon girin!'
-                          }],
-                        })(
-                          <Input />
-                        )}
+              </FormItem>
 
-                  </FormItem>
+                <div>
                   <FormItem
                     label="Miktar"
                     style={{ display: 'flex' }}
                   >
                     {getFieldDecorator('amount', {
-                      initialValue: type === 'edit' ? selected.phone : '',
+                      initialValue: type === 'edit' ? selected.amount : '',
                       rules: [{
-                        required: true, message: 'Telefon girin!'
+                        required: true, message: 'Miktar girin!'
                       }],
                     })(
                       <Input />
                     )}
 
                   </FormItem>
+                  <FormItem
+                    label="Özet"
+                    style={{ display: 'flex' }}
+                  >
+                    {getFieldDecorator('summary', {
+                      initialValue: type === 'edit' ? selected.summary : '',
+                      rules: [{
+                        required: false
+                      }],
+                    })(
+                      <Input />
+                    )}
 
+                  </FormItem>
+                  <FormItem
+                    label="Ödeme Tarihi"
+                    style={{ display: 'flex' }}
+                  >
+                    {getFieldDecorator('expectedDate', {
+                      initialValue: type === 'edit' ? moment.unix(selected.expectedDate) : '',
+                      rules: [{
+                        required: false
+                      }],
+                    })(
+                      <DatePicker placeholder="Tarih Seçin" />
+                    )}
+
+                  </FormItem>
+                  <FormItem
+                    label="Durum"
+                    style={{ display: 'flex' }}
+                  >
+                    {getFieldDecorator('status', {
+                      initialValue: type === 'edit' ? selected.status : 'Bekliyor',
+                      rules: [{
+                        required: false
+                      }],
+                    })(
+                      <Select style={{ width: 120 }}>
+                        <Option value="Bekliyor">Bekliyor</Option>
+                        <Option value="Bitti">Ödendi</Option>
+                        <Option value="Gecikmiş">Gecikmiş</Option>
+                      </Select>
+                    )}
+
+                  </FormItem>
 
                 </div>
 
@@ -300,13 +341,15 @@ class PaymentPage extends Component<Props> {
         );
     }
 }
-function mapStateToProps({paymentReducer}) {
+function mapStateToProps({paymentReducer,dealerReducer}) {
     const {payments} = paymentReducer;
+    const {dealers} = dealerReducer;
 	return {
-        payments
+        payments,
+        dealers
     }
 }
 
-const ConnectedPage = connect (mapStateToProps,{retrievePayments,createPayment,updatePayment,deletePayment,setPaymentStatus})(PaymentPage);
+const ConnectedPage = connect (mapStateToProps,{retrievePayments,createPayment,updatePayment,deletePayment,setPaymentStatus,retrieveDealers})(PaymentPage);
 const WrappedPage = Form.create()(ConnectedPage);
 export { WrappedPage as PaymentPage }
