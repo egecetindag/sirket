@@ -11,7 +11,7 @@ import {PricePage} from "./containers/PricePage";
 import {ReceivingPage} from "./containers/ReceivingPage";
 import {PaymentPage} from "./containers/PaymentPage";
 import {ExpensePage} from "./containers/ExpensePage";
-import { ReportPage } from "./containers/ReportPage";
+import { ReportPage } from "./containers/Report/ReportPage";
 import Home from "./components/Home";
 
 
