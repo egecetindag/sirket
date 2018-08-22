@@ -90,7 +90,11 @@ class DealerPage extends Component<Props> {
             title: 'Adres',
             dataIndex: 'address',
             key: 'address',
-        },
+        },{
+            title: 'Kaydeden',
+            dataIndex: 'userName',
+            key: 'userName',
+          },
         {
             title: 'Giris Tarihi',
             dataIndex: 'creationDate',

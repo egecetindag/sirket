@@ -159,8 +159,11 @@ class ReceivingPage extends Component<Props> {
                 }
             }
 
-        },
-        {
+        },{
+            title: 'Kaydeden',
+            dataIndex: 'userName',
+            key: 'userName',
+        },{
             title: 'Duzenle',
             render:() => <Button onClick={()=>this.handleModalOpen('edit')} style={{border:'0', background:'transparent'}}><Icon type="edit" /></Button>
         },

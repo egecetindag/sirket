@@ -173,6 +173,10 @@ class PaymentPage extends Component<Props> {
                 }
             }
 
+        },{
+            title: 'Kaydeden',
+            dataIndex: 'userName',
+            key: 'userName',
         },
         {
             title: 'Duzenle',

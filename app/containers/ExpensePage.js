@@ -98,6 +98,10 @@ class ExpensePage extends Component<Props> {
             title: 'Miktar',
             dataIndex: 'price',
             key: 'price',
+        },{
+            title: 'Kaydeden',
+            dataIndex: 'userName',
+            key: 'userName',
         },
         {
             title: 'Giriş Tarihi',

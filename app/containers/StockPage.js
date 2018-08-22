@@ -174,8 +174,11 @@ class StockPage extends Component<Props> {
       title: 'Adet',
       dataIndex: 'qty',
       key: 'qty',
-    },
-    {
+    },{
+        title: 'Kaydeden',
+        dataIndex: 'userName',
+        key: 'userName',
+    },{
       title: 'Duzenle',
       render: () => <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" /></Button>
     },

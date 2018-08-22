@@ -106,8 +106,11 @@ class ProductPage extends Component<Props> {
             title: 'Satis Fiyati',
             dataIndex: 'salePrice',
             key: 'salePrice',
-        },
-        {
+        },{
+            title: 'Kaydeden',
+            dataIndex: 'userName',
+            key: 'userName',
+        },{
             title: 'Giris Tarihi',
             dataIndex: 'registerDate',
             key: 'registerDate',
