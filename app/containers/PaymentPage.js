@@ -202,7 +202,6 @@ class PaymentPage extends Component<Props> {
         const { getFieldDecorator } = this.props.form;   
         const {selected,type} = this.state ;
         const TabPane = Tabs.TabPane;
-        console.log(selected);
         return (
           <div>
             <div className='page-header' >

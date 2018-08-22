@@ -2,6 +2,7 @@
 import * as React from 'react';
 import '../assets/styles/stock.css'
 import { Login } from './Login'
+import {history} from '../store/configureStore'
 import { connect } from 'react-redux';
 import { loginCheck } from '../actions/AuthActions'
 import { Spin, Icon } from 'antd';
@@ -14,6 +15,7 @@ class App extends React.Component<Props> {
   props: Props;
   componentDidMount() {
     this.props.loginCheck();
+    history.push('/sale')
   }
   render() {
     if (this.props.loginCheckSuccess === true ) {
