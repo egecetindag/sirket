@@ -43,7 +43,7 @@ class ReportPage extends Component<Props> {
                   theme="light"
                   mode="inline"
                   defaultSelectedKeys={['1']}
-                  style={{ width: 256 }}
+                  
               >
                 <Menu.Item key="1">
                   <Icon type="user" />
