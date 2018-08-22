@@ -39,7 +39,12 @@ class ReportPage extends Component<Props> {
           <Layout>
             <Sider>
               <div className="logo" />
-              <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+              <Menu
+                  theme="light"
+                  mode="inline"
+                  defaultSelectedKeys={['1']}
+                  style={{ width: 256 }}
+              >
                 <Menu.Item key="1">
                   <Icon type="user" />
                   <span>Summary Dashboard</span>
@@ -58,7 +63,7 @@ class ReportPage extends Component<Props> {
               <Header style={{ background: '#fff', padding: 0 }}>
                 Header
               </Header>
-              <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
+              <Content >
                 Content
               </Content>
             </Layout>
