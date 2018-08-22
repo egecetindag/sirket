@@ -23,31 +23,34 @@ class ReportPage extends Component<Props> {
   componentDidMount() {
     
   }
-  // handleClick = (e) => {
-  //   switch (e.key) {
-  //     case '0':
-  //       history.push('/report/')
-  //       break;
-  //     case '1':
-  //       history.push('/price')
-  //       break;
-  //     case '2':
-  //       history.push('/price')
-  //       break;
-  //     case '3':
-  //       history.push('/product');
-  //       break;
-  //     case '4':
-  //       history.push('/stock');
-  //       break;
-  //     case '5':
-  //       history.push('/client');
-  //       break;
-  //
-  //
-  //   }
+  handleClick = (e) => {
+    console.log("handleClick");
 
-  render() {
+    switch (e.key) {
+      case '0':
+        history.push('/report/dashboard')
+        break;
+      case '1':
+        history.push('/report/dashboard')
+        break;
+      // case '2':
+      //   history.push('/price')
+      //   break;
+      // case '3':
+      //   history.push('/product');
+      //   break;
+      // case '4':
+      //   history.push('/stock');
+      //   break;
+      // case '5':
+      //   history.push('/client');
+      //   break;
+
+
+    }
+  }
+
+  render(){
 
     return (
       <div>
