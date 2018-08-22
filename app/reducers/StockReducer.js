@@ -2,7 +2,8 @@ import * as t from '../actions/types'
 
 const initialState = {
     stocks: [],
-    retrieveStocksSuccess:false,
+    retrieveStocksSuccess: false,
+    stockByBarcode: {}
 };
 
 export default (state = initialState, action) => {
@@ -23,6 +24,22 @@ export default (state = initialState, action) => {
                 ...state,
                 retrieveStocksSuccess: false,
             };
+        case t.RETRIEVE_STOCK_BY_BARCODE_SUCCESS:
+            return {
+                ...state,
+                retrieveStockByBarcodeSuccess: true,
+                stockByBarcode: action.payload.data.items[0]
+            }
+        case t.RETRIEVE_STOCK_BY_BARCODE_REQUEST:
+            return {
+                ...state,
+                retrieveStockByBarcodeSuccess: false,
+            }
+        case t.RETRIEVE_STOCK_BY_BARCODE_FAILURE:
+            return {
+                ...state,
+                retrieveStockByBarcodeSuccess: false,
+            }
         default:
             return {
                 ...state

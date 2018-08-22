@@ -23,7 +23,7 @@ export default () => (
     <Layout  style={{background:'white',height:"100vh"}}>
       <NavbarPage />
       <Content style={{background: 'white', margin:'10px'}}>
-      <Route exact path="/" component={SalePage} />
+      <Route path="/sale" component={SalePage} />
       <Route path = '/product' component= {ProductPage} />
       <Route path = '/stock' component= {StockPage} />
       <Route path = '/client' component= {ClientPage} />

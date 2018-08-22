@@ -30,6 +30,9 @@ export const retrieveStocks = (str,barcode) => {
 export const retrieveStockByBarcode = (str) => {
   return async (dispatch) => {
     try {
+        dispatch({
+            type: t.RETRIEVE_STOCK_BY_BARCODE_REQUEST,
+          })
       let response = await dispatch(()=>s.retrieveStockByBarcodeService(str));
       if (response.status === 200) {
         dispatch({

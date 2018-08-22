@@ -16,6 +16,6 @@ export const createClientService = (dataToSend) =>{
 export const updateClientService = (dataToSend) =>{
   return axios.post(host+"/updatePerson",dataToSend,config)
 }
-export const deleteClientService = (id) =>{
+export const deleteClientService = (id ) =>{
   return axios.get(host+`/deletePeople?ids=${id}`,config)
 }
