@@ -93,11 +93,11 @@ class Navbar extends Component<Props> {
                         <div>Tedarikçi</div>
                     </Menu.Item>
                     <Menu.Item key="7">
-                      <div className='navbar-icon'><Icons iconName="chart" /></div>
+                      <div className='navbar-icon'><Icons iconName="turkish-lira" /></div>
                       <div>Ödemeler</div>
                     </Menu.Item>
                     <Menu.Item key="8">
-                      <div className='navbar-icon'><Icons iconName="chart" /></div>
+                      <div className='navbar-icon'><Icons iconName="cost" /></div>
                       <div>Masraf</div>
                     </Menu.Item>
                     <Menu.Item key="9">
