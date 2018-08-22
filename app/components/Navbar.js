@@ -2,11 +2,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Home.css';
-import { Button, Select, Menu, Icon } from 'antd'
-import { Icons } from '../assets/Icons'
 import 'antd/dist/antd.css'
+import { Button, Select, Menu, Icon, Drawer } from 'antd'
+import { Icons } from '../assets/Icons'
 import { history } from '../store/configureStore'
 import './Navbar.css'
+import { connect } from 'react-redux'
+import {logout} from '../actions/AuthActions'
 const Option = Select.Option;
 
 type Props = {};
@@ -16,10 +18,26 @@ class Navbar extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
-            current: 'mail'
+            current: 'mail',
+            visible:false
         }
 
     }
+    showDrawer = () => {
+        console.log('as')
+        this.setState({
+          visible: true,
+        });
+      };
+    
+      onClose = () => {
+        this.setState({
+          visible: false,
+        });
+      };
+      handleLogout = () =>{
+          this.props.logout();
+      }
     handleClick = (e) => {
         switch (e.key) {
             case '0':
@@ -41,17 +59,17 @@ class Navbar extends Component<Props> {
                 history.push('/client');
                 break;
             case '6':
-              history.push('/dealer');
-              break;
+                history.push('/dealer');
+                break;
             case '7':
-              history.push('/payment');
-              break;
+                history.push('/payment');
+                break;
             case '8':
-              history.push('/expense');
-              break;
+                history.push('/expense');
+                break;
             case '9':
-              history.push('/receiving');
-              break;
+                history.push('/receiving');
+                break;
 
         }
     }
@@ -93,12 +111,12 @@ class Navbar extends Component<Props> {
                         <div>Tedarikçi</div>
                     </Menu.Item>
                     <Menu.Item key="7">
-                      <div className='navbar-icon'><Icons iconName="turkish-lira" /></div>
-                      <div>Ödemeler</div>
+                        <div className='navbar-icon'><Icons iconName="turkish-lira" /></div>
+                        <div>Ödemeler</div>
                     </Menu.Item>
                     <Menu.Item key="8">
-                      <div className='navbar-icon'><Icons iconName="cost" /></div>
-                      <div>Masraf</div>
+                        <div className='navbar-icon'><Icons iconName="cost" /></div>
+                        <div>Masraf</div>
                     </Menu.Item>
                     <Menu.Item key="9">
                         <div className='navbar-icon'><Icons iconName="notepad" /></div>
@@ -106,15 +124,34 @@ class Navbar extends Component<Props> {
                     </Menu.Item>
 
                     <Menu.Item key="10">
-                      <div className='navbar-icon'><Icons iconName="chart" /></div>
-                      <div>Raporlar</div>
+                        <div className='navbar-icon'><Icons iconName="chart" /></div>
+                        <div>Raporlar</div>
                     </Menu.Item>
-
                 </Menu>
-
+                <Button onClick={this.showDrawer} className='navbar-button'><Icon style={{ color: 'white', fontSize: '2em' }} type="ellipsis" /></Button>
+                <Drawer
+                    style={{textAlign:'center'}}
+                    title='cemal Turkoglu'
+                    placement="right"
+                    closable={false}
+                    onClose={this.onClose}
+                    visible={this.state.visible}
+                >
+                    <Button onClick ={this.handleLogout} >Logout</Button>
+                </Drawer>
             </div>
+
         );
     }
 }
 
-export { Navbar }
+function mapStateToProps({ authReducer }) {
+    const { user } = authReducer;
+    return {
+        user
+    }
+}
+
+const ConnectedPage = connect(mapStateToProps, {logout})(Navbar);
+
+export {ConnectedPage as Navbar }
