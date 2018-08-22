@@ -70,6 +70,9 @@ class Navbar extends Component<Props> {
             case '9':
                 history.push('/receiving');
                 break;
+          case '10':
+            history.push('/report');
+            break;
 
         }
     }

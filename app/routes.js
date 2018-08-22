@@ -11,9 +11,11 @@ import {PricePage} from "./containers/PricePage";
 import {ReceivingPage} from "./containers/ReceivingPage";
 import {PaymentPage} from "./containers/PaymentPage";
 import {ExpensePage} from "./containers/ExpensePage";
+import { ReportPage } from "./containers/ReportPage";
 
 import {App} from './containers/App';
 import {Layout} from 'antd'
+
 const { Header, Footer, Sider, Content } = Layout;
 export default () => (
   <App>
@@ -30,6 +32,7 @@ export default () => (
       <Route path = '/receiving' component= {ReceivingPage} />
       <Route path = '/payment' component= {PaymentPage} />
       <Route path = '/expense' component= {ExpensePage} />
+      <Route path = '/report' component= {ReportPage} />
       </Content>
     </Layout>
     </Switch>
