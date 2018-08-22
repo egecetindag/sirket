@@ -11,6 +11,7 @@ const { Header, Sider, Content } = Layout;
 import style from '../assets/styles/stock.css'
 
 import moment from 'moment'
+import { history } from "../store/configureStore";
 class ReportPage extends Component<Props> {
   props: Props
   constructor(props) {
@@ -22,6 +23,29 @@ class ReportPage extends Component<Props> {
   componentDidMount() {
     
   }
+  // handleClick = (e) => {
+  //   switch (e.key) {
+  //     case '0':
+  //       history.push('/report/')
+  //       break;
+  //     case '1':
+  //       history.push('/price')
+  //       break;
+  //     case '2':
+  //       history.push('/price')
+  //       break;
+  //     case '3':
+  //       history.push('/product');
+  //       break;
+  //     case '4':
+  //       history.push('/stock');
+  //       break;
+  //     case '5':
+  //       history.push('/client');
+  //       break;
+  //
+  //
+  //   }
 
   render() {
 
@@ -43,7 +67,7 @@ class ReportPage extends Component<Props> {
                   theme="light"
                   mode="inline"
                   defaultSelectedKeys={['1']}
-                  
+                  onClick={this.handleClick}
               >
                 <Menu.Item key="1">
                   <Icon type="user" />
