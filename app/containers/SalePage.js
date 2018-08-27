@@ -20,7 +20,7 @@ class SalePage extends Component<Props> {
             quantities: {},
             visible: false,
             stocks: [],
-            categories: this.props.stockCategories
+            categories: []
 
         }
     }
@@ -31,16 +31,16 @@ class SalePage extends Component<Props> {
     handleSearch = (e) => {
         this.props.retrieveStockByBarcode(e);
     }
-    handleSearchProducts = (input) => {
+    handleSearchProducts = (e) => {
         let a = this.props.stocks.slice()
-        a = a.filter(i => i.product.name.toLowerCase().indexOf(input.toLowerCase()) >= 0);
+        a = a.filter(i => i.product.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0);
         this.setState({
             stocks: a
         })
     }
-    handleSearchCategories = (input) => {
-        let a = this.state.categories.slice()
-        a = a.filter(i => i.toLowerCase().indexOf(input.toLowerCase()) >= 0);
+    handleSearchCategories = (e) => {
+        let a = this.props.stockCategories.slice()
+        a = a.filter(i => i.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0);
         this.setState({
             categories: a
         })
@@ -53,9 +53,9 @@ class SalePage extends Component<Props> {
         )
         return total;
     }
-    handleRightItemClick = (index) =>{
-        let arr =this.state.products.slice();
-        const id =this.state.stocks[index].id
+    handleRightItemClick = (index) => {
+        let arr = this.state.products.slice();
+        const id = this.state.stocks[index].id
         if (!this.state.quantities[id]) {
             arr.push(this.state.stocks[index]);
         }
@@ -63,9 +63,16 @@ class SalePage extends Component<Props> {
             products: arr,
             quantities: { ...this.state.quantities, [id]: this.state.quantities[id] ? this.state.quantities[id] + 1 : 1 }
         })
-      
+
     }
     componentDidUpdate(oldProps) {
+        if (!oldProps.stockCategoriesSuccess && this.props.stockCategoriesSuccess) {
+            console.log('saa')
+            this.setState({
+                categories: this.props.stockCategories
+
+            })
+        }
         if (this.props.location.pathname !== oldProps.location.pathname) {
         }
         if (!oldProps.retrieveStockByBarcodeSuccess && this.props.retrieveStockByBarcodeSuccess && this.props.stockByBarcode) {
@@ -98,36 +105,42 @@ class SalePage extends Component<Props> {
         }
     }
     render() {
+        console.log('cat', this.state.categories, this.props.stockCategories)
         const menu = (
             <Menu onClick={this.handleMenuClick}>
                 <Menu.Item key="0">
-                    <Search onSearch={this.handleSearchCategories} />
+                    <Search onChange={this.handleSearchCategories} />
                 </Menu.Item>
+
                 {
-                    this.state.categories.map((category,index) => {
+                    this.state.categories.map((category, index) => {
                         return (
-                            <Menu.Item key={index+1}>
-                                <Link to={'/sale/'+ category}>{category}</Link>
+                            <Menu.Item key={index + 2}>
+                            {category !== 'Hepsi' &&
+                                <Link to={'/sale/' + category}>{category}</Link>
+                        }
+                         {category === 'Hepsi' &&
+                                <Link to={'/sale'}>{category}</Link>
+                        }
                             </Menu.Item>
                         )
                     })
                 }
             </Menu>
         );
-        const breadcrumbNameMap = {
-            '/sale': (
-                <Dropdown
-                    onVisibleChange={this.handleVisibleChange}
-                    visible={this.state.visible}
-                    overlay={menu}
-                    trigger={['click']}>
-                    <a>
-                        <Icon style={{ fontSize: '1.2em' }} type='home' />
-                    </a>
-                </Dropdown>),
-            '/sale/chocolate': 'cikolata',
-            '/sale/su':'su'
-        };
+        var breadcrumbNameMap = {}
+        breadcrumbNameMap['/sale'] = (
+            <Dropdown
+                onVisibleChange={this.handleVisibleChange}
+                visible={this.state.visible}
+                overlay={menu}
+                trigger={['click']}>
+                <a>
+                    <Icon style={{ fontSize: '1.2em' }} type='home' />
+                </a>
+            </Dropdown>)
+
+        this.props.stocks.map(i => breadcrumbNameMap[`/sale/${i.product.category}`] = i.product.category)
         const { location } = this.props;
         const pathSnippets = location.pathname.split('/').filter(i => i);
         const currentPage = pathSnippets[1];
@@ -193,7 +206,7 @@ class SalePage extends Component<Props> {
                 <div style={{ width: '30%' }}>
                     <Table className='sale-list' dataSource={this.state.products} columns={columns} pagination={false} />
                     <div className='sale-total'><div>Toplam:</div><div>{this.calculateTotal()}₺</div></div>
-                    <Search onSearch={this.handleSearch} />
+                    <Search onChange={this.handleSearch} />
                     <div className='sale-calculate' />
                 </div>
                 <div style={{ border: '1px solid #d9d9d9', width: '70%', marginLeft: '2%' }}>
@@ -208,15 +221,15 @@ class SalePage extends Component<Props> {
                         </div>
                         <div style={{ alignItems: 'center', display: 'flex' }}>
                             <Search
-                                onSearch={this.handleSearchProducts}
+                                onChange={this.handleSearchProducts}
                                 placeholder='Urun Ara'
                             />
                         </div>
                     </div>
                     <div style={{ display: 'flex' }}>
-                        {this.state.stocks.map((stock,index) => {
+                        {this.state.stocks.map((stock, index) => {
                             return (
-                                <div className='sale-products' onClick={()=>this.handleRightItemClick(index)}>
+                                <div className='sale-products' onClick={() => this.handleRightItemClick(index)}>
                                     <div>
                                         <div style={{ textAlign: 'center' }}>
                                             {stock.product.name}
@@ -237,13 +250,14 @@ class SalePage extends Component<Props> {
 
 }
 function mapStateToProps({ stockReducer }) {
-    const { retrieveStocksSuccess, stocks, retrieveStockByBarcodeSuccess, stockByBarcode, stockCategories } = stockReducer;
+    const { retrieveStocksSuccess, stocks, retrieveStockByBarcodeSuccess, stockByBarcode, stockCategories,stockCategoriesSuccess } = stockReducer;
     return {
         retrieveStocksSuccess,
         stocks,
         retrieveStockByBarcodeSuccess,
         stockByBarcode,
         stockCategories,
+        stockCategoriesSuccess
 
     }
 }
