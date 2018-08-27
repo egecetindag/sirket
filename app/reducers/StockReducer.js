@@ -3,7 +3,8 @@ import * as t from '../actions/types'
 const initialState = {
     stocks: [],
     retrieveStocksSuccess: false,
-    stockByBarcode: {}
+    stockByBarcode: {},
+    stockCategories:[]
 };
 
 export default (state = initialState, action) => {
@@ -39,6 +40,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 retrieveStockByBarcodeSuccess: false,
+            }
+            case t.RETRIEVE_STOCKS_CATEGORIES_SUCCESS:
+            return {
+                ...state,
+                stockCategories: action.payload.data,
             }
         default:
             return {

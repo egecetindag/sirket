@@ -27,6 +27,27 @@ export const retrieveStocks = (str,barcode) => {
 
     }
 }
+export const retrieveStocksCategories = () => {
+    return async (dispatch) => {
+        try{
+        let response = await dispatch(()=>s.retrieveStocksCategoriesService());
+        if (response.status === 200) {
+          dispatch({
+            type: t.RETRIEVE_STOCKS_CATEGORIES_SUCCESS,
+            payload: response.data
+          })
+        } else {
+          throw Error
+        }
+      }
+      catch (error) {
+        dispatch({
+          type: t.RETRIEVE_STOCKS_CATEGORIES_FAILURE
+        })
+      }
+  
+    }
+  }
 export const retrieveStockByBarcode = (str) => {
   return async (dispatch) => {
     try {
