@@ -10,6 +10,9 @@ import { StockReport } from './StockReport'
 import { SummaryDashboard } from './SummaryDashboard'
 const { Header, Sider, Content } = Layout;
 import { Route } from 'react-router';
+import { DatePicker } from 'antd';
+const { RangePicker } = DatePicker;
+const dateFormat = 'DD/MM/YYYY';
 
 import style from '../../assets/styles/stock.css'
 
@@ -35,6 +38,9 @@ class ReportPage extends Component<Props> {
     // buraya diger caseler gelecek
   }
 
+  onChange = (date, dateString) => {
+    console.log(date, dateString);
+  }
 
 render() {
 
@@ -43,15 +49,22 @@ render() {
       <div className='page-header' >
         <div className='header-h'>Raporlar</div>
         <div style={{ display: 'flex' }}>
+            <RangePicker
+              placeholder={['Başlangıç Tarihi', 'Bitiş Tarihi']}
+              format={dateFormat}
+              onChange={this.onChange}
+            />
 
 
         </div>
       </div>
       <div className='page-body'>
         <Layout>
+
           <Sider>
             <div className="logo" />
             <Menu
+              style={{height: "70vh"}}
               theme="light"
               mode="inline"
               defaultSelectedKeys={['1']}
@@ -71,10 +84,9 @@ render() {
               </Menu.Item>
             </Menu>
           </Sider>
+
           <Layout>
-            <Header style={{ background: '#fff', padding: 0 }}>
-              Header
-              </Header>
+
             <Content >
               
           <Route path='/report/summaryDashboard' component={SummaryDashboard} />

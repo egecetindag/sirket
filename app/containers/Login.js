@@ -33,7 +33,7 @@ class Login extends Component<Props> {
                         <div style={{ textAlign: 'center', marginBottom: '10%' }}>
                             <Icon type="shopping-cart" style={{ color: 'white', fontSize: '8em' }} />
                         </div>
-                        <Form
+                        <Form onSubmit={this.handleOk}
                         >
                             <FormItem
                             >
