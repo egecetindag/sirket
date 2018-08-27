@@ -15,7 +15,9 @@ class App extends React.Component<Props> {
   props: Props;
   componentDidMount() {
     this.props.loginCheck();
-    history.push('/sale')
+    if(window.location.hash === '#/'){
+      history.push('/sale')
+    }
   }
   render() {
     if (this.props.loginCheckSuccess === true ) {

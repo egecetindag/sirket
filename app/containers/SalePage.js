@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { connect, Switch, Route } from 'react-redux';
 import { ProductPage } from './ProductPage'
 import '../assets/styles/sale.css';
-import { retrieveStockByBarcode, retrieveStocks } from '../actions/StockActions'
+import { retrieveStockByBarcode, retrieveStocks, retrieveStocksCategories } from '../actions/StockActions'
 import ProductReducer from '../reducers/ProductReducer';
 const Search = Input.Search;
 
@@ -19,25 +19,31 @@ class SalePage extends Component<Props> {
             products: [],
             quantities: {},
             visible: false,
-            stocks: []
+            stocks: [],
+            categories: this.props.stockCategories
 
         }
     }
     componentDidMount() {
-        this.props.retrieveStocks('')
+        this.props.retrieveStocks('');
+        this.props.retrieveStocksCategories();
     }
     handleSearch = (e) => {
         this.props.retrieveStockByBarcode(e);
     }
-    handleSearchProducts =(input) =>{
+    handleSearchProducts = (input) => {
         let a = this.props.stocks.slice()
         a = a.filter(i => i.product.name.toLowerCase().indexOf(input.toLowerCase()) >= 0);
         this.setState({
             stocks: a
         })
     }
-    handleSearchCategories =(input) =>{
-       
+    handleSearchCategories = (input) => {
+        let a = this.state.categories.slice()
+        a = a.filter(i => i.toLowerCase().indexOf(input.toLowerCase()) >= 0);
+        this.setState({
+            categories: a
+        })
     }
 
     calculateTotal = (e) => {
@@ -47,9 +53,20 @@ class SalePage extends Component<Props> {
         )
         return total;
     }
+    handleRightItemClick = (index) =>{
+        let arr =this.state.products.slice();
+        const id =this.state.stocks[index].id
+        if (!this.state.quantities[id]) {
+            arr.push(this.state.stocks[index]);
+        }
+        this.setState({
+            products: arr,
+            quantities: { ...this.state.quantities, [id]: this.state.quantities[id] ? this.state.quantities[id] + 1 : 1 }
+        })
+      
+    }
     componentDidUpdate(oldProps) {
-        if(this.props.location.pathname !== oldProps.location.pathname){
-            console.log('as ben gldm')
+        if (this.props.location.pathname !== oldProps.location.pathname) {
         }
         if (!oldProps.retrieveStockByBarcodeSuccess && this.props.retrieveStockByBarcodeSuccess && this.props.stockByBarcode) {
             const a = this.state.products.slice();
@@ -84,15 +101,17 @@ class SalePage extends Component<Props> {
         const menu = (
             <Menu onClick={this.handleMenuClick}>
                 <Menu.Item key="0">
-                    <Search onSearch={this.handleSearchCategories}/>
+                    <Search onSearch={this.handleSearchCategories} />
                 </Menu.Item>
-                <Menu.Item key="1">
-                    <a href="http://www.alipay.com/">Hepsi</a>
-                </Menu.Item>
-                <Menu.Item key="2">
-                    <Link to='/sale/chocolate'>Cikolata</Link>
-                </Menu.Item>
-                <Menu.Item key="3">Diger</Menu.Item>
+                {
+                    this.state.categories.map((category,index) => {
+                        return (
+                            <Menu.Item key={index+1}>
+                                <Link to={'/sale/'+ category}>{category}</Link>
+                            </Menu.Item>
+                        )
+                    })
+                }
             </Menu>
         );
         const breadcrumbNameMap = {
@@ -107,6 +126,7 @@ class SalePage extends Component<Props> {
                     </a>
                 </Dropdown>),
             '/sale/chocolate': 'cikolata',
+            '/sale/su':'su'
         };
         const { location } = this.props;
         const pathSnippets = location.pathname.split('/').filter(i => i);
@@ -188,26 +208,27 @@ class SalePage extends Component<Props> {
                         </div>
                         <div style={{ alignItems: 'center', display: 'flex' }}>
                             <Search
-                                onSearch ={this.handleSearchProducts}
+                                onSearch={this.handleSearchProducts}
                                 placeholder='Urun Ara'
                             />
                         </div>
                     </div>
-                    <div style={{display:'flex'}}>
-                    {this.state.stocks.map(stock => {
-                        return(
-                            <div className='sale-products'>
-                                <div>
-                                    <div style={{textAlign:'center'}}>
-                                        {stock.product.name}
+                    <div style={{ display: 'flex' }}>
+                        {this.state.stocks.map((stock,index) => {
+                            return (
+                                <div className='sale-products' onClick={()=>this.handleRightItemClick(index)}>
+                                    <div>
+                                        <div style={{ textAlign: 'center' }}>
+                                            {stock.product.name}
+                                        </div>
+                                        <div style={{ textAlign: 'center' }}>
+                                            {stock.product.salePrice}₺
                                     </div>
-                                    <div style={{textAlign:'center'}}>
-                                        {stock.product.salePrice}₺
                                     </div>
                                 </div>
-                            </div>
-                        )})}
-                        </div>
+                            )
+                        })}
+                    </div>
                 </div>
             </div>
         );
@@ -216,14 +237,16 @@ class SalePage extends Component<Props> {
 
 }
 function mapStateToProps({ stockReducer }) {
-    const { retrieveStocksSuccess, stocks, retrieveStockByBarcodeSuccess, stockByBarcode } = stockReducer;
+    const { retrieveStocksSuccess, stocks, retrieveStockByBarcodeSuccess, stockByBarcode, stockCategories } = stockReducer;
     return {
         retrieveStocksSuccess,
         stocks,
         retrieveStockByBarcodeSuccess,
         stockByBarcode,
+        stockCategories,
+
     }
 }
 
-const ConnectedPage = connect(mapStateToProps, { retrieveStocks, retrieveStockByBarcode })(SalePage);
+const ConnectedPage = connect(mapStateToProps, { retrieveStocks, retrieveStockByBarcode, retrieveStocksCategories })(SalePage);
 export { ConnectedPage as SalePage }

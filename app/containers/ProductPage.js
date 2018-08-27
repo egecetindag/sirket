@@ -31,9 +31,10 @@ class ProductPage extends Component<Props> {
                     barcode: values.barcode,
                     name: values.name,
                     description: values.description,
-                    category: values.category,
+                    category: values.category ? values.category : 'Diger',
                     purchasePrice: values.purchasePrice,
                     salePrice: values.salePrice
+
                 }
                 if(this.state.type === 'create'){
                     this.props.createProduct(dataToSend, this.state.name);

@@ -22,3 +22,6 @@ export const updateStockService = (dataToSend) =>{
 export const deleteStockService = (id) =>{
   return axios.get(host+`/deleteStocks?ids=${id}`,config)
 }
+export const retrieveStocksCategoriesService =() =>{
+  return axios.get(host+`/retrieveCategories`,config)
+}
