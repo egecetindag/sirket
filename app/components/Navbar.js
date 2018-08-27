@@ -41,7 +41,7 @@ class Navbar extends Component<Props> {
     handleClick = (e) => {
         switch (e.key) {
             case '0':
-                history.push('/')
+                history.push('/sale')
                 break;
             case '1':
                 history.push('/price')

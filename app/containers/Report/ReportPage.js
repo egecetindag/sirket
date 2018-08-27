@@ -59,7 +59,7 @@ render() {
         </div>
       </div>
       <div className='page-body'>
-        <Layout>
+        <Layout style={{margin: "20px"}}>
 
           <Sider>
             <div className="logo" />
