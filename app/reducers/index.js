@@ -8,6 +8,7 @@ import ReceivingReducer from "./ReceivingReducer";
 import PaymentReducer from "./PaymentReducer";
 import ExpenseReducer from "./ExpenseReducer";
 import AuthReducer from "./AuthReducer";
+import ReportReducer from "./ReportReducer";
 
 const rootReducer = combineReducers({
   productReducer: ProductReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   paymentReducer:PaymentReducer,
   expenseReducer:ExpenseReducer,
   authReducer: AuthReducer,
+  reportReducer: ReportReducer,
 });
 
 export default rootReducer;

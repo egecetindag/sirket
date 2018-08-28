@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Form, Row } from "antd";
 // import { Chart, ArgumentAxis, ValueAxis, LineSeries } from "@devexpress/dx-react-chart-material-ui";
 import ReactHighcharts from 'react-highcharts';
 import Highlight from 'react-highlight';
-
+import {retrieveSummaryDashboardReport} from '../../actions/ReportActions'
+import { connect } from 'react-redux';
+const { Meta } = Card;
 
 const config = {
   title:"",
@@ -25,6 +27,9 @@ class SummaryDashboard extends Component<Props> {
     }
   }
 
+  componentDidMount(){
+    this.props.retrieveSummaryDashboardReport(0,1534950259);
+  }
   
   render() {
 
@@ -37,6 +42,12 @@ class SummaryDashboard extends Component<Props> {
               <Card title="Card title1" bordered={false}>
 
                 <ReactHighcharts config={config} />
+
+                {/*<Meta*/}
+                  {/*// avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}*/}
+                  {/*title="Card title"*/}
+                  {/*description="This is the description"*/}
+                {/*/>*/}
 
               </Card>
             </Col>
@@ -61,11 +72,13 @@ class SummaryDashboard extends Component<Props> {
     );
   }
 }
-function mapStateToProps({  }) {
-
+function mapStateToProps({reportReducer}) {
+  const {dashboardSummaryReport} = reportReducer;
   return {
-
+    dashboardSummaryReport
   }
 }
 
-export { SummaryDashboard }
+const ConnectedPage = connect (mapStateToProps,{retrieveSummaryDashboardReport})(SummaryDashboard);
+const WrappedPage = Form.create()(ConnectedPage);
+export { WrappedPage as SummaryDashboard }
