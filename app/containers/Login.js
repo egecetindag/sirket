@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button, Icon } from 'antd'
 import '../assets/styles/login.css';
-import {login} from '../actions/AuthActions'
+import { login } from '../actions/AuthActions'
 const FormItem = Form.Item;
 
 class Login extends Component<Props> {
@@ -33,7 +33,8 @@ class Login extends Component<Props> {
                         <div style={{ textAlign: 'center', marginBottom: '10%' }}>
                             <Icon type="shopping-cart" style={{ color: 'white', fontSize: '8em' }} />
                         </div>
-                        <Form onSubmit={this.handleOk}
+
+                        <Form onSubmit ={this.handleOk}
                         >
                             <FormItem
                             >
@@ -57,10 +58,11 @@ class Login extends Component<Props> {
                                     <Input className='input-login' prefix={<Icon type="lock" style={{ color: 'white' }} />} type='password' placeholder='Sifre' />
                                 )}
                             </FormItem>
+                            <FormItem style={{ display: 'flex', justifyContent: 'center' }}>
+                                <Button  loading={this.props.loginRequest}  style={{  width:'100px', fontSize: '1.2em' }} type="primary" htmlType="submit">Giris</Button>
+                            </FormItem>
                         </Form>
-                        <div style={{ display: 'flex', justifyContent: 'center' }}>
-                            <Button onClick={this.handleOk} loading={this.props.loginRequest} style={{ width: '40%', fontSize: '1.2em' }} type='primary'>Giris</Button>
-                        </div>
+                      
                     </div>
                 </div>
 
@@ -76,6 +78,6 @@ function mapStateToProps({ authReducer }) {
     }
 }
 
-const ConnectedPage = connect(mapStateToProps, {login})(Login);
+const ConnectedPage = connect(mapStateToProps, { login })(Login);
 const WrappedPage = Form.create()(ConnectedPage);
 export { WrappedPage as Login }

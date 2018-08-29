@@ -13,20 +13,20 @@ import { Route } from 'react-router';
 import { DatePicker } from 'antd';
 const { RangePicker } = DatePicker;
 const dateFormat = 'DD/MM/YYYY';
-
 import style from '../../assets/styles/stock.css'
-
 import moment from 'moment'
+
+
 class ReportPage extends Component<Props> {
   props: Props
   constructor(props) {
     super(props);
     this.state = {
-
+        dates : [moment(moment().subtract(7, 'days'),dateFormat),moment(moment(),dateFormat)]
     }
   }
   componentDidMount() {
-
+      console.log(this.state.dates)
   }
   handleMenuSelect = (e) => {
     if (e.key === '1') {
@@ -40,6 +40,9 @@ class ReportPage extends Component<Props> {
 
   onChange = (date, dateString) => {
     console.log(date, dateString);
+    this.setState({
+        dates:date,
+    })
   }
 
 render() {
@@ -53,13 +56,14 @@ render() {
               placeholder={['Başlangıç Tarihi', 'Bitiş Tarihi']}
               format={dateFormat}
               onChange={this.onChange}
+              defaultValue={this.state.dates}
             />
 
 
         </div>
       </div>
       <div className='page-body'>
-        <Layout style={{margin: "20px"}}>
+        <Layout style={{marginLeft: "20px"}}>
 
           <Sider>
             <div className="logo" />
@@ -87,9 +91,11 @@ render() {
 
           <Layout>
 
-            <Content >
+            <Content style={{ background: 'white', padding: '18px',overflow: 'auto', height:'70vh' }}>
               
-          <Route path='/report/summaryDashboard' component={SummaryDashboard} />
+          <Route path='/report/summaryDashboard' render={(props) => (
+            <SummaryDashboard {...props} dates={this.state.dates} />
+          )}/>
           <Route path='/report/stockReport' component={StockReport} />
 
               </Content>

@@ -4,7 +4,8 @@ const initialState = {
     stocks: [],
     retrieveStocksSuccess: false,
     stockByBarcode: {},
-    stockCategories:[]
+    stockCategories:[],
+    stockCategoriesSuccess:false  
 };
 
 export default (state = initialState, action) => {
@@ -42,9 +43,22 @@ export default (state = initialState, action) => {
                 retrieveStockByBarcodeSuccess: false,
             }
             case t.RETRIEVE_STOCKS_CATEGORIES_SUCCESS:
+            var a = action.payload.data;
+            a.push('Hepsi');
             return {
                 ...state,
-                stockCategories: action.payload.data,
+                stockCategories: a,
+                stockCategoriesSuccess:true
+            }
+            case t.RETRIEVE_STOCKS_CATEGORIES_REQUEST:
+            return{
+                ...state,
+                stockCategoriesSuccess: false
+            }
+            case t.RETRIEVE_STOCKS_CATEGORIES_FAILURE:
+            return{
+                ...state,
+                stockCategoriesSuccess: false
             }
         default:
             return {
