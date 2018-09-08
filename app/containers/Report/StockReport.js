@@ -170,9 +170,8 @@ class StockReport extends Component<Props> {
               })
               }
             </Select>
-
+            &nbsp;
             <Button type="primary" icon="download" >Excel indir</Button>
-
           </div>
 
 
@@ -190,12 +189,7 @@ class StockReport extends Component<Props> {
                  }}
                  pagination={{ pageSize: 10 }}
           />
-            {/*<Row>*/}
-              {/*<Col>*/}
-                {/*xxxx*/}
-              {/*</Col>*/}
-            {/*</Row>*/}
-          {/*</Table>*/}
+
         </div>
       </div>
 

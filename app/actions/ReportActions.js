@@ -46,3 +46,26 @@ export const retrieveStockReport = (name,category) => {
 
   }
 }
+
+export const retrieveActivityLog = (first,last,userId) => {
+  return async (dispatch) => {
+    try {
+      let response = await dispatch(()=>s.getActivityLog(first,last,userId))
+      if (response.status === 200) {
+        dispatch({
+          type: t.RETRIEVE_ACTIVITY_LOG_SUCCESS,
+          payload: response.data
+        })
+      } else {
+        throw Error
+      }
+    }
+    catch (error) {
+      console.log('error', error)
+      dispatch({
+        type: t.RETRIEVE_ACTIVITY_LOG_FAILURE
+      })
+    }
+
+  }
+}

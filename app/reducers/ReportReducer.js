@@ -3,7 +3,8 @@ import * as t from '../actions/types'
 const initialState = {
     dashboardSummaryReport: [],
     stockReport:[],
-    stockReportTotal:{}
+    stockReportTotal:{},
+    activityLog:[]
 };
 
 export default (state = initialState, action) => {
@@ -21,6 +22,11 @@ export default (state = initialState, action) => {
               stockReport: action.payload.data.items,
               stockReportTotal: action.payload.data.total
             };
+      case t.RETRIEVE_ACTIVITY_LOG_SUCCESS:
+            return{
+              ...state,
+              activityLog: action.payload.data.items
+            }
     default:
     return{
         ...state
