@@ -1,9 +1,9 @@
 const host = "http://localhost:8091/api"
 import axios from 'axios'
 
-export const retrieveStocksService = (name, barcode) => {
+export const retrieveStocksService = (obj) => {
   const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }
-  return axios.get(host + `/getStocks?barcode=${barcode ? barcode : ''}&name=${name}&description=&category=&pageNumber=1&pageSize=10&orderBy=&orderAs=`, config)
+  return axios.get(host + `/getStocks?barcode=${obj.barcode ? obj.barcode : ''}&name=${obj.name ? obj.name :''}&description=&category=${obj.category ? obj.category :''}&pageNumber=1&pageSize=10&orderBy=&orderAs=`, config)
 }
 export const retrieveStockByBarcodeService = (barcode) => {
   const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }
