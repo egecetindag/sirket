@@ -28,13 +28,42 @@
     align-items: center
 }
 .sale-products{
-    background: #9AECDB;
-    width: 150px;
-    height: 150px;
-    border-radius: 10px;
-    padding: 37px;
-    justify-content: center;
+    padding: 10px;
     margin: 10px;
-    align-items: center;
+    padding: 15px;
+    position: relative;
+    margin: 15px;
+    box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.4);
+}
+.sale-products >div> .txt{
+    text-align: center;
+    font-size: 1.2em;
+    position: absolute;
+    top: 7px;
+    flex-wrap: wrap;
     display: flex;
+    width: 60px;
+    left: 7px;
+    font-weight: bold;
+}
+.sale-products >div> .filter{
+    position: absolute;
+}
+.sale-products:hover >div> .filter{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom:0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(0,0,0,0.6);
+    cursor: pointer;
+}
+.sale-products:hover >div> .filter> div> .icon{
+    background: white;
+    width: 25px!important;
+    height: 25px!important
+    
 }

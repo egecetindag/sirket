@@ -6,7 +6,7 @@ const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { retrieveStocks, retrieveStockByBarcode, createStock, updateStock, deleteStock } from '../actions/StockActions';
-import {retrieveDealers} from '../actions/DealerActions';
+import { retrieveDealers } from '../actions/DealerActions';
 import { retrieveProducts } from '../actions/ProductActions'
 import style from '../assets/styles/stock.css'
 
@@ -20,7 +20,7 @@ class StockPage extends Component<Props> {
       continue: false,
       editVisible: false,
       type: 'edit',
-      selected: {product:{}},
+      selected: { product: {} },
       name: '',
       product: { name: '' }
     }
@@ -29,7 +29,7 @@ class StockPage extends Component<Props> {
     this.props.retrieveStocks(this.state.name);
     this.props.retrieveProducts('');
     this.props.retrieveDealers('');
-    
+
   }
   componentDidUpdate(oldProps) {
     if (!oldProps.getProductsSuccess && this.props.getProductsSuccess) {
@@ -57,12 +57,16 @@ class StockPage extends Component<Props> {
         // this.props.createStock(dataToSend);
         setTimeout(() => {
           this.setState({
-            visible: false
+            visible: false,
+            continue: false
           })
-        }, 1000);
-        this.props.form.resetFields()
+        }, 10);
+        this.props.form.resetFields()        
+        
       }
     });
+
+
   }
   // handleEdit = () => {
   //     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -98,7 +102,11 @@ class StockPage extends Component<Props> {
     this.props.form.resetFields();
     this.setState({
       visible: false,
+      continue: false
+      
     })
+
+    this.props.form.resetFields()
   }
   handleModalOpen = (type) => {
     console.log(this.state.selected);
@@ -174,11 +182,11 @@ class StockPage extends Component<Props> {
       title: 'Adet',
       dataIndex: 'qty',
       key: 'qty',
-    },{
-        title: 'Kaydeden',
-        dataIndex: 'userName',
-        key: 'userName',
-    },{
+    }, {
+      title: 'Kaydeden',
+      dataIndex: 'userName',
+      key: 'userName',
+    }, {
       title: 'Duzenle',
       render: () => <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" /></Button>
     },
@@ -256,10 +264,10 @@ class StockPage extends Component<Props> {
               {/* <Button style={{ border: '0', fontSize: '0.8em' }} onClick={this.handleWithoutBarcode}>Barkodsuz devam et</Button> */}
 
             </FormItem>
-            
+
             {this.state.continue &&
               <div>
-                 <FormItem
+                <FormItem
                   label="Tedarikci"
                   style={{ display: 'flex' }}
                 >
@@ -285,7 +293,7 @@ class StockPage extends Component<Props> {
                       required: true, message: 'Isim girin!'
                     }],
                   })(
-                    <Input disabled ={type === 'edit'}/>
+                    <Input disabled={type === 'edit'} />
                   )}
 
                 </FormItem>
@@ -299,7 +307,7 @@ class StockPage extends Component<Props> {
                       required: false
                     }],
                   })(
-                    <Input disabled ={type === 'edit'}/>
+                    <Input disabled={type === 'edit'} />
                   )}
                 </FormItem>
                 <FormItem
@@ -312,10 +320,10 @@ class StockPage extends Component<Props> {
                       required: false
                     }],
                   })(
-                    <Input disabled ={type === 'edit'}/>
+                    <Input disabled={type === 'edit'} />
                   )}
                 </FormItem>
-               
+
                 <FormItem
                   label="Alis Fiyati"
                   style={{ display: 'flex' }}
@@ -369,7 +377,7 @@ class StockPage extends Component<Props> {
 function mapStateToProps({ stockReducer, productReducer, dealerReducer }) {
   const { stocks } = stockReducer;
   const { getProductsSuccess, products } = productReducer;
-  const {dealers} = dealerReducer;
+  const { dealers } = dealerReducer;
   return {
     stocks,
     products,
@@ -377,6 +385,6 @@ function mapStateToProps({ stockReducer, productReducer, dealerReducer }) {
   }
 }
 
-const ConnectedPage = connect(mapStateToProps, { retrieveStocks, retrieveProducts,retrieveDealers, retrieveStockByBarcode, createStock, updateStock, deleteStock })(StockPage);
+const ConnectedPage = connect(mapStateToProps, { retrieveStocks, retrieveProducts, retrieveDealers, retrieveStockByBarcode, createStock, updateStock, deleteStock })(StockPage);
 const WrappedPage = Form.create()(ConnectedPage);
 export { WrappedPage as StockPage }
