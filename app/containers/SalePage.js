@@ -6,8 +6,10 @@ import { connect, Switch, Route } from 'react-redux';
 import { ProductPage } from './ProductPage'
 import { history } from '../store/configureStore'
 import '../assets/styles/sale.css';
+import {Icons} from '../assets/Icons'
 import { retrieveStockByBarcode, retrieveStocks, retrieveStocksCategories } from '../actions/StockActions'
 import ProductReducer from '../reducers/ProductReducer';
+import { CustomImage } from '../assets/ProductPhotos/CustomImage';
 const Search = Input.Search;
 const Option = Select.Option
 
@@ -250,17 +252,19 @@ class SalePage extends Component<Props> {
                             />
                         </div>
                     </div>
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', flexWrap:'wrap' }}>
                         {this.state.stocks.map((stock, index) => {
                             return (
                                 <div className='sale-products' onClick={() => this.handleRightItemClick(index)}>
+                                <CustomImage name= {stock.product.id}/>
                                     <div>
-                                        <div style={{ textAlign: 'center' }}>
+                                        <div className='txt'>
                                             {stock.product.name}
                                         </div>
-                                        <div style={{ textAlign: 'center' }}>
+                                        <div style={{ textAlign: 'center',fontSize:'1.2em', position:'absolute', bottom:'7px', right:'7px', }}>
                                             {stock.product.salePrice}₺
                                     </div>
+                                    <div className='filter'><Icons iconName='shopping' height='0px'/></div>
                                     </div>
                                 </div>
                             )
