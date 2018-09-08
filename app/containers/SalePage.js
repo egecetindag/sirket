@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 type Props = {};
-import { List, Icon, Avatar, Button, Input, Table, Breadcrumb, Dropdown, Menu } from 'antd'
+import { List, Icon, Avatar, Button, Input, Table, Breadcrumb, Dropdown, Menu, Select } from 'antd'
 import { Link } from 'react-router-dom';
 import { connect, Switch, Route } from 'react-redux';
 import { ProductPage } from './ProductPage'
+import { history } from '../store/configureStore'
 import '../assets/styles/sale.css';
 import { retrieveStockByBarcode, retrieveStocks, retrieveStocksCategories } from '../actions/StockActions'
 import ProductReducer from '../reducers/ProductReducer';
 const Search = Input.Search;
+const Option = Select.Option
 
 const data = [{ name: 'slm' }, { name: 'ben' }, { name: 'ege' }]
 
@@ -20,29 +22,26 @@ class SalePage extends Component<Props> {
             quantities: {},
             visible: false,
             stocks: [],
-            categories: []
+            categories: [],
+            category: undefined
 
         }
     }
     componentDidMount() {
-        this.props.retrieveStocks('');
+        this.props.retrieveStocks({});
         this.props.retrieveStocksCategories();
     }
     handleSearch = (e) => {
-        this.props.retrieveStockByBarcode(e.target.value);
+        if (e.length === 12) {
+            this.props.retrieveStockByBarcode(e);
+        }
     }
+
     handleSearchProducts = (e) => {
         let a = this.props.stocks.slice()
         a = a.filter(i => i.product.name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0);
         this.setState({
             stocks: a
-        })
-    }
-    handleSearchCategories = (e) => {
-        let a = this.props.stockCategories.slice()
-        a = a.filter(i => i.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0);
-        this.setState({
-            categories: a
         })
     }
 
@@ -67,7 +66,6 @@ class SalePage extends Component<Props> {
     }
     componentDidUpdate(oldProps) {
         if (!oldProps.stockCategoriesSuccess && this.props.stockCategoriesSuccess) {
-            console.log('saa')
             this.setState({
                 categories: this.props.stockCategories
 
@@ -95,6 +93,17 @@ class SalePage extends Component<Props> {
     handleVisibleChange = (flag) => {
         this.setState({ visible: flag });
     }
+    handleSelect = (e) => {
+        if(e !== 'En Cok Satanlar'){
+            this.props.retrieveStocks({category: e })
+            history.push('/sale/' + e);
+        }
+        else {
+            this.props.retrieveStocks({ })
+            history.push('/sale');
+        }
+
+    }
 
     handleMenuClick = (e) => {
         if (e.key === '0') {
@@ -105,40 +114,33 @@ class SalePage extends Component<Props> {
         }
     }
     render() {
-        console.log('cat', this.state.categories, this.props.stockCategories)
-        const menu = (
-            <Menu onClick={this.handleMenuClick}>
-                <Menu.Item key="0">
-                    <Search onChange={this.handleSearchCategories} />
-                </Menu.Item>
+        // const menu = (
+        //     <Menu onClick={this.handleMenuClick}>
+        //         <Menu.Item key="0">
+        //             <Search onChange={this.handleSearchCategories} />
+        //         </Menu.Item>
 
-                {
-                    this.state.categories.map((category, index) => {
-                        return (
-                            <Menu.Item key={index + 2}>
-                            {category !== 'Hepsi' &&
-                                <Link to={'/sale/' + category}>{category}</Link>
-                        }
-                         {category === 'Hepsi' &&
-                                <Link to={'/sale'}>{category}</Link>
-                        }
-                            </Menu.Item>
-                        )
-                    })
-                }
-            </Menu>
-        );
+        //         {
+        //             this.state.categories.map((category, index) => {
+
+        //                     <Menu.Item key={index + 2}>
+        //                         {category !== 'En Cok Satanlar' &&
+        //                             <Link to={'/sale/' + category}>{category}</Link>
+        //                         }
+        //                         {category === 'En Cok Satanlar' &&
+        //                             <Link to={'/sale'}>{category}</Link>
+        //                         }
+        //                     </Menu.Item>
+        //                 )
+        //             })
+        //         }
+        //     </Menu>
+        // );
         var breadcrumbNameMap = {}
         breadcrumbNameMap['/sale'] = (
-            <Dropdown
-                onVisibleChange={this.handleVisibleChange}
-                visible={this.state.visible}
-                overlay={menu}
-                trigger={['click']}>
-                <a>
-                    <Icon style={{ fontSize: '1.2em' }} type='home' />
-                </a>
-            </Dropdown>)
+
+            <Icon style={{ fontSize: '1.2em' }} type='home' />
+        )
 
         this.props.stocks.map(i => breadcrumbNameMap[`/sale/${i.product.category}`] = i.product.category)
         const { location } = this.props;
@@ -206,7 +208,7 @@ class SalePage extends Component<Props> {
                 <div style={{ width: '30%' }}>
                     <Table className='sale-list' dataSource={this.state.products} columns={columns} pagination={false} />
                     <div className='sale-total'><div>Toplam:</div><div>{this.calculateTotal()}₺</div></div>
-                    <Search onChange={this.handleSearch} />
+                    <Search onSearch={this.handleSearch} />
                     <div className='sale-calculate' />
                 </div>
                 <div style={{ border: '1px solid #d9d9d9', width: '70%', marginLeft: '2%' }}>
@@ -220,9 +222,31 @@ class SalePage extends Component<Props> {
 
                         </div>
                         <div style={{ alignItems: 'center', display: 'flex' }}>
+
+                            {/* <Dropdown
+                                onVisibleChange={this.handleVisibleChange}
+                                visible={this.state.visible}
+                                overlay={menu}
+                                trigger={['click']}
+                                placeholder='Categories'>
+                                <Search style={{background:'white'}}/>
+                            </Dropdown> */}
+
+                            <Select
+                                style={{ width: '300px', marginRight: ' 5px' }}
+                                onSelect={this.handleSelect}
+                                defaultValue='En Cok Satanlar'
+                                showSearch
+                                // placeholder='Select Category'
+                                filterOption={(input, option) => (option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                            >
+                                {this.state.categories.map((category, index) => <Option value={category} >{category}</Option>)}
+                            </Select>
+
+
                             <Search
                                 onChange={this.handleSearchProducts}
-                                placeholder='Urun Ara'
+                                placeholder='Tum Urunlerde Ara'
                             />
                         </div>
                     </div>
@@ -250,7 +274,7 @@ class SalePage extends Component<Props> {
 
 }
 function mapStateToProps({ stockReducer }) {
-    const { retrieveStocksSuccess, stocks, retrieveStockByBarcodeSuccess, stockByBarcode, stockCategories,stockCategoriesSuccess } = stockReducer;
+    const { retrieveStocksSuccess, stocks, retrieveStockByBarcodeSuccess, stockByBarcode, stockCategories, stockCategoriesSuccess } = stockReducer;
     return {
         retrieveStocksSuccess,
         stocks,

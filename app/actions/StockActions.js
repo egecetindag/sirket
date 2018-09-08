@@ -2,13 +2,13 @@ import * as s from '../services/StockServices'
 import axios from 'axios'
 import * as t from './types'
 
-export const retrieveStocks = (str,barcode) => {
+export const retrieveStocks = (obj) => {
     return async (dispatch) => {
         try {
             dispatch({
                 type: t.RETRIEVE_STOCKS_REQUEST,
             })
-            let response = await dispatch(()=>s.retrieveStocksService(str,barcode));
+            let response = await dispatch(()=>s.retrieveStocksService(obj));
             if (response.status === 200) {
                 dispatch({
                     type: t.RETRIEVE_STOCKS_SUCCESS,
@@ -85,7 +85,7 @@ export const createStock = (dataToSend,str) => {
                     type: t.CREATE_STOCKS_SUCCESS,
                     payload: response.data
                 });
-                dispatch(retrieveStocks(str));
+                dispatch(retrieveStocks({name:str}));
             } else {
                 throw Error
             }
@@ -108,7 +108,7 @@ export const updateStock = (dataToSend,str) => {
                 dispatch({
                     type: t.EDIT_STOCKS_SUCCESS
                 });
-                dispatch(retrieveStocks(str));
+                dispatch(retrieveStocks({name:str}));
             } else {
                 throw Error
             }
@@ -131,7 +131,7 @@ export const deleteStock = (id,str) => {
         dispatch({
           type: t.DELETE_STOCKS_SUCCESS
         });
-        dispatch(retrieveStocks(str));
+        dispatch(retrieveStocks({name: str}));
       } else {
         throw Error
       }
