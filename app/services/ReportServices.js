@@ -7,9 +7,9 @@ export const getDailySummarySaleReportService = (first, last) => {
   return axios.get(host + `/getSaleSummaryReportDaily?timeInterval=${first},${last}`, config)
 }
 
-export const getCurrentStockReportService = (barcode, name, category) => {
+export const getCurrentStockReportService = (name,category) => {
   const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }
-  return axios.get(host + `/api/getCurrentStockReport?barcode=${barcode}&name=${name}&category=${category}&pageNumber=1&pageSize=10&orderBy=&orderAs=`, config)
+  return axios.get(host + `/getCurrentStockReport?&name=${name}&category=${category}&pageNumber=1&pageSize=10&orderBy=&orderAs=`, config)
 }
 
 export const getSales = (first, last) => {

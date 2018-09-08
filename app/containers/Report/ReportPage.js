@@ -6,8 +6,9 @@ const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { history } from '../../store/configureStore'
-import { StockReport } from './StockReport'
 import { SummaryDashboard } from './SummaryDashboard'
+import { StockReport } from './StockReport'
+import { ActivityLog } from './ActivityLog'
 const { Header, Sider, Content } = Layout;
 import { Route } from 'react-router';
 import { DatePicker } from 'antd';
@@ -22,7 +23,7 @@ class ReportPage extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-        dates : [moment(moment().subtract(7, 'days'),dateFormat),moment(moment(),dateFormat)]
+        dates : [moment(moment().subtract(30, 'days'),dateFormat),moment(moment(),dateFormat)]
     }
   }
   componentDidMount() {
@@ -34,6 +35,9 @@ class ReportPage extends Component<Props> {
     }
     if (e.key === '2') {
       history.push('/report/stockReport')
+    }
+    if (e.key === '3') {
+      history.push('/report/activity')
     }
     // buraya diger caseler gelecek
   }
@@ -84,7 +88,7 @@ render() {
               </Menu.Item>
               <Menu.Item key="3">
                 <Icon type="upload" />
-                <span>nav 3</span>
+                <span>Activity Log</span>
               </Menu.Item>
             </Menu>
           </Sider>
@@ -96,8 +100,12 @@ render() {
           <Route path='/report/summaryDashboard' render={(props) => (
             <SummaryDashboard {...props} dates={this.state.dates} />
           )}/>
-          <Route path='/report/stockReport' component={StockReport} />
-
+          <Route path='/report/stockReport' render={(props) => (
+            <StockReport {...props} />
+          )}/>
+          <Route path='/report/activity' render={(props) => (
+             <ActivityLog {...props} dates={this.state.dates}/>
+           )}/>
               </Content>
           </Layout>
         </Layout>

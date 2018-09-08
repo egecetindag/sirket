@@ -1,35 +1,11 @@
 import React, { Component } from 'react';
-import { Card, Col, Form, Row, Tooltip, Icon } from "antd";
+import { Card, Col, Form, Row, Tooltip, Icon,Divider } from "antd";
 // import { Chart, ArgumentAxis, ValueAxis, LineSeries } from "@devexpress/dx-react-chart-material-ui";
 import ReactHighcharts from 'react-highcharts';
 import Highlight from 'react-highlight';
 import {retrieveSummaryDashboardReport} from '../../actions/ReportActions'
 import { connect } from 'react-redux';
 import moment from 'moment';
-
-// const configGross = {
-//   title:"",
-//   xAxis: {
-//     categories: []
-//   },
-//   yAxis: {
-//     title: {
-//       text: null
-//     }
-//   },
-//   series: [{
-//     name: "Brüt Kazanç",
-//     data: []
-//   }]
-// };
-//
-//
-//
-// const contentListNoTitle = {
-//   gross: <ReactHighcharts config={configGross} />,
-//   net: <ReactHighcharts config={configNet} />,
-// };
-
 
 class SummaryDashboard extends Component<Props> {
   props: Props
@@ -60,6 +36,9 @@ class SummaryDashboard extends Component<Props> {
   render() {
 
     var configNet = {
+      chart: {
+        type: 'column'
+      },
       title:"",
       xAxis: {
         categories: []
@@ -70,7 +49,7 @@ class SummaryDashboard extends Component<Props> {
         }
       },
       series: [{
-        name: "Brüt Kazanç",
+        name: "Net Kazanç",
         data: []
       }]
     };
@@ -84,7 +63,10 @@ class SummaryDashboard extends Component<Props> {
     }];
     // console.log(this.props.dashboardSummaryReport) ;
 
-    const configGross = {
+    var configGross = {
+      chart: {
+        type: 'column'
+      },
       title:"",
       xAxis: {
         categories: []
@@ -100,12 +82,73 @@ class SummaryDashboard extends Component<Props> {
       }]
     };
 
-
-
-    const contentListNoTitle = {
+    var contentListNoTitle = {
       gross: <ReactHighcharts config={configGross} />,
       net: <ReactHighcharts config={configNet} />,
     };
+
+    var configForBar = {
+      title: "",
+      xAxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      },
+      plotOptions: {
+        series: {
+          allowPointSelect: true
+        }
+      },
+      series: [{
+        name : "Ödeme",
+        data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+      },{
+        name : "Masraf",
+        data: [119.9, 81.5, 156.4, 180.2, 155.0, 216.0, 85.6, 118.5, 116.4, 144.1, 195.6, 154.4]
+      }]
+    };
+
+    var configForPie = {
+      chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+      },
+      title: {
+        text: ''
+      },
+      tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+            enabled: true,
+            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+            style: {
+              color: (ReactHighcharts.theme && ReactHighcharts.theme.contrastTextColor) || 'black'
+            }
+          }
+        }
+      },
+      series: [{
+        name: 'Brands',
+        colorByPoint: true,
+        data: [{
+          name: 'Ödenmiş',
+          y: 61.41,
+          sliced: true,
+          selected: true
+        }, {
+          name: 'Gecikme',
+          y: 31.84
+        }, {
+          name: 'Bekliyor',
+          y: 7.85
+        }]
+      }]
+    }
 
     console.log("dates: ", this.props.dates);
 
@@ -125,7 +168,7 @@ class SummaryDashboard extends Component<Props> {
               <Card
                 title={
                   <div>
-                    <b>Satış Sayısı </b>
+                    Satış Sayısı&nbsp;
                     <Tooltip title="Verilen zaman diliminde yapılan toplam satış sayısı.">
                       <Icon type="question-circle-o" />
                     </Tooltip>
@@ -140,7 +183,7 @@ class SummaryDashboard extends Component<Props> {
               <Card
                 title={
                   <div>
-                    <b>Ürün Sayısı </b>
+                    Ürün Sayısı&nbsp;
                     <Tooltip title="Satışlardaki toplam ürün sayısı.">
                       <Icon type="question-circle-o" />
                     </Tooltip>
@@ -155,7 +198,7 @@ class SummaryDashboard extends Component<Props> {
               <Card
                 title={
                   <div>
-                    Müşteri Sayısı
+                    Müşteri Sayısı&nbsp;
                     <Tooltip title="Toplam satış yapılan müşteri sayısı.">
                       <Icon type="question-circle-o" />
                     </Tooltip>
@@ -170,7 +213,7 @@ class SummaryDashboard extends Component<Props> {
               <Card
                 title={
                   <div>
-                    <b>İndirim Miktarı </b>
+                    İndirim Miktarı&nbsp;
                     <Tooltip title="Yapılan toplam indirim miktarı.">
                       <Icon type="question-circle-o" />
                     </Tooltip>
@@ -181,9 +224,40 @@ class SummaryDashboard extends Component<Props> {
 
               </Card>
             </Col>
+            <Col span={4}>
+              <Card
+                title={
+                  <div>
+                    Sepet Boyu&nbsp;
+                    <Tooltip title="Sepetteki ürün sayısı.">
+                      <Icon type="question-circle-o" />
+                    </Tooltip>
+                  </div>}
+                style={{textAlign : 'center'}}
+              >
+                {this.props.dashboardSummaryReport.basketSize ? this.props.dashboardSummaryReport.basketSize.toFixed(2): ''}
+
+              </Card>
+            </Col>
+            <Col span={4}>
+              <Card
+                title={
+                  <div>
+                    Sepet Değeri&nbsp;
+                    <Tooltip title="Sepetteki ürünlerin toplam değeri.">
+                      <Icon type="question-circle-o" />
+                    </Tooltip>
+                  </div>}
+                style={{textAlign : 'center'}}
+              >
+                {this.props.dashboardSummaryReport.basketValue ? this.props.dashboardSummaryReport.basketValue.toFixed(2) : ''}
+
+              </Card>
+            </Col>
           </Row>
           <br />
 
+          <Divider />
           <Row >
             <Col span={16}>
 
@@ -208,6 +282,35 @@ class SummaryDashboard extends Component<Props> {
             </Col>
 
           </Row>
+
+          <Divider />
+
+
+          <Row>
+
+            <Col span={14}>
+
+              <Card title="Ödemeler & Masraf" bordered={false}>
+
+                <ReactHighcharts config={configForBar} />
+
+              </Card>
+
+            </Col>
+
+            <Col span={10}>
+
+              <Card title="" bordered={false}>
+
+                <ReactHighcharts config={configForPie} />
+
+              </Card>
+
+            </Col>
+
+          </Row>
+
+
         </div>
       </div>
 
