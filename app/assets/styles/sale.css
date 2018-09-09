@@ -1,13 +1,16 @@
 .sale-list{
-    height: 74%;
+    height: 65.2%;
     border: 2px solid #d9d9d9;
-    padding: 20px;
     overflow-y: auto;
+    margin-bottom: 10px
 }
 .sale-total{
-    height: 30px;
+    height: 100px;
     margin: 10px 0px;
-    background: #e2e2e2;
+    margin-top: 0px;
+    color: #00ff02;
+    background: #000000;
+    font-family: monospace;
     display: flex;
     align-items: center;
     padding: 20px;
@@ -17,10 +20,11 @@
 }
 .sale-calculate{
     border: 1px solid;
-    height: 15.7%;
+    height: 18.3%;
     margin-top: 10px;
-    border: 1px solid #d9d9d9
+    border: 1px solid #d9d9d9;
 }
+
 .sale-header{
     font-size: 1.2em;
     font-weight: bold;
@@ -38,12 +42,12 @@
 .sale-products >div> .txt{
     text-align: center;
     font-size: 1.2em;
-    position: absolute;
+    /* position: absolute;
     top: 7px;
     flex-wrap: wrap;
     display: flex;
     width: 60px;
-    left: 7px;
+    left: 7px; */
     font-weight: bold;
 }
 .sale-products >div> .filter{
@@ -66,4 +70,33 @@
     width: 25px!important;
     height: 25px!important
     
+}
+.sale-selected-row{
+    background-color:#e6f7ff
+}
+.number{
+    background: #d9d9d9!important;
+    font-size: 1.4em!important;
+    border-radius: 0!important;
+    font-weight: bold!important;
+    height: 100%!important;
+    padding: 10px!important;
+    text-align: center;
+    width: 18.8%!important;
+    min-width: 50px!important;
+    margin: 1%!important;
+    margin-right: 0px!important;
+    cursor: pointer;
+}
+.button{
+    background: #d9d9d9!important;
+    font-size: 1.4em!important;
+    font-weight: bold!important;
+    padding: 10px!important;
+    text-align: center!important;
+    width: 39%!important;
+    min-width: 50px!important;
+    margin: 1%!important;
+    height: 100%!important;
+    border-radius: 0px!important
 }

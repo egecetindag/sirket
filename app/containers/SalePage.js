@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 type Props = {};
-import { List, Icon, Avatar, Button, Input, Table, Breadcrumb, Dropdown, Menu, Select } from 'antd'
+import { List, Icon, Avatar, Button, Input, Table, Row, Col, Breadcrumb, Dropdown, Menu, Select } from 'antd'
 import { Link } from 'react-router-dom';
 import { connect, Switch, Route } from 'react-redux';
 import { ProductPage } from './ProductPage'
 import { history } from '../store/configureStore'
 import '../assets/styles/sale.css';
-import {Icons} from '../assets/Icons'
+import { Icons } from '../assets/Icons'
 import { retrieveStockByBarcode, retrieveStocks, retrieveStocksCategories } from '../actions/StockActions'
 import ProductReducer from '../reducers/ProductReducer';
 import { CustomImage } from '../assets/ProductPhotos/CustomImage';
@@ -96,12 +96,12 @@ class SalePage extends Component<Props> {
         this.setState({ visible: flag });
     }
     handleSelect = (e) => {
-        if(e !== 'En Cok Satanlar'){
-            this.props.retrieveStocks({category: e })
+        if (e !== 'En Cok Satanlar') {
+            this.props.retrieveStocks({ category: e })
             history.push('/sale/' + e);
         }
         else {
-            this.props.retrieveStocks({ })
+            this.props.retrieveStocks({})
             history.push('/sale');
         }
 
@@ -114,6 +114,12 @@ class SalePage extends Component<Props> {
         else {
             this.setState({ visible: false });
         }
+    }
+    selectRow = (e, key) => {
+        console.log(e, key, this.state.products[key])
+        this.setState({
+            selectedRow: key
+        })
     }
     render() {
         // const menu = (
@@ -160,11 +166,7 @@ class SalePage extends Component<Props> {
         });
 
         const columns = [
-            {
-                key: 'aa',
-                width: '10%',
-                render: (record) => <div>IMG</div>
-            },
+
             {
                 title: 'Urun',
                 width: '30%',
@@ -175,7 +177,8 @@ class SalePage extends Component<Props> {
                 title: 'Adet',
                 width: '30%',
                 key: 'qty',
-                render: (text, record) => <div>{this.state.quantities[record.id]}</div>
+                color: 'black',
+                render: (text, record, key) => <div>{this.state.quantities[record.id]}</div>
             },
             {
                 title: 'Fiyat',
@@ -208,12 +211,65 @@ class SalePage extends Component<Props> {
                 /> */}
 
                 <div style={{ width: '30%' }}>
-                    <Table className='sale-list' dataSource={this.state.products} columns={columns} pagination={false} />
-                    <div className='sale-total'><div>Toplam:</div><div>{this.calculateTotal()}₺</div></div>
+                    <div className='sale-total'><div style={{ fontSize: '1.4em' }}>Toplam</div><div style={{ fontSize: '1.3em' }}>{this.calculateTotal()}₺</div></div>
+
+                    <Table
+                        className='sale-list'
+                        dataSource={this.state.products}
+                        columns={columns}
+                        rowClassName={(record, index) => index === this.state.selectedRow ? 'sale-selected-row' : ''}
+                        pagination={false}
+                        onRow={(record, key) => {
+                            return {
+                                onClick: () => {
+                                    this.selectRow(record, key)
+                                },
+                            };
+                        }}
+                    />
                     <Search onSearch={this.handleSearch} />
-                    <div className='sale-calculate' />
+                    <div className='sale-calculate'>
+                        <div style={{ display: 'flex'}}>
+                            <Button className='number'>1</Button>
+                            <Button className='number'>2</Button>
+                            <Button className='number'>3</Button>
+                            <Button className='number'>+</Button>
+                            <Button className='number'>-</Button>
+                        </div>
+                        <div style={{ display: 'flex' }}>
+                            <Button className='number'>4</Button>
+                            <Button className='number'>5</Button>
+                            <Button className='number'>6</Button>
+                            <Button className='button'>Adet</Button>
+                        </div>
+                        <div style={{ display: 'flex' }}>
+                            <Button className='number'>7</Button>
+                            <Button className='number'>8</Button>
+                            <Button className='number'>9</Button>
+                            <Button className='button'>Sil</Button>
+                        </div>
+                        <div style={{ display: 'flex' }}>
+                       
+                            <Button className='button'>0</Button>
+                        </div>
+                        {/* <Row gutter={4}>
+                            <Col className='number' span={4}>1</Col>
+                            <Col className='number' span={4} >2</Col>
+                            <Col className='number' span={4} >3</Col>
+                            <Col className='number' span={4}>+</Col>
+                            <Col className='number' span={4} >-</Col>
+                        </Row>
+                        <Row gutter ={4}>
+                            <Col className='number' span={4}>4</Col>
+                            <Col className='number' span={4}>5</Col>
+                            <Col className='number' span={4}>6</Col>
+                            <Col className='button' span={9}>aaaa</Col>
+                        </Row> */}
+
+                    </div>
                 </div>
-                <div style={{ border: '1px solid #d9d9d9', width: '70%', marginLeft: '2%' }}>
+
+                <div style={{ border: '1px solid #d9d9d9', width: '70%', marginLeft: '1%' }}>
                     <div style={{ display: 'flex', height: '45px', padding: '15px', backgroundColor: '#d9d9d9', justifyContent: 'space-between' }}>
                         <div className='sale-header'>
                             <div className="demo">
@@ -252,19 +308,19 @@ class SalePage extends Component<Props> {
                             />
                         </div>
                     </div>
-                    <div style={{ display: 'flex', flexWrap:'wrap' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                         {this.state.stocks.map((stock, index) => {
                             return (
                                 <div className='sale-products' onClick={() => this.handleRightItemClick(index)}>
-                                <CustomImage name= {stock.product.id}/>
-                                    <div>
+                                    <CustomImage name={stock.product.id} />
+                                    <div style={{ backgroundColor: '#e2e2e2', margin: '-15px' }}>
                                         <div className='txt'>
                                             {stock.product.name}
                                         </div>
-                                        <div style={{ textAlign: 'center',fontSize:'1.2em', position:'absolute', bottom:'7px', right:'7px', }}>
+                                        <div style={{ textAlign: 'center', fontSize: '1.2em' }}>
                                             {stock.product.salePrice}₺
                                     </div>
-                                    <div className='filter'><Icons iconName='shopping' height='0px'/></div>
+                                        <div className='filter'><Icons iconName='shopping' height='0px' /></div>
                                     </div>
                                 </div>
                             )
