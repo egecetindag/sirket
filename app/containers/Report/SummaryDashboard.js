@@ -161,13 +161,13 @@ class SummaryDashboard extends Component<Props> {
     console.log("configNet:",configNet);
 
     return (
-      <div >
+      <div>
         <div >
           <Row gutter={12}>
-            <Col span={4}>
+            <Col span={6} >
               <Card
                 title={
-                  <div>
+                  <div >
                     Satış Sayısı&nbsp;
                     <Tooltip title="Verilen zaman diliminde yapılan toplam satış sayısı.">
                       <Icon type="question-circle-o" />
@@ -179,7 +179,7 @@ class SummaryDashboard extends Component<Props> {
 
               </Card>
             </Col>
-            <Col span={4}>
+            <Col span={6}>
               <Card
                 title={
                   <div>
@@ -194,7 +194,7 @@ class SummaryDashboard extends Component<Props> {
 
               </Card>
             </Col>
-            <Col span={4}>
+            <Col span={6}>
               <Card
                 title={
                   <div>
@@ -209,7 +209,7 @@ class SummaryDashboard extends Component<Props> {
 
               </Card>
             </Col>
-            <Col span={4}>
+            <Col span={6}>
               <Card
                 title={
                   <div>
@@ -220,46 +220,83 @@ class SummaryDashboard extends Component<Props> {
                   </div>}
                 style={{textAlign : 'center'}}
               >
-                {this.props.dashboardSummaryReport.discount}
-
-              </Card>
-            </Col>
-            <Col span={4}>
-              <Card
-                title={
-                  <div>
-                    Sepet Boyu&nbsp;
-                    <Tooltip title="Sepetteki ürün sayısı.">
-                      <Icon type="question-circle-o" />
-                    </Tooltip>
-                  </div>}
-                style={{textAlign : 'center'}}
-              >
-                {this.props.dashboardSummaryReport.basketSize ? this.props.dashboardSummaryReport.basketSize.toFixed(2): ''}
-
-              </Card>
-            </Col>
-            <Col span={4}>
-              <Card
-                title={
-                  <div>
-                    Sepet Değeri&nbsp;
-                    <Tooltip title="Sepetteki ürünlerin toplam değeri.">
-                      <Icon type="question-circle-o" />
-                    </Tooltip>
-                  </div>}
-                style={{textAlign : 'center'}}
-              >
-                {this.props.dashboardSummaryReport.basketValue ? this.props.dashboardSummaryReport.basketValue.toFixed(2) : ''}
+                {this.props.dashboardSummaryReport.discount} ₺
 
               </Card>
             </Col>
           </Row>
-          <br />
+        </div>
+        {/*<br />*/}
 
-          <Divider />
+        <div style={{marginTop:'20px'}}>
+        {/*<div>*/}
+          {/*<Row gutter={12}>*/}
+            {/*<Col span={6}>*/}
+              {/*<Card*/}
+                {/*title={*/}
+                  {/*<div>*/}
+                    {/*Sepet Boyu&nbsp;*/}
+                    {/*<Tooltip title="Sepetteki ürün sayısı.">*/}
+                      {/*<Icon type="question-circle-o" />*/}
+                    {/*</Tooltip>*/}
+                  {/*</div>}*/}
+                {/*style={{textAlign : 'center'}}*/}
+              {/*>*/}
+                {/*{this.props.dashboardSummaryReport.basketSize ? this.props.dashboardSummaryReport.basketSize.toFixed(2): ''}*/}
+
+              {/*</Card>*/}
+            {/*</Col>*/}
+            {/*<Col span={6}>*/}
+              {/*<Card*/}
+                {/*title={*/}
+                  {/*<div>*/}
+                    {/*Sepet Değeri&nbsp;*/}
+                    {/*<Tooltip title="Sepetteki ürünlerin toplam değeri.">*/}
+                      {/*<Icon type="question-circle-o" />*/}
+                    {/*</Tooltip>*/}
+                  {/*</div>}*/}
+                {/*style={{textAlign : 'center'}}*/}
+              {/*>*/}
+                {/*{this.props.dashboardSummaryReport.basketValue ? this.props.dashboardSummaryReport.basketValue.toFixed(2) : ''}*/}
+
+              {/*</Card>*/}
+            {/*</Col>*/}
+            {/*<Col span={6}>*/}
+              {/*<Card*/}
+                {/*title={*/}
+                  {/*<div>*/}
+                    {/*Sepet Boyu&nbsp;*/}
+                    {/*<Tooltip title="Sepetteki ürün sayısı.">*/}
+                      {/*<Icon type="question-circle-o" />*/}
+                    {/*</Tooltip>*/}
+                  {/*</div>}*/}
+                {/*style={{textAlign : 'center'}}*/}
+              {/*>*/}
+                {/*{this.props.dashboardSummaryReport.basketSize ? this.props.dashboardSummaryReport.basketSize.toFixed(2): ''}*/}
+
+              {/*</Card>*/}
+            {/*</Col>*/}
+            {/*<Col span={6}>*/}
+              {/*<Card*/}
+                {/*title={*/}
+                  {/*<div>*/}
+                    {/*Sepet Değeri&nbsp;*/}
+                    {/*<Tooltip title="Sepetteki ürünlerin toplam değeri.">*/}
+                      {/*<Icon type="question-circle-o" />*/}
+                    {/*</Tooltip>*/}
+                  {/*</div>}*/}
+                {/*style={{textAlign : 'center'}}*/}
+              {/*>*/}
+                {/*{this.props.dashboardSummaryReport.basketValue ? this.props.dashboardSummaryReport.basketValue.toFixed(2) : ''}*/}
+
+              {/*</Card>*/}
+            {/*</Col>*/}
+          {/*</Row>*/}
+          {/*<br />*/}
+
+          {/*<Divider />*/}
           <Row >
-            <Col span={16}>
+            <Col span={18}>
 
               <Card
                 tabList={tabListNoTitle}
@@ -270,16 +307,87 @@ class SummaryDashboard extends Component<Props> {
               </Card>
 
             </Col>
-            <Col span={8}>
 
-              <Card title="Toplam Sonuç" bordered={false}>
+            <Col span={6}>
 
-                <b>Total Satış:</b> {this.props.dashboardSummaryReport.grossProfit} <br />
-                <b>En düşük:</b> {this.props.dashboardSummaryReport.grossProfit} <br />
-                <b>En yüksek:</b> {this.props.dashboardSummaryReport.grossProfit} <br />
+              <div style={{marginLeft:'10px'}}>
+                <Card
+                  title={
+                    <div>
+                      Bürüt Kazanç&nbsp;
+                      <Tooltip title="">
+                        <Icon type="question-circle-o" />
+                      </Tooltip>
+                    </div>}
+                  style={{textAlign : 'center'}}
+                >
+                {this.props.dashboardSummaryReport.grossProfit} ₺
 
-              </Card>
-            </Col>
+                </Card>
+
+                <Card
+                  title={
+                    <div>
+                      Net Kazanç&nbsp;
+                      <Tooltip title="">
+                        <Icon type="question-circle-o" />
+                      </Tooltip>
+                    </div>}
+                  style={{textAlign : 'center'}}
+                >
+
+                  {this.props.dashboardSummaryReport.netProfit} ₺
+
+                </Card>
+
+                <Card
+                  title={
+                    <div>
+                      Sepet Değeri&nbsp;
+                      <Tooltip title="Sepetteki ürünlerin toplam değeri.">
+                        <Icon type="question-circle-o" />
+                      </Tooltip>
+                    </div>}
+                  style={{textAlign : 'center'}}
+                >
+                  {this.props.dashboardSummaryReport.basketValue ? this.props.dashboardSummaryReport.basketValue.toFixed(2) : ''} ₺
+
+                </Card>
+
+                <Card
+                title={
+                <div>
+                Sepet Boyu&nbsp;
+                <Tooltip title="Sepetteki ürün sayısı.">
+                <Icon type="question-circle-o" />
+                </Tooltip>
+                </div>}
+                style={{textAlign : 'center'}}
+                >
+                {this.props.dashboardSummaryReport.basketSize ? this.props.dashboardSummaryReport.basketSize.toFixed(2): ''}
+
+                </Card>
+
+
+              </div>
+              {/*<Card title="Toplam Sonuç" bordered={false}>*/}
+                {/*<ul>*/}
+                  {/*<li><b>Total Satış</b>*/}
+                    {/*<div>*/}
+                      {/*{this.props.dashboardSummaryReport.grossProfit}*/}
+                    {/*</div>*/}
+                  {/*</li>*/}
+                  {/*<li><b>Total Satış</b>*/}
+                    {/*<div>*/}
+                      {/*{this.props.dashboardSummaryReport.grossProfit}*/}
+                    {/*</div>*/}
+                  {/*</li>*/}
+                {/*</ul>*/}
+                {/*<b>En düşük:</b> {this.props.dashboardSummaryReport.grossProfit} <br />*/}
+                {/*<b>En yüksek:</b> {this.props.dashboardSummaryReport.grossProfit} <br />*/}
+              {/*</Card>*/}
+
+          </Col>
 
           </Row>
 

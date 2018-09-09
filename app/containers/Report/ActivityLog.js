@@ -5,6 +5,23 @@ import moment from 'moment';
 import {retrieveActivityLog} from '../../actions/ReportActions'
 import connect from "react-redux/es/connect/connect";
 
+var typeIcons = {
+  Sale: "shopping-cart",
+  Stock: "shop",
+  Payment: "credit-card",
+  Receiving: "clock-circle-o",
+  Expense: "shopping-cart"
+  // etc.
+};
+
+var typeColors = {
+  Sale: "green",
+  Stock: "blue",
+  Payment: "red",
+  Receiving: "black",
+  Expense: "red"
+  // etc.
+};
 
 class ActivityLog extends Component<Props> {
   props: Props
@@ -31,46 +48,35 @@ class ActivityLog extends Component<Props> {
       <div>
         <div className='page-header'>
 
-          <h3>Activity Logs</h3>
+          <h3>Activity Logs <Icon type="dollar" /></h3>
 
         </div>
 
 
         <div>
 
-          <Timeline>
+          <Timeline style={{marginLeft:'10px'}}>
 
             {
               this.props.activityLog.map(log =>
 
-                <Timeline.Item>{log.description}</Timeline.Item>
+                <Timeline.Item color={typeColors[log.activityType]} dot={<Icon type={typeIcons[log.activityType]} style={{ fontSize: '16px' }} />}>
+                  <div style={{fontSize:'16px'}}>
+                    {log.title}
+                  </div>
+                  <div style={{fontSize:'14px'}}>
+                    {log.description}
+                  </div>
+                  <div style={{fontSize:'12px'}}>
+                    <b>operator:</b> {log.user}, <b>tarih:</b> {moment.unix(log.date).format('DD/MM/YYYY')}
+                  </div>
+
+
+                  </Timeline.Item>
 
               )
             }
 
-
-            {/*<Timeline.Item>Create a services site 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item dot={<Icon type="clock-circle-o" style={{ fontSize: '16px' }} />} color="red">Technical testing 2015-09-01*/}
-              {/*<Divider/>*/}
-            {/*</Timeline.Item>*/}
-            {/*<Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item dot={<Icon type="user" style={{ fontSize: '16px' }} />}>Create a services site 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item color="green">Solve initial network problems 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item dot={<Icon type="exclamation-circle-o" style={{ fontSize: '16px' }} />}>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, doloremque laudantium, totam rem aperiam</Timeline.Item>*/}
-            {/*<Timeline.Item color="red">Network problems being solved 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item>Create a services site 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item dot={<Icon type="check" style={{ fontSize: '16px' }} />}>Technical testing 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item>Create a services site 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item>Solve initial network problems 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item dot={<Icon type="clock-circle-o" style={{ fontSize: '16px' }} />} color="red">Technical testing 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item>Network problems being solved 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item>Create a services site 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item color="green">Solve initial network problems 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item dot={<Icon type="exclamation-circle-o" style={{ fontSize: '16px' }} />}>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, doloremque laudantium, totam rem aperiam</Timeline.Item>*/}
-            {/*<Timeline.Item color="red">Network problems being solved 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item>Create a services site 2015-09-01</Timeline.Item>*/}
-            {/*<Timeline.Item dot={<Icon type="clock-circle-o" style={{ fontSize: '16px' }} />}>Technical testing 2015-09-01</Timeline.Item>*/}
           </Timeline>
 
         </div>

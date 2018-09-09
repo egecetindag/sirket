@@ -39,6 +39,12 @@ class ReportPage extends Component<Props> {
     if (e.key === '3') {
       history.push('/report/activity')
     }
+    if (e.key === '4') {
+      history.push('/report/product')
+    }
+    if (e.key === '5') {
+      history.push('/report/operator')
+    }
     // buraya diger caseler gelecek
   }
 
@@ -79,16 +85,24 @@ render() {
               onClick={this.handleMenuSelect}
             >
               <Menu.Item key="1">
-                <Icon type="user" />
+                <Icon type="dashboard" />
                 <span>Summary Dashboard</span>
               </Menu.Item>
               <Menu.Item key="2">
-                <Icon type="video-camera" />
+                <Icon type="area-chart" />
                 <span>Stock Report</span>
               </Menu.Item>
               <Menu.Item key="3">
-                <Icon type="upload" />
+                <Icon type="bars" />
                 <span>Activity Log</span>
+              </Menu.Item>
+              <Menu.Item key="4">
+                <Icon type="inbox" />
+                <span>Product Report</span>
+              </Menu.Item>
+              <Menu.Item key="5">
+                <Icon type="user" />
+                <span>Operator Report</span>
               </Menu.Item>
             </Menu>
           </Sider>
@@ -106,6 +120,12 @@ render() {
           <Route path='/report/activity' render={(props) => (
              <ActivityLog {...props} dates={this.state.dates}/>
            )}/>
+              <Route path='/report/product' render={(props) => (
+                <ActivityLog {...props} dates={this.state.dates}/>
+              )}/>
+              <Route path='/report/operator' render={(props) => (
+                <ActivityLog {...props} dates={this.state.dates}/>
+              )}/>
               </Content>
           </Layout>
         </Layout>
