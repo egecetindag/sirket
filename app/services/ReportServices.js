@@ -21,3 +21,8 @@ export const getSales = (first, last) => {
   const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }
   return axios.get(host + `/getSales?timeInterval=${first},${last}&pageNumber=1&pageSize=10&orderBy=&orderAs=`, config)
 }
+
+export const getPaymentReportService = (first, last) => {
+  const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }
+  return axios.get(host + `/getPaymentReport?timeInterval=${first},${last}`, config)
+}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Col, Form, Row, Tooltip, Icon,Divider } from "antd";
+import { Card, Col, Form, Row, Tooltip, Icon, Divider, Progress, Table, Button } from "antd";
 // import { Chart, ArgumentAxis, ValueAxis, LineSeries } from "@devexpress/dx-react-chart-material-ui";
 import ReactHighcharts from 'react-highcharts';
 import Highlight from 'react-highlight';
@@ -87,216 +87,146 @@ class SummaryDashboard extends Component<Props> {
       net: <ReactHighcharts config={configNet} />,
     };
 
-    var configForBar = {
-      title: "",
-      xAxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      },
-      plotOptions: {
-        series: {
-          allowPointSelect: true
-        }
-      },
-      series: [{
-        name : "Ödeme",
-        data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-      },{
-        name : "Masraf",
-        data: [119.9, 81.5, 156.4, 180.2, 155.0, 216.0, 85.6, 118.5, 116.4, 144.1, 195.6, 154.4]
-      }]
-    };
 
-    var configForPie = {
-      chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: 'pie'
-      },
-      title: {
-        text: ''
-      },
-      tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-      },
-      plotOptions: {
-        pie: {
-          allowPointSelect: true,
-          cursor: 'pointer',
-          dataLabels: {
-            enabled: true,
-            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-            style: {
-              color: (ReactHighcharts.theme && ReactHighcharts.theme.contrastTextColor) || 'black'
-            }
-          }
-        }
-      },
-      series: [{
-        name: 'Brands',
-        colorByPoint: true,
-        data: [{
-          name: 'Ödenmiş',
-          y: 61.41,
-          sliced: true,
-          selected: true
-        }, {
-          name: 'Gecikme',
-          y: 31.84
-        }, {
-          name: 'Bekliyor',
-          y: 7.85
-        }]
-      }]
-    }
-
-    console.log("dates: ", this.props.dates);
+    //console.log("dates: ", this.props.dates);
 
     configGross.series[0].data = this.props.dashboardSummaryReport ? this.props.dashboardSummaryReport.grossProfits: [];
     configGross.xAxis.categories = this.props.dashboardSummaryReport.timestamps ? this.props.dashboardSummaryReport.timestamps.map(i => moment.unix(i).format("DD/MM")) : [];
-    console.log("config:",configGross);
+    // console.log("config:",configGross);
 
     configNet.series[0].data = this.props.dashboardSummaryReport ? this.props.dashboardSummaryReport.netProfits: [];
     configNet.xAxis.categories = this.props.dashboardSummaryReport.timestamps ? this.props.dashboardSummaryReport.timestamps.map(i => moment.unix(i).format("DD/MM")) : [];
-    console.log("configNet:",configNet);
+    // console.log("configNet:",configNet);
+
+    var TL = '₺';
+    var netProfitPercent = (this.props.dashboardSummaryReport.netProfit *100)/this.props.dashboardSummaryReport.grossProfit;
+    var discountPercent = (this.props.dashboardSummaryReport.discount *100)/this.props.dashboardSummaryReport.grossProfit;
+    var saleCountPercent = (this.props.dashboardSummaryReport.saleCount *100)/this.props.dashboardSummaryReport.itemCount;
+    var saleCountText = this.props.dashboardSummaryReport.saleCount + '/' + this.props.dashboardSummaryReport.itemCount;
+    // TODO: update this percentage for basketPercent
+    var basketPercent = (this.props.dashboardSummaryReport.saleCount *100)/this.props.dashboardSummaryReport.itemCount;
+
+    const columns = [
+      {
+        title: 'Toplam Kazanç',
+        dataIndex: 'grossProfit',
+        key: 'grossProfit',
+      },
+      {
+        title: 'Net Kazanç',
+        dataIndex: 'netProfit',
+        key: 'netProfit',
+      },
+      {
+        title: 'Satış Sayısı',
+        dataIndex: 'saleCount',
+        key: 'saleCount',
+      },
+      {
+        title: 'Ürün Sayısı',
+        dataIndex: 'itemCount',
+        key: 'itemCount',
+      },
+      {
+        title: 'Müşteri Sayısı',
+        dataIndex: 'customerCount',
+        key: 'customerCount',
+      },
+      {
+        title: 'İndirim',
+        dataIndex: 'discount',
+        key: 'discount',
+      },
+      {
+        title: 'Sepet Değeri',
+        dataIndex: 'basketValue',
+        key: 'basketValue',
+        render: (text) => <div>{text.toFixed(2)}</div>
+      },
+      {
+      title: 'Tarih',
+      dataIndex: 'timestamp',
+      key: 'timestamp',
+      render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
+    }];
 
     return (
       <div>
         <div >
           <Row gutter={12}>
-            <Col span={6} >
-              <Card
-                title={
-                  <div >
-                    Satış Sayısı&nbsp;
-                    <Tooltip title="Verilen zaman diliminde yapılan toplam satış sayısı.">
-                      <Icon type="question-circle-o" />
-                    </Tooltip>
-                  </div>}
-                style={{textAlign : 'center'}}
-              >
-                {this.props.dashboardSummaryReport.saleCount}
 
-              </Card>
-            </Col>
-            <Col span={6}>
-              <Card
-                title={
-                  <div>
-                    Ürün Sayısı&nbsp;
-                    <Tooltip title="Satışlardaki toplam ürün sayısı.">
-                      <Icon type="question-circle-o" />
-                    </Tooltip>
-                  </div>}
-                style={{textAlign : 'center'}}
-              >
-                {this.props.dashboardSummaryReport.itemCount}
+            <Col span={4} >
 
+              <Card style={{textAlign : 'center'}}>
+                <div>
+                Toplam Kazanç
+                </div>
+                <Divider/>
+                <Progress type="circle" percent={100} format={() => this.props.dashboardSummaryReport.grossProfit + TL}  />
               </Card>
-            </Col>
-            <Col span={6}>
-              <Card
-                title={
-                  <div>
-                    Müşteri Sayısı&nbsp;
-                    <Tooltip title="Toplam satış yapılan müşteri sayısı.">
-                      <Icon type="question-circle-o" />
-                    </Tooltip>
-                  </div>}
-                style={{textAlign : 'center'}}
-              >
-                {this.props.dashboardSummaryReport.customerCount}
 
-              </Card>
             </Col>
-            <Col span={6}>
-              <Card
-                title={
-                  <div>
-                    İndirim Miktarı&nbsp;
-                    <Tooltip title="Yapılan toplam indirim miktarı.">
-                      <Icon type="question-circle-o" />
-                    </Tooltip>
-                  </div>}
-                style={{textAlign : 'center'}}
-              >
-                {this.props.dashboardSummaryReport.discount} ₺
 
+            <Col span={4}>
+
+              <Card style={{textAlign : 'center'}}>
+                Net Kazanç
+                <Divider/>
+                <Progress type="circle" percent={netProfitPercent} format={() => this.props.dashboardSummaryReport.netProfit + TL} />
               </Card>
+
             </Col>
+
+            <Col span={4}>
+
+              <Card style={{textAlign : 'center'}}>
+                İndirim
+                <Divider/>
+                <Progress type="circle" percent={discountPercent} format={() => this.props.dashboardSummaryReport.discount + TL} />
+              </Card>
+
+            </Col>
+
+            <Col span={4}>
+
+              <Card style={{textAlign : 'center'}}>
+                Sepet Değeri
+                <Divider/>
+                <Progress type="circle" percent={basketPercent} format={() => this.props.dashboardSummaryReport.basketSize ? this.props.dashboardSummaryReport.basketSize.toFixed(2) + TL: '' } />
+              </Card>
+
+            </Col>
+
+            <Col span={4}>
+
+              <Card style={{textAlign : 'center'}}>
+                Satış/Ürün Sayısı
+                <Divider/>
+                <Progress status="exception" type="circle" percent={saleCountPercent} format={() => saleCountText } />
+              </Card>
+
+            </Col>
+
+            <Col span={4}>
+
+              <Card style={{textAlign : 'center'}}>
+                Müşteri Sayısı
+                <Divider/>
+                <Progress type="circle" percent={0} format={() => this.props.dashboardSummaryReport.customerCount } />
+              </Card>
+
+            </Col>
+
+
+
           </Row>
         </div>
         {/*<br />*/}
 
         <div style={{marginTop:'20px'}}>
-        {/*<div>*/}
-          {/*<Row gutter={12}>*/}
-            {/*<Col span={6}>*/}
-              {/*<Card*/}
-                {/*title={*/}
-                  {/*<div>*/}
-                    {/*Sepet Boyu&nbsp;*/}
-                    {/*<Tooltip title="Sepetteki ürün sayısı.">*/}
-                      {/*<Icon type="question-circle-o" />*/}
-                    {/*</Tooltip>*/}
-                  {/*</div>}*/}
-                {/*style={{textAlign : 'center'}}*/}
-              {/*>*/}
-                {/*{this.props.dashboardSummaryReport.basketSize ? this.props.dashboardSummaryReport.basketSize.toFixed(2): ''}*/}
 
-              {/*</Card>*/}
-            {/*</Col>*/}
-            {/*<Col span={6}>*/}
-              {/*<Card*/}
-                {/*title={*/}
-                  {/*<div>*/}
-                    {/*Sepet Değeri&nbsp;*/}
-                    {/*<Tooltip title="Sepetteki ürünlerin toplam değeri.">*/}
-                      {/*<Icon type="question-circle-o" />*/}
-                    {/*</Tooltip>*/}
-                  {/*</div>}*/}
-                {/*style={{textAlign : 'center'}}*/}
-              {/*>*/}
-                {/*{this.props.dashboardSummaryReport.basketValue ? this.props.dashboardSummaryReport.basketValue.toFixed(2) : ''}*/}
-
-              {/*</Card>*/}
-            {/*</Col>*/}
-            {/*<Col span={6}>*/}
-              {/*<Card*/}
-                {/*title={*/}
-                  {/*<div>*/}
-                    {/*Sepet Boyu&nbsp;*/}
-                    {/*<Tooltip title="Sepetteki ürün sayısı.">*/}
-                      {/*<Icon type="question-circle-o" />*/}
-                    {/*</Tooltip>*/}
-                  {/*</div>}*/}
-                {/*style={{textAlign : 'center'}}*/}
-              {/*>*/}
-                {/*{this.props.dashboardSummaryReport.basketSize ? this.props.dashboardSummaryReport.basketSize.toFixed(2): ''}*/}
-
-              {/*</Card>*/}
-            {/*</Col>*/}
-            {/*<Col span={6}>*/}
-              {/*<Card*/}
-                {/*title={*/}
-                  {/*<div>*/}
-                    {/*Sepet Değeri&nbsp;*/}
-                    {/*<Tooltip title="Sepetteki ürünlerin toplam değeri.">*/}
-                      {/*<Icon type="question-circle-o" />*/}
-                    {/*</Tooltip>*/}
-                  {/*</div>}*/}
-                {/*style={{textAlign : 'center'}}*/}
-              {/*>*/}
-                {/*{this.props.dashboardSummaryReport.basketValue ? this.props.dashboardSummaryReport.basketValue.toFixed(2) : ''}*/}
-
-              {/*</Card>*/}
-            {/*</Col>*/}
-          {/*</Row>*/}
-          {/*<br />*/}
-
-          {/*<Divider />*/}
           <Row >
-            <Col span={18}>
+            <Col span={24}>
 
               <Card
                 tabList={tabListNoTitle}
@@ -308,116 +238,32 @@ class SummaryDashboard extends Component<Props> {
 
             </Col>
 
-            <Col span={6}>
-
-              <div style={{marginLeft:'10px'}}>
-                <Card
-                  title={
-                    <div>
-                      Bürüt Kazanç&nbsp;
-                      <Tooltip title="">
-                        <Icon type="question-circle-o" />
-                      </Tooltip>
-                    </div>}
-                  style={{textAlign : 'center'}}
-                >
-                {this.props.dashboardSummaryReport.grossProfit} ₺
-
-                </Card>
-
-                <Card
-                  title={
-                    <div>
-                      Net Kazanç&nbsp;
-                      <Tooltip title="">
-                        <Icon type="question-circle-o" />
-                      </Tooltip>
-                    </div>}
-                  style={{textAlign : 'center'}}
-                >
-
-                  {this.props.dashboardSummaryReport.netProfit} ₺
-
-                </Card>
-
-                <Card
-                  title={
-                    <div>
-                      Sepet Değeri&nbsp;
-                      <Tooltip title="Sepetteki ürünlerin toplam değeri.">
-                        <Icon type="question-circle-o" />
-                      </Tooltip>
-                    </div>}
-                  style={{textAlign : 'center'}}
-                >
-                  {this.props.dashboardSummaryReport.basketValue ? this.props.dashboardSummaryReport.basketValue.toFixed(2) : ''} ₺
-
-                </Card>
-
-                <Card
-                title={
-                <div>
-                Sepet Boyu&nbsp;
-                <Tooltip title="Sepetteki ürün sayısı.">
-                <Icon type="question-circle-o" />
-                </Tooltip>
-                </div>}
-                style={{textAlign : 'center'}}
-                >
-                {this.props.dashboardSummaryReport.basketSize ? this.props.dashboardSummaryReport.basketSize.toFixed(2): ''}
-
-                </Card>
+            {/*<Col span={6}>*/}
 
 
-              </div>
-              {/*<Card title="Toplam Sonuç" bordered={false}>*/}
-                {/*<ul>*/}
-                  {/*<li><b>Total Satış</b>*/}
-                    {/*<div>*/}
-                      {/*{this.props.dashboardSummaryReport.grossProfit}*/}
-                    {/*</div>*/}
-                  {/*</li>*/}
-                  {/*<li><b>Total Satış</b>*/}
-                    {/*<div>*/}
-                      {/*{this.props.dashboardSummaryReport.grossProfit}*/}
-                    {/*</div>*/}
-                  {/*</li>*/}
-                {/*</ul>*/}
-                {/*<b>En düşük:</b> {this.props.dashboardSummaryReport.grossProfit} <br />*/}
-                {/*<b>En yüksek:</b> {this.props.dashboardSummaryReport.grossProfit} <br />*/}
-              {/*</Card>*/}
 
-          </Col>
+            {/*</Col>*/}
+
 
           </Row>
-
-          <Divider />
-
-
+        </div>
+        <div style={{marginTop:'25px'}}>
           <Row>
-
-            <Col span={14}>
-
-              <Card title="Ödemeler & Masraf" bordered={false}>
-
-                <ReactHighcharts config={configForBar} />
-
-              </Card>
-
-            </Col>
-
-            <Col span={10}>
-
-              <Card title="" bordered={false}>
-
-                <ReactHighcharts config={configForPie} />
-
-              </Card>
-
-            </Col>
-
+            <Table dataSource={this.props.dashboardSummaryReport.asObject ? this.props.dashboardSummaryReport.asObject.items : []  }
+                   columns={columns}
+                   rowKey={(record) => {
+                     return record.timestamp;
+                   }}
+                   onRow={(record) => {
+                     return {
+                       onClick: () => this.setState({selected: record})
+                     }
+                   }}
+                   pagination={{ pageSize: 6 }}
+                   title={() => <div style={{fontWeight:'bold', fontSize:'16px', textAlign:'center'}}>Satış Özet Listesi</div>}
+                   footer={() => <div ><Button type="primary" icon="download" >Excel indir</Button></div>}
+            />
           </Row>
-
 
         </div>
       </div>

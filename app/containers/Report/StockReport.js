@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from "moment";
-import { Button, Form, Icon, Popconfirm, Input, Table, Row, Col, Divider, Select } from "antd";
+import { Button, Form, Icon, Popconfirm, Input, Table, Row, Col, Divider, Select,Progress } from "antd";
 const Search = Input.Search;
 import {retrieveStockReport} from '../../actions/ReportActions'
 import {retrieveStocksCategories} from '../../actions/StockActions'
@@ -172,7 +172,9 @@ class StockReport extends Component<Props> {
             </Select>
             &nbsp;
             <Button type="primary" icon="download" >Excel indir</Button>
+
           </div>
+
 
 
         </div>

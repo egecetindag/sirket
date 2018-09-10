@@ -48,7 +48,11 @@ class ActivityLog extends Component<Props> {
       <div>
         <div className='page-header'>
 
-          <h3>Activity Logs <Icon type="dollar" /></h3>
+          <h3>Activity Logs </h3>
+
+          <div>
+            <Input placeholder="Kişi Seçin"/>
+          </div>
 
         </div>
 

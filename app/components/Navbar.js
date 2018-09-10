@@ -71,7 +71,7 @@ class Navbar extends Component<Props> {
                 history.push('/receiving');
                 break;
           case '10':
-            history.push('/report/summaryDashboard');
+            history.push('/report/saleReport');
             break;
 
         }

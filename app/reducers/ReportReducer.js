@@ -4,7 +4,8 @@ const initialState = {
     dashboardSummaryReport: [],
     stockReport:[],
     stockReportTotal:{},
-    activityLog:[]
+    activityLog:[],
+    paymentReport:[],
 };
 
 export default (state = initialState, action) => {
@@ -26,7 +27,12 @@ export default (state = initialState, action) => {
             return{
               ...state,
               activityLog: action.payload.data.items
-            }
+            };
+      case t.RETRIEVE_PAYMENT_REPORT_SUCCESS:
+            return{
+              ...state,
+              paymentReport: action.payload.data
+            };
     default:
     return{
         ...state

@@ -9,6 +9,7 @@ import { history } from '../../store/configureStore'
 import { SummaryDashboard } from './SummaryDashboard'
 import { StockReport } from './StockReport'
 import { ActivityLog } from './ActivityLog'
+import { PaymentReport} from "./PaymentReport";
 const { Header, Sider, Content } = Layout;
 import { Route } from 'react-router';
 import { DatePicker } from 'antd';
@@ -31,18 +32,21 @@ class ReportPage extends Component<Props> {
   }
   handleMenuSelect = (e) => {
     if (e.key === '1') {
-      history.push('/report/summaryDashboard')
+      history.push('/report/saleReport')
     }
     if (e.key === '2') {
       history.push('/report/stockReport')
     }
     if (e.key === '3') {
-      history.push('/report/activity')
+      history.push('/report/paymentReport')
     }
     if (e.key === '4') {
-      history.push('/report/product')
+      history.push('/report/activity')
     }
     if (e.key === '5') {
+      history.push('/report/product')
+    }
+    if (e.key === '6') {
       history.push('/report/operator')
     }
     // buraya diger caseler gelecek
@@ -86,23 +90,27 @@ render() {
             >
               <Menu.Item key="1">
                 <Icon type="dashboard" />
-                <span>Summary Dashboard</span>
+                <span>Satış Raporu</span>
               </Menu.Item>
               <Menu.Item key="2">
                 <Icon type="area-chart" />
-                <span>Stock Report</span>
+                <span>Stock Raporu</span>
               </Menu.Item>
               <Menu.Item key="3">
+                <Icon type="credit-card" />
+                <span>Ödeme Raporu</span>
+              </Menu.Item>
+              <Menu.Item key="4">
                 <Icon type="bars" />
                 <span>Activity Log</span>
               </Menu.Item>
-              <Menu.Item key="4">
-                <Icon type="inbox" />
-                <span>Product Report</span>
-              </Menu.Item>
               <Menu.Item key="5">
+                <Icon type="inbox" />
+                <span>Ürün Raporu</span>
+              </Menu.Item>
+              <Menu.Item key="6">
                 <Icon type="user" />
-                <span>Operator Report</span>
+                <span>Operatör Raporu</span>
               </Menu.Item>
             </Menu>
           </Sider>
@@ -111,12 +119,15 @@ render() {
 
             <Content style={{ background: 'white', padding: '18px',overflow: 'auto', height:'70vh' }}>
               
-          <Route path='/report/summaryDashboard' render={(props) => (
+          <Route path='/report/saleReport' render={(props) => (
             <SummaryDashboard {...props} dates={this.state.dates} />
           )}/>
           <Route path='/report/stockReport' render={(props) => (
             <StockReport {...props} />
           )}/>
+          <Route path='/report/paymentReport' render={(props) => (
+                <PaymentReport {...props} dates={this.state.dates}/>
+              )}/>
           <Route path='/report/activity' render={(props) => (
              <ActivityLog {...props} dates={this.state.dates}/>
            )}/>
