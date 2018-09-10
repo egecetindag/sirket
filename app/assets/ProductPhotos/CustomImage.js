@@ -15,7 +15,8 @@ export const CustomImage = ({height, width, name}) =>{
     const style = {
         imgStyle: {
             borderRadius: '7px',
-            height: '150px',
+            height: '115px',
+            marginBottom:  '15px'
         }
     }
     // console.log('aabldm', exists(path))
