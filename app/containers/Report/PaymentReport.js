@@ -16,7 +16,6 @@ class PaymentReport extends Component<Props> {
 
   componentDidMount(){
     this.props.retrievePaymentReport(this.props.dates[0].unix(),this.props.dates[1].unix());
-    console.log("teoman2",this.props.paymentReport);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,17 +57,79 @@ class PaymentReport extends Component<Props> {
       }]
     };
 
-    console.log("teoman",this.props.paymentReport);
+    var TL = '₺';
 
     configForBar.series[0].data = this.props.paymentReport ? this.props.paymentReport.payments: [] ;
     configForBar.series[1].data = this.props.paymentReport ? this.props.paymentReport.expenses: [] ;
     configForBar.series[2].data = this.props.paymentReport ? this.props.paymentReport.receivings: [] ;
-    configForBar.xAxis.categories = this.props.paymentReport.paymentsTime ? this.props.paymentReport.paymentsTime.map(i => moment.unix(i).format("DD/MM")) : [];
+    configForBar.xAxis.categories = this.props.paymentReport.timestamps ? this.props.paymentReport.timestamps : [];
+
+    var totalResult =this.props.paymentReport.totalReceivings - this.props.paymentReport.totalPayments - this.props.paymentReport.totalExpenses;
+
+    var totalResultToDivide = this.props.paymentReport.totalReceivings + this.props.paymentReport.totalPayments + this.props.paymentReport.totalExpenses;
+
+
+    var receivingPercent = (this.props.paymentReport.totalReceivings*100) / totalResultToDivide;
+    var expensePercent = (this.props.paymentReport.totalExpenses*100) / totalResultToDivide;
+    var paymentPercent = (this.props.paymentReport.totalPayments*100) / totalResultToDivide;
+
+    console.log("percents: ",receivingPercent,expensePercent,paymentPercent);
+
 
     return (
       <div>
-        {/*{console.log("config",configForBar)}*/}
-        <ReactHighcharts config={configForBar} />
+        <div>
+          <Row gutter={12}>
+
+            <Col span={6} >
+
+              <Card style={{textAlign : 'center'}}>
+                <div>
+                  Toplam
+                </div>
+                <Divider/>
+                <Progress type="circle" percent={100} format={() => totalResult + TL}  />
+              </Card>
+
+            </Col>
+
+            <Col span={6}>
+
+              <Card style={{textAlign : 'center'}}>
+                Tahsilat
+                <Divider/>
+                <Progress type="circle" percent={receivingPercent} format={() => this.props.paymentReport.totalReceivings + TL} />
+              </Card>
+
+            </Col>
+
+            <Col span={6}>
+
+              <Card style={{textAlign : 'center'}}>
+                Ödeme
+                <Divider/>
+                <Progress type="circle" percent={paymentPercent} format={() => this.props.paymentReport.totalPayments + TL} />
+              </Card>
+
+            </Col>
+
+            <Col span={6}>
+
+              <Card style={{textAlign : 'center'}}>
+                Harcama
+                <Divider/>
+                <Progress type="circle" percent={expensePercent} format={() => this.props.paymentReport.totalExpenses + TL} />
+              </Card>
+
+            </Col>
+
+
+          </Row>
+        </div>
+
+        <div style={{marginTop:'20px'}}>
+          <ReactHighcharts config={configForBar} />
+        </div>
       </div>
 
     );
