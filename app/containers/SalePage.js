@@ -25,7 +25,57 @@ class SalePage extends Component<Props> {
             visible: false,
             stocks: [],
             categories: [],
-            category: undefined
+            category: undefined,
+            selectedButton: 1,
+            startedWriting: true,
+            selectedRow: undefined
+        }
+    }
+    numberSelected = (number) => {
+        switch (number) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 0:
+                if (this.state.selectedRow !== undefined) {
+                    const key = this.state.products[this.state.selectedRow].id;
+                    if (this.state.startedWriting) {
+                        this.setState({
+                            quantities: { ...this.state.quantities, [key]: number },
+                            startedWriting: false
+                        })
+                    }
+                    else {
+                        this.setState({
+                            quantities: { ...this.state.quantities, [key]: this.state.quantities[key] * 10 + number },
+                            startedWriting: false
+                        })
+                    }
+                }
+                break;
+            case '+':
+                if (this.state.selectedRow !== undefined) {
+                    const key = this.state.products[this.state.selectedRow].id;
+                    this.setState({
+                        quantities: { ...this.state.quantities, [key]: this.state.quantities[key] + 1 },
+                    })
+                }
+                break;
+            case '-':
+                if (this.state.selectedRow !== undefined) {
+                    const key = this.state.products[this.state.selectedRow].id;
+                    this.setState({
+                        quantities: { ...this.state.quantities, [key]: this.state.quantities[key] - 1 },
+                    })
+                }
+                break;
+
 
         }
     }
@@ -104,7 +154,6 @@ class SalePage extends Component<Props> {
             this.props.retrieveStocks({})
             history.push('/sale');
         }
-
     }
 
     handleMenuClick = (e) => {
@@ -116,34 +165,26 @@ class SalePage extends Component<Props> {
         }
     }
     selectRow = (e, key) => {
-        console.log(e, key, this.state.products[key])
-        this.setState({
-            selectedRow: key
-        })
+        if (this.state.selectedRow === key) {
+            this.setState({
+                selectedRow: undefined
+            })
+        }
+        else {
+            this.setState({
+                startedWriting: true,
+                selectedRow: key
+            })
+        }
+    }
+    delete =()=>{
+        if(this.state.startedWriting){
+            this.setState({
+                
+            })
+        }
     }
     render() {
-        // const menu = (
-        //     <Menu onClick={this.handleMenuClick}>
-        //         <Menu.Item key="0">
-        //             <Search onChange={this.handleSearchCategories} />
-        //         </Menu.Item>
-
-        //         {
-        //             this.state.categories.map((category, index) => {
-
-        //                     <Menu.Item key={index + 2}>
-        //                         {category !== 'En Cok Satanlar' &&
-        //                             <Link to={'/sale/' + category}>{category}</Link>
-        //                         }
-        //                         {category === 'En Cok Satanlar' &&
-        //                             <Link to={'/sale'}>{category}</Link>
-        //                         }
-        //                     </Menu.Item>
-        //                 )
-        //             })
-        //         }
-        //     </Menu>
-        // );
         var breadcrumbNameMap = {}
         breadcrumbNameMap['/sale'] = (
 
@@ -192,27 +233,8 @@ class SalePage extends Component<Props> {
 
         return (
             <div style={{ display: 'flex', position: 'absolute', height: '89%', width: '98%' }}>
-                {/* <List
-                    className="sale-list"
-                    itemLayout="horizontal"
-                    dataSource={this.state.products}
-                    renderItem={item => (
-                        <List.Item actions={[<Button><Icon type='close' /></Button>]}>
-                            <List.Item.Meta
-                                avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                title={<a href="https://ant.design">{item.name}</a>}
-                                description="Ant Design, D Team"
-                            />
-                            <div style={{ display: 'flex', marginRight: '30%', alignItems: 'center' }}>1</div>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>3.5tl</div>
-
-                        </List.Item>
-                    )}
-                /> */}
-
-                <div style={{ width: '30%' }}>
+                <div style={{ width: '30%', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
                     <div className='sale-total'><div style={{ fontSize: '1.4em' }}>Toplam</div><div style={{ fontSize: '1.3em' }}>{this.calculateTotal()}₺</div></div>
-
                     <Table
                         className='sale-list'
                         dataSource={this.state.products}
@@ -228,45 +250,6 @@ class SalePage extends Component<Props> {
                         }}
                     />
                     <Search onSearch={this.handleSearch} />
-                    <div className='sale-calculate'>
-                        <div style={{ display: 'flex'}}>
-                            <Button className='number'>1</Button>
-                            <Button className='number'>2</Button>
-                            <Button className='number'>3</Button>
-                            <Button className='number'>+</Button>
-                            <Button className='number'>-</Button>
-                        </div>
-                        <div style={{ display: 'flex' }}>
-                            <Button className='number'>4</Button>
-                            <Button className='number'>5</Button>
-                            <Button className='number'>6</Button>
-                            <Button className='button'>Adet</Button>
-                        </div>
-                        <div style={{ display: 'flex' }}>
-                            <Button className='number'>7</Button>
-                            <Button className='number'>8</Button>
-                            <Button className='number'>9</Button>
-                            <Button className='button'>Sil</Button>
-                        </div>
-                        <div style={{ display: 'flex' }}>
-                       
-                            <Button className='button'>0</Button>
-                        </div>
-                        {/* <Row gutter={4}>
-                            <Col className='number' span={4}>1</Col>
-                            <Col className='number' span={4} >2</Col>
-                            <Col className='number' span={4} >3</Col>
-                            <Col className='number' span={4}>+</Col>
-                            <Col className='number' span={4} >-</Col>
-                        </Row>
-                        <Row gutter ={4}>
-                            <Col className='number' span={4}>4</Col>
-                            <Col className='number' span={4}>5</Col>
-                            <Col className='number' span={4}>6</Col>
-                            <Col className='button' span={9}>aaaa</Col>
-                        </Row> */}
-
-                    </div>
                 </div>
 
                 <div style={{ border: '1px solid #d9d9d9', width: '70%', marginLeft: '1%' }}>
@@ -280,16 +263,6 @@ class SalePage extends Component<Props> {
 
                         </div>
                         <div style={{ alignItems: 'center', display: 'flex' }}>
-
-                            {/* <Dropdown
-                                onVisibleChange={this.handleVisibleChange}
-                                visible={this.state.visible}
-                                overlay={menu}
-                                trigger={['click']}
-                                placeholder='Categories'>
-                                <Search style={{background:'white'}}/>
-                            </Dropdown> */}
-
                             <Select
                                 style={{ width: '300px', marginRight: ' 5px' }}
                                 onSelect={this.handleSelect}
@@ -300,31 +273,65 @@ class SalePage extends Component<Props> {
                             >
                                 {this.state.categories.map((category, index) => <Option value={category} >{category}</Option>)}
                             </Select>
-
-
                             <Search
                                 onChange={this.handleSearchProducts}
                                 placeholder='Tum Urunlerde Ara'
                             />
                         </div>
                     </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                        {this.state.stocks.map((stock, index) => {
-                            return (
-                                <div className='sale-products' onClick={() => this.handleRightItemClick(index)}>
-                                    <CustomImage name={stock.product.id} />
-                                    <div style={{ backgroundColor: '#e2e2e2', margin: '-15px' }}>
-                                        <div className='txt'>
-                                            {stock.product.name}
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '95%' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', overflowY: 'auto' }}>
+                            {this.state.stocks.map((stock, index) => {
+                                return (
+                                    <div className='sale-products' onClick={() => this.handleRightItemClick(index)}>
+                                        <CustomImage name={stock.product.id} />
+                                        <div style={{ backgroundColor: '#e2e2e2', margin: '-15px' }}>
+                                            <div className='txt'>
+                                                {stock.product.name}
+                                            </div>
+                                            <div style={{ textAlign: 'center', fontSize: '1.2em' }}>
+                                                {stock.product.salePrice}₺
                                         </div>
-                                        <div style={{ textAlign: 'center', fontSize: '1.2em' }}>
-                                            {stock.product.salePrice}₺
+                                            <div className='filter'><Icons iconName='shopping' height='0px' /></div>
+                                        </div>
                                     </div>
-                                        <div className='filter'><Icons iconName='shopping' height='0px' /></div>
-                                    </div>
+                                )
+                            })}
+                        </div>
+                        <div className='sale-calculate'>
+                            <div style={{ alignItems: 'center', width: '40%', textAlign: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column' }}>
+                                <Button className='calculate-sale bitir'>Satisi Bitir</Button>
+                                <Button className='calculate-sale veresiye'>Veresiye</Button>
+                                <Button className='calculate-sale fiyat'>Fiyat gor</Button>
+                                <Button className='calculate-sale bosalt'>Sepeti Bosalt</Button>
+                            </div>
+                            <div style={{ width: '60%' }}>
+                                <div style={{ display: 'flex' }}>
+                                    <Button onClick={() => this.numberSelected(1)} className='number'>1</Button>
+                                    <Button onClick={() => this.numberSelected(2)} className='number'>2</Button>
+                                    <Button onClick={() => this.numberSelected(3)} className='number'>3</Button>
+                                    <Button onClick={() => this.numberSelected('+')} className='number'>+</Button>
+                                    <Button onClick={() => this.numberSelected('-')} className='number'>-</Button>
                                 </div>
-                            )
-                        })}
+                                <div style={{ display: 'flex' }}>
+                                    <Button onClick={() => this.numberSelected(4)} className='number'>4</Button>
+                                    <Button onClick={() => this.numberSelected(5)}className='number'>5</Button>
+                                    <Button onClick={() => this.numberSelected(6)} className='number'>6</Button>
+                                    <Button onClick={() => { this.setState({ selectedButton: 1 }) }} className={this.state.selectedButton === 1 ? 'calc-button selected' : 'calc-button not-selected'} >Adet</Button>
+                                </div>
+                                <div style={{ display: 'flex' }}>
+                                    <Button onClick={() => this.numberSelected(7)} className='number'>7</Button>
+                                    <Button onClick={() => this.numberSelected(8)} className='number'>8</Button>
+                                    <Button onClick={() => this.numberSelected(9)} className='number'>9</Button>
+                                    <Button onClick={this.delete} className={this.state.selectedButton === 2 ? 'calc-button selected' : 'calc-button not-selected'}>Sil</Button>
+                                </div>
+                                <div style={{ display: 'flex' }}>
+                                    <Button onClick={() => this.numberSelected(0)} className='calc-button'>0</Button>
+                                    <Button className='number'>%</Button>
+                                    <Button onClick={() => { this.setState({ selectedButton: 3 }) }} className={this.state.selectedButton === 3 ? 'calc-button selected' : 'calc-button not-selected'}>Discount</Button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
