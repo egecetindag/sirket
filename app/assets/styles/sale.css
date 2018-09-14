@@ -1,5 +1,5 @@
 .sale-list{
-    height: 65.2%;
+    height: 100%;
     border: 2px solid #d9d9d9;
     overflow-y: auto;
     margin-bottom: 10px
@@ -19,10 +19,10 @@
     justify-content: space-between;
 }
 .sale-calculate{
-    border: 1px solid;
-    height: 18.3%;
     margin-top: 10px;
-    border: 1px solid #d9d9d9;
+    display: flex;
+    
+    border-top: 1px solid #d9d9d9;
 }
 
 .sale-header{
@@ -32,6 +32,7 @@
     align-items: center
 }
 .sale-products{
+    height: 180px;
     padding: 10px;
     margin: 10px;
     padding: 15px;
@@ -65,6 +66,30 @@
     background-color:rgba(0,0,0,0.6);
     cursor: pointer;
 }
+.selected{
+    background-color: grey!important;
+}
+.calculate-sale{
+    margin: 5px;
+    width: 90%;
+    border-radius: 0px!important;
+    font-weight: bold!important;
+    font-size: 1.4em!important;
+    height: 48px!important;
+}
+.bitir{
+    background-color: #d1f7c1!important;
+}
+.veresiye{
+    background-color: #fbe4b9!important;
+}
+.bosalt{
+    background-color: #ffb0b0!important;
+}
+.fiyat{
+    background-color: #cfeaed!important;
+}
+
 .sale-products:hover >div> .filter> div> .icon{
     background: white;
     width: 25px!important;
@@ -84,19 +109,24 @@
     text-align: center;
     width: 18.8%!important;
     min-width: 50px!important;
-    margin: 1%!important;
+    margin-top: 1%!important;
+    margin-left: 1%!important;
+    margin-bottom: 1%!important;
     margin-right: 0px!important;
     cursor: pointer;
 }
-.button{
-    background: #d9d9d9!important;
+.not-selected{
+    background: #d9d9d9!important;    
+}
+.calc-button{
     font-size: 1.4em!important;
     font-weight: bold!important;
     padding: 10px!important;
     text-align: center!important;
-    width: 39%!important;
+    width: 38.7%!important;
     min-width: 50px!important;
     margin: 1%!important;
+    margin-right: 0px!important;
     height: 100%!important;
     border-radius: 0px!important
 }
