@@ -70,16 +70,43 @@
     background-color: grey!important;
 }
 .calculate-sale{
-    margin: 5px;
+    margin: 10px 10px;
     width: 90%;
     border-radius: 0px!important;
     font-weight: bold!important;
     font-size: 1.4em!important;
-    height: 48px!important;
+    height: 100px!important;
+    border: none!important;
+    box-shadow: 2px 2px 3px #888585;
 }
+.bitir:active{
+    background-color: #84ad73!important;
+    
+}
+.veresiye:active{
+    background-color: #ceae73!important;
+}
+.bosalt:active{
+    background-color: #e67f7f!important;
+}
+.fiyat:active{
+    background-color: #94b3b7!important;
+}
+.calculate-sale:hover{
+    color: black!important;
+    box-shadow: 2px 2px 3px #5d5d5d;
+}
+.calculate-sale:active{
+    color: black!important;
+}
+.calculate-sale:focus{
+    color: black!important;
+}
+
 .bitir{
     background-color: #d1f7c1!important;
 }
+
 .veresiye{
     background-color: #fbe4b9!important;
 }
@@ -113,8 +140,30 @@
     margin-left: 1%!important;
     margin-bottom: 1%!important;
     margin-right: 0px!important;
+    border: none!important;
     cursor: pointer;
 }
+.number:hover{
+    color: black!important;
+}
+.number:active{
+    background-color:  grey!important;    
+    color: black!important
+}
+.number:focus{
+    color: black!important
+}
+.calc-button:hover{
+    color: black!important
+}
+.calc-button:active{
+    background-color:  grey!important;    
+    color: black!important
+}
+.calc-button:focus{
+ color: black!important
+}
+
 .not-selected{
     background: #d9d9d9!important;    
 }
@@ -128,5 +177,6 @@
     margin: 1%!important;
     margin-right: 0px!important;
     height: 100%!important;
-    border-radius: 0px!important
+    border-radius: 0px!important;
+    border: none!important;
 }

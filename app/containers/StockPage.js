@@ -198,7 +198,6 @@ class StockPage extends Component<Props> {
     ];
     const { getFieldDecorator } = this.props.form;
     const { selected, type, product } = this.state;
-    console.log(selected, type)
     return (
       <div>
         <div className='page-header' >

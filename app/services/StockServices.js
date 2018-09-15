@@ -7,7 +7,7 @@ export const retrieveStocksService = (obj) => {
 }
 export const retrieveStockByBarcodeService = (barcode) => {
   const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }
-  return axios.get(host + `/getStocks?barcode=${barcode}&name=&description=&category=&pageNumber=1&pageSize=10&orderBy=&orderAs=`, config)
+  return axios.get(host + `/getStocks?barcode=${barcode}&name=&description=&category=&pageNumber=1&pageSize=&orderBy=&orderAs=`, config)
 }
 export const createStockService = (dataToSend) => {
   const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }

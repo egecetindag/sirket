@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 type Props = {};
-import { List, Icon, Avatar, Button, Input, Table, Row, Col, Breadcrumb, Dropdown, Menu, Select } from 'antd'
+import { List, Icon, Avatar, Button, Input, Table, Row, Col, Breadcrumb, Dropdown, Menu, Select, Modal, message } from 'antd'
 import { Link } from 'react-router-dom';
 import { connect, Switch, Route } from 'react-redux';
 import { ProductPage } from './ProductPage'
 import { history } from '../store/configureStore'
 import '../assets/styles/sale.css';
-import { Icons } from '../assets/Icons'
+import { Icons } from '../assets/Icons';
+import {finishSale} from '../actions/SaleActions';
 import { retrieveStockByBarcode, retrieveStocks, retrieveStocksCategories } from '../actions/StockActions'
 import ProductReducer from '../reducers/ProductReducer';
 import { CustomImage } from '../assets/ProductPhotos/CustomImage';
 const Search = Input.Search;
 const Option = Select.Option
-
+const confirm = Modal.confirm;
 const data = [{ name: 'slm' }, { name: 'ben' }, { name: 'ege' }]
 
 class SalePage extends Component<Props> {
@@ -28,7 +29,7 @@ class SalePage extends Component<Props> {
             category: undefined,
             selectedButton: 1,
             startedWriting: true,
-            selectedRow: undefined
+            selectedRow: undefined,
         }
     }
     numberSelected = (number) => {
@@ -79,6 +80,88 @@ class SalePage extends Component<Props> {
 
         }
     }
+    showDeleteConfirm = () => {
+        let e = this;
+        confirm({
+            title: 'Urunu alisveris sepetinden kaldirmak istediginizden emin misiniz?',
+            okText: 'Evet',
+            okType: 'danger',
+            cancelText: 'Hayir',
+            onOk() {
+                e.setState({
+                    selectedRow: e.state.products.length - 2,
+                    quantities: Object.assign({}, delete e.state.quantities[e.state.products[e.state.selectedRow].id], e.state.quantities),
+                    products: e.state.products.filter((product, key) => key !== e.state.selectedRow)
+                })
+            },
+            onCancel() {
+            },
+        });
+    }
+    emptyBasketConfirm = () => {
+        if(this.state.products.length > 0){
+        let e = this;
+        confirm({
+            title: 'Sepeti bosaltmak istediginizden emin misiniz?',
+            okText: 'Evet',
+            okType: 'danger',
+            cancelText: 'Hayir',
+            onOk() {
+                e.setState({
+                    products: [],
+                    quantities: {},
+                    startedWriting: true,
+                    selectedRow: undefined,
+                })
+            },
+            onCancel() {
+            },
+        });
+    }
+    else{
+        message.warn('Sepetiniz bos');
+    }
+    }
+    finishSale = () => {
+        if(this.state.products.length > 0){
+        let e = this;
+        confirm({
+            title: 'Satisi bitirmek istediginizden emin misiniz?',
+            okText: 'Evet',
+            cancelText: 'Hayir',
+            onOk() {
+                //function buraya 
+                let basket = {};
+                let basketProducts =[];
+                e.state.products.map(product =>{
+                    let a = {};
+                    a.id = product.id;
+                    a.qty = e.state.quantities[product.id];
+                    a.discount = 0;
+                    basketProducts.push(a);
+                })
+                basket.itemStr = JSON.stringify(basketProducts);
+                basket.totalPrice = e.calculateTotal();
+                basket.totalDiscount =0;
+
+                e.props.finishSale(basket);
+                e.setState({
+                    products: [],
+                    quantities: {},
+                    startedWriting: true,
+                    selectedRow: undefined,
+                })
+            },
+            onCancel() {
+            },
+        });
+    }
+    else{
+        message.warn('Sepetiniz bos');
+    }
+    }
+
+
     componentDidMount() {
         this.props.retrieveStocks({});
         this.props.retrieveStocksCategories();
@@ -112,7 +195,9 @@ class SalePage extends Component<Props> {
         }
         this.setState({
             products: arr,
-            quantities: { ...this.state.quantities, [id]: this.state.quantities[id] ? this.state.quantities[id] + 1 : 1 }
+            startedWriting: true,
+            selectedRow: this.state.quantities[id] ? this.state.selectedRow : arr.length - 1,
+            quantities: { ...this.state.quantities, [id]: this.state.quantities[id] ? this.state.quantities[id] + 1 : 1 },
         })
 
     }
@@ -120,7 +205,6 @@ class SalePage extends Component<Props> {
         if (!oldProps.stockCategoriesSuccess && this.props.stockCategoriesSuccess) {
             this.setState({
                 categories: this.props.stockCategories
-
             })
         }
         if (this.props.location.pathname !== oldProps.location.pathname) {
@@ -165,6 +249,7 @@ class SalePage extends Component<Props> {
         }
     }
     selectRow = (e, key) => {
+        console.log(key)
         if (this.state.selectedRow === key) {
             this.setState({
                 selectedRow: undefined
@@ -177,11 +262,19 @@ class SalePage extends Component<Props> {
             })
         }
     }
-    delete =()=>{
-        if(this.state.startedWriting){
-            this.setState({
-                
-            })
+    delete = () => {
+        if (this.state.selectedRow !== undefined) {
+            if (this.state.startedWriting) {
+                this.showDeleteConfirm();
+            }
+            else {
+                this.setState({
+                    quantities: { ...this.state.quantities, [this.state.products[this.state.selectedRow].id]: parseInt(this.state.quantities[this.state.products[this.state.selectedRow].id] / 10) }
+                })
+            }
+        }
+        else {
+            message.warn('Silme islemi icin urun seciniz')
         }
     }
     render() {
@@ -249,11 +342,11 @@ class SalePage extends Component<Props> {
                             };
                         }}
                     />
-                    <Search onSearch={this.handleSearch} />
+                    <Search placeholder='Urun barkodu girin' onSearch={this.handleSearch} />
                 </div>
 
                 <div style={{ border: '1px solid #d9d9d9', width: '70%', marginLeft: '1%' }}>
-                    <div style={{ display: 'flex', height: '45px', padding: '15px', backgroundColor: '#d9d9d9', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', height: '45px', padding: '15px', backgroundColor: 'grey', justifyContent: 'space-between' }}>
                         <div className='sale-header'>
                             <div className="demo">
                                 <Breadcrumb>
@@ -285,8 +378,8 @@ class SalePage extends Component<Props> {
                                 return (
                                     <div className='sale-products' onClick={() => this.handleRightItemClick(index)}>
                                         <CustomImage name={stock.product.id} />
-                                        <div style={{ backgroundColor: '#e2e2e2', margin: '-15px' }}>
-                                            <div className='txt'>
+                                        <div style={{ backgroundColor: '#e2e2e2', margin: '-15px',display:'flex',alignItems:'center', flexDirection:'column', justifyContent:'center',height:'50px'}}>
+                                            <div className='txt' style={stock.product.name.length < 10 ? {fontSize: '1.2em'}: stock.product.name.length < 15 ? {fontSize: '1em'} : stock.product.name.length < 20 ? {fontSize: '0.8em'} : {fontSize:'0.8em', display:'flex', flexWrap:'wrap', width:'160px'} }>
                                                 {stock.product.name}
                                             </div>
                                             <div style={{ textAlign: 'center', fontSize: '1.2em' }}>
@@ -300,10 +393,15 @@ class SalePage extends Component<Props> {
                         </div>
                         <div className='sale-calculate'>
                             <div style={{ alignItems: 'center', width: '40%', textAlign: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column' }}>
-                                <Button className='calculate-sale bitir'>Satisi Bitir</Button>
-                                <Button className='calculate-sale veresiye'>Veresiye</Button>
-                                <Button className='calculate-sale fiyat'>Fiyat gor</Button>
-                                <Button className='calculate-sale bosalt'>Sepeti Bosalt</Button>
+                                <div style={{ display: 'flex', width: '100%' }}>
+                                    <Button onClick={this.finishSale} className='calculate-sale bitir'>Satisi Bitir</Button>
+                                    <Button className='calculate-sale fiyat'>Fiyat gor</Button>
+
+                                </div>
+                                <div style={{ display: 'flex', width: '100%' }}>
+                                    <Button className='calculate-sale veresiye'>Veresiye</Button>
+                                    <Button onClick={this.emptyBasketConfirm} className='calculate-sale bosalt'>Sepeti Bosalt</Button>
+                                </div>
                             </div>
                             <div style={{ width: '60%' }}>
                                 <div style={{ display: 'flex' }}>
@@ -315,7 +413,7 @@ class SalePage extends Component<Props> {
                                 </div>
                                 <div style={{ display: 'flex' }}>
                                     <Button onClick={() => this.numberSelected(4)} className='number'>4</Button>
-                                    <Button onClick={() => this.numberSelected(5)}className='number'>5</Button>
+                                    <Button onClick={() => this.numberSelected(5)} className='number'>5</Button>
                                     <Button onClick={() => this.numberSelected(6)} className='number'>6</Button>
                                     <Button onClick={() => { this.setState({ selectedButton: 1 }) }} className={this.state.selectedButton === 1 ? 'calc-button selected' : 'calc-button not-selected'} >Adet</Button>
                                 </div>
@@ -326,7 +424,7 @@ class SalePage extends Component<Props> {
                                     <Button onClick={this.delete} className={this.state.selectedButton === 2 ? 'calc-button selected' : 'calc-button not-selected'}>Sil</Button>
                                 </div>
                                 <div style={{ display: 'flex' }}>
-                                    <Button onClick={() => this.numberSelected(0)} className='calc-button'>0</Button>
+                                    <Button onClick={() => this.numberSelected(0)} className='calc-button not-selected'>0</Button>
                                     <Button className='number'>%</Button>
                                     <Button onClick={() => { this.setState({ selectedButton: 3 }) }} className={this.state.selectedButton === 3 ? 'calc-button selected' : 'calc-button not-selected'}>Discount</Button>
                                 </div>
@@ -353,5 +451,5 @@ function mapStateToProps({ stockReducer }) {
     }
 }
 
-const ConnectedPage = connect(mapStateToProps, { retrieveStocks, retrieveStockByBarcode, retrieveStocksCategories })(SalePage);
+const ConnectedPage = connect(mapStateToProps, { retrieveStocks,finishSale, retrieveStockByBarcode, retrieveStocksCategories })(SalePage);
 export { ConnectedPage as SalePage }

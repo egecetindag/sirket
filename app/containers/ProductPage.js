@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
 type Props = {};
-import { Table, Button, Icon, Modal, Form, Input, InputNumber,Popconfirm } from 'antd'
+import { Table, Button, Icon, Modal, Form, Input, InputNumber, Popconfirm } from 'antd'
 const Search = Input.Search;
 const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {retrieveProducts,createProduct, updateProduct,deleteProduct} from '../actions/ProductActions'
+import { retrieveProducts, createProduct, updateProduct, deleteProduct } from '../actions/ProductActions'
 import moment from 'moment'
+import {CustomImage} from '../assets/ProductPhotos/CustomImage'
 class ProductPage extends Component<Props> {
     props: Props
     constructor(props) {
         super(props);
         this.state = {
             visible: false,
-            type:'edit',
+            type: 'edit',
             selected: {},
-            name: ''
+            name: '',
+            detailModal: true,
             // continue: false,
             // barkod: '',
             // editVisible:false,
         }
     }
-    componentDidMount(){
+    componentDidMount() {
         this.props.retrieveProducts(this.state.name);
     }
     handleOk = () => {
@@ -36,11 +38,11 @@ class ProductPage extends Component<Props> {
                     salePrice: values.salePrice
 
                 }
-                if(this.state.type === 'create'){
+                if (this.state.type === 'create') {
                     this.props.createProduct(dataToSend, this.state.name);
                 }
-                if(this.state.type === 'edit'){
-                    dataToSend.id =this.state.selected.id;
+                if (this.state.type === 'edit') {
+                    dataToSend.id = this.state.selected.id;
                     this.props.updateProduct(dataToSend, this.state.name);
                 }
                 setTimeout(() => {
@@ -53,16 +55,16 @@ class ProductPage extends Component<Props> {
         });
 
     }
-    handleSearch =(value) =>{
+    handleSearch = (value) => {
         this.props.retrieveProducts(value);
     }
-    onSearchChange = (e) =>{
+    onSearchChange = (e) => {
         this.setState({
             name: e.target.value
         })
         this.handleSearch(e.target.value);
     }
-    handleDelete = () =>{
+    handleDelete = () => {
         this.props.deleteProduct(this.state.selected.id, this.state.name)
     }
     handleCancel = () => {
@@ -75,61 +77,83 @@ class ProductPage extends Component<Props> {
         this.setState({
             visible: true,
             type,
-        
+
         })
     }
-
+    showDetails = (e) => {
+        this.setState({
+            detailModal: true,
+            selectedRow: e,
+        })
+    }
+    handleCancelDetail = () => {
+        this.setState({
+            detailModal: false
+        })
+    }
+    handleCancelOk = () => {
+        this.setState({
+            detailModal: false
+        })
+    }
     render() {
-        const columns = [{
-            title: 'Barkod',
-            dataIndex: 'barcode',
-            key: 'barcode',
-        }, {
-            title: 'Isim',
-            dataIndex: 'name',
-            key: 'name',
-        }, {
-            title: 'Description',
-            dataIndex: 'description',
-            key: 'description',
-        },
-        {
-            title: 'Kategori',
-            dataIndex: 'category',
-            key: 'category',
-        },
-        {
-            title: 'Alis Fiyati',
-            dataIndex: 'purchasePrice',
-            key: 'purchasePrice',
-        },
-        {
-            title: 'Satis Fiyati',
-            dataIndex: 'salePrice',
-            key: 'salePrice',
-        },{
-            title: 'Kaydeden',
-            dataIndex: 'userName',
-            key: 'userName',
-        },{
-            title: 'Giris Tarihi',
-            dataIndex: 'registerDate',
-            key: 'registerDate',
-            render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
-        },
-        {
-            title: 'Duzenle',
-            render:() => <Button onClick={()=>this.handleModalOpen('edit')} style={{border:'0', background:'transparent'}}><Icon type="edit" /></Button>
-        },
-        {
-            title: 'Sil',
-            render:() =><Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button></Popconfirm>
-        },
-    
-    ]
-        const { getFieldDecorator } = this.props.form;   
-        const {selected,type} = this.state ;
-        console.log(selected);
+        const columns = [
+            {
+                title: 'Detay',
+                key: 'detail',
+                render: (record) =>
+                    <Button onClick={this.showDetails} style={{ border: 'none', background: 'transparent' }}> <Icon type='search' /></Button>
+
+            },
+            {
+                title: 'Barkod',
+                dataIndex: 'barcode',
+                key: 'barcode',
+            }, {
+                title: 'Isim',
+                dataIndex: 'name',
+                key: 'name',
+            }, {
+                title: 'Description',
+                dataIndex: 'description',
+                key: 'description',
+            },
+            {
+                title: 'Kategori',
+                dataIndex: 'category',
+                key: 'category',
+            },
+            {
+                title: 'Alis Fiyati',
+                dataIndex: 'purchasePrice',
+                key: 'purchasePrice',
+            },
+            {
+                title: 'Satis Fiyati',
+                dataIndex: 'salePrice',
+                key: 'salePrice',
+            }, {
+                title: 'Kaydeden',
+                dataIndex: 'userName',
+                key: 'userName',
+            }, {
+                title: 'Giris Tarihi',
+                dataIndex: 'registerDate',
+                key: 'registerDate',
+                render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
+            },
+            {
+                title: 'Duzenle',
+                render: () => <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" /></Button>
+            },
+            {
+                title: 'Sil',
+                render: () => <Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" /></Button></Popconfirm>
+            },
+
+        ]
+        const { getFieldDecorator } = this.props.form;
+        const { selected, type } = this.state;
         return (
             <div>
                 <div className='page-header' >
@@ -139,32 +163,30 @@ class ProductPage extends Component<Props> {
                             style={{ height: '32px', marginRight: '10px' }}
                             placeholder="Ürün Ara"
                             onSearch={this.handleSearch}
-                            onChange = {this.onSearchChange}
+                            onChange={this.onSearchChange}
                         />
-                        <Button onClick={()=>this.handleModalOpen('create')} >Yeni Urun Girisi<Icon type='plus' /></Button>
-
+                        <Button onClick={() => this.handleModalOpen('create')} >Yeni Urun Girisi<Icon type='plus' /></Button>
                     </div>
                 </div>
                 <div className='page-body'>
-                    <Table 
+                    <Table
                         dataSource={this.props.products}
                         columns={columns}
                         rowKey={(record) => {
-                          return record.id+1;
+                            return record.id + 1;
                         }}
                         onRow={(record) => {
                             return {
-                                onClick: () => this.setState({selected: record})
+                                onClick: () => this.setState({ selected: record })
                             }
                         }}
                         pagination={{ pageSize: 6 }}
-                    
+
                     />
                 </div>
-                
 
                 <Modal
-                    title= {this.state.type === 'edit' ? 'Urun Duzenle': 'Yeni Urun'}
+                    title={this.state.type === 'edit' ? 'Urun Duzenle' : 'Yeni Urun'}
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
@@ -208,7 +230,7 @@ class ProductPage extends Component<Props> {
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('description', {
-                                    initialValue: type === 'edit' ? selected.description : '',                                    
+                                    initialValue: type === 'edit' ? selected.description : '',
                                     rules: [{
                                         required: false
                                     }],
@@ -221,7 +243,7 @@ class ProductPage extends Component<Props> {
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('category', {
-                                    initialValue: type === 'edit' ? selected.category : '',                                    
+                                    initialValue: type === 'edit' ? selected.category : '',
                                     rules: [{
                                         required: false
                                     }],
@@ -229,13 +251,13 @@ class ProductPage extends Component<Props> {
                                     <Input />
                                 )}
                             </FormItem>
-                           
+
                             <FormItem
                                 label="Alis Fiyati"
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('purchasePrice', {
-                                    initialValue: type === 'edit' ? selected.purchasePrice : '',                                    
+                                    initialValue: type === 'edit' ? selected.purchasePrice : '',
                                     rules: [{
                                         required: true, message: 'Alis fiyatini girin!'
                                     }],
@@ -248,7 +270,7 @@ class ProductPage extends Component<Props> {
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('salePrice', {
-                                    initialValue: type === 'edit' ? selected.salePrice : '',                                    
+                                    initialValue: type === 'edit' ? selected.salePrice : '',
                                     rules: [{
                                         required: true, message: 'Satis fiyatini girin!'
                                     }],
@@ -257,21 +279,38 @@ class ProductPage extends Component<Props> {
                                 )}
                             </FormItem>
                         </div>
-                        
                     </Form>
                 </Modal>
-                
+                <Modal
+                    title={'Urun Detayi'}
+                    visible={this.state.detailModal}
+                    onCancel={this.handleCancelDetail}
+                    onOk={this.handleOkDetail}
+                    width = {800}
+                    height={400}
+                >
+                    <div style={{display:'flex',alignItems:'center', justifyContent:'center'}}>
+                        <div style={{border:'1px solid #e6e6e6', width:'500px',height:'300px'}}>
+                        {/* <CustomImage height={'300px'} width={'300px'}  divWith={'exist'} name ={1}/> */}
+                        <div style={{display:'flex',height:'100%',alignItems:'center', justifyContent:'center'}}><Button style={{border:'none',height:'100%',width:'100%'}}></Button></div>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </Modal>
+
             </div>
         );
     }
 }
-function mapStateToProps({productReducer}) {
-    const {products} = productReducer;
-	return {
+function mapStateToProps({ productReducer }) {
+    const { products } = productReducer;
+    return {
         products
     }
 }
 
-const ConnectedPage = connect (mapStateToProps,{retrieveProducts,createProduct,updateProduct,deleteProduct})(ProductPage);
+const ConnectedPage = connect(mapStateToProps, { retrieveProducts, createProduct, updateProduct, deleteProduct })(ProductPage);
 const WrappedPage = Form.create()(ConnectedPage);
 export { WrappedPage as ProductPage }
