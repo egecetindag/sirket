@@ -84,10 +84,17 @@ class PaymentReport extends Component<Props> {
         title: 'Miktar',
         dataIndex: 'amount',
         key: 'amount',
+        render: (text) => <div style={{color:'red'}}>{text}</div>
+      },{
+        title: 'Tür',
+        dataIndex: 'type',
+        key: 'type',
+        render: (text) => <div style={{color:'red'}}>{text}</div>
       },{
         title: 'Tarih',
         dataIndex: 'timestamp',
         key: 'timestamp',
+        render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
       },{
         title: 'Durum',
         dataIndex: 'status',

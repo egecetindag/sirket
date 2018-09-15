@@ -32,6 +32,10 @@ class SummaryDashboard extends Component<Props> {
       this.props.retrieveSummaryDashboardReport(nextProps.dates[0].unix(),nextProps.dates[1].unix());
     }
   }
+
+  handleDownload(){
+
+  }
   
   render() {
 
@@ -150,6 +154,7 @@ class SummaryDashboard extends Component<Props> {
       render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
     }];
 
+
     return (
       <div>
         <div >
@@ -261,7 +266,7 @@ class SummaryDashboard extends Component<Props> {
                    }}
                    pagination={{ pageSize: 6 }}
                    title={() => <div style={{fontWeight:'bold', fontSize:'16px', textAlign:'center'}}>Satış Özet Listesi</div>}
-                   footer={() => <div ><Button type="primary" icon="download" >Excel indir</Button></div>}
+                   footer={() => <div ><Button onClick="handleDownload" type="primary" icon="download" >Excel indir</Button></div>}
             />
           </Row>
 
