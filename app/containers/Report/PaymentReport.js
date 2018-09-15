@@ -75,6 +75,29 @@ class PaymentReport extends Component<Props> {
 
     console.log("percents: ",receivingPercent,expensePercent,paymentPercent);
 
+    const columns = [
+      {
+        title: 'Kişi',
+        dataIndex: 'person',
+        key: 'person',
+      },{
+        title: 'Miktar',
+        dataIndex: 'amount',
+        key: 'amount',
+      },{
+        title: 'Tarih',
+        dataIndex: 'timestamp',
+        key: 'timestamp',
+      },{
+        title: 'Durum',
+        dataIndex: 'status',
+        key: 'status',
+      },{
+        title: 'Detay',
+        dataIndex: 'detail',
+        key: 'detail',
+      },
+    ]
 
     return (
       <div>
@@ -127,9 +150,31 @@ class PaymentReport extends Component<Props> {
           </Row>
         </div>
 
-        <div style={{marginTop:'20px'}}>
+        <div style={{marginTop:'25px'}}>
           <ReactHighcharts config={configForBar} />
         </div>
+
+        <div style={{marginTop:'25px'}}>
+          <Row>
+            {console.log("xx ",this.props.paymentReport)}
+            <Table dataSource={this.props.paymentReport ? this.props.paymentReport.itemsAsObject : []  }
+                   columns={columns}
+                   rowKey={(record) => {
+                     return record.timestamp;
+                   }}
+                   onRow={(record) => {
+                     return {
+                       onClick: () => this.setState({selected: record})
+                     }
+                   }}
+                   pagination={{ pageSize: 6 }}
+                   title={() => <div style={{fontWeight:'bold', fontSize:'16px', textAlign:'center'}}>Gelir/Gider Listesi</div>}
+                   footer={() => <div ><Button type="primary" icon="download" >Excel indir</Button></div>}
+            />
+          </Row>
+
+        </div>
+
       </div>
 
     );
