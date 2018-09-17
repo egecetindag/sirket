@@ -21,7 +21,7 @@
 .sale-calculate{
     margin-top: 10px;
     display: flex;
-    
+    height: 300px;
     border-top: 1px solid #d9d9d9;
 }
 
@@ -39,6 +39,7 @@
     position: relative;
     margin: 15px;
     box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.4);
+    background: white;
 }
 .sale-products >div> .txt{
     text-align: center;
@@ -67,55 +68,68 @@
     cursor: pointer;
 }
 .selected{
-    background-color: grey!important;
+    background-color: #1f2831!important;
+    color: white!important;
 }
+.selected:focus{
+    background-color: #1f2831!important;
+    color: white!important;
+}
+.selected:active{
+    background-color: #1f2831!important;
+    color: white!important;
+}
+
 .calculate-sale{
-    margin: 10px 10px;
-    width: 90%;
+    margin: 1px;
     border-radius: 0px!important;
     font-weight: bold!important;
-    font-size: 1.4em!important;
-    height: 100px!important;
+    font-size: 1.1em!important;
+    padding: 2px!important;
+    height: 10vh!important;
+    width: 100%;
     border: none!important;
-    box-shadow: 2px 2px 3px #888585;
+    /* box-shadow: 2px 2px 3px #888585; */
+    background: lightslategrey!important;
+    color:white!important;
 }
-.bitir:active{
-    background-color: #84ad73!important;
+/* .bitir:active{
+    background-color: #94b3b7!important;
     
 }
 .veresiye:active{
-    background-color: #ceae73!important;
+    background-color: #94b3b7!important;
 }
 .bosalt:active{
-    background-color: #e67f7f!important;
+    background-color: #94b3b7!important;
 }
 .fiyat:active{
     background-color: #94b3b7!important;
-}
+} */
 .calculate-sale:hover{
-    color: black!important;
-    box-shadow: 2px 2px 3px #5d5d5d;
+    color: white!important;
+  /* box-shadow: 2px 2px 3px #5d5d5d; */
 }
 .calculate-sale:active{
-    color: black!important;
+    color: white!important;
+    background: #1f2831!important;
 }
 .calculate-sale:focus{
-    color: black!important;
+    color: white!important;
 }
-
+/* 
 .bitir{
-    background-color: #d1f7c1!important;
+    background-color: lightslategrey!important;
 }
 
 .veresiye{
-    background-color: #fbe4b9!important;
+    background-color: lightslategrey!important;
 }
 .bosalt{
-    background-color: #ffb0b0!important;
-}
+    background-color: lightslategrey!important;
 .fiyat{
-    background-color: #cfeaed!important;
-}
+    background-color: lightslategrey!important;
+} */
 
 .sale-products:hover >div> .filter> div> .icon{
     background: white;
@@ -127,56 +141,70 @@
     background-color:#e6f7ff
 }
 .number{
-    background: #d9d9d9!important;
+    background: lightslategrey!important;
     font-size: 1.4em!important;
     border-radius: 0!important;
     font-weight: bold!important;
     height: 100%!important;
-    padding: 10px!important;
+    padding: 2%!important;
     text-align: center;
     width: 18.8%!important;
-    min-width: 50px!important;
-    margin-top: 1%!important;
+    /* min-width: 50px!important; */
+    margin:1px!important;
+    color: white!important;
+    /* margin-top: 1%!important;
     margin-left: 1%!important;
-    margin-bottom: 1%!important;
-    margin-right: 0px!important;
+    margin-bottom: 0%!important;
+    margin-right: 0px!important; */
+    margin: 3px;
     border: none!important;
     cursor: pointer;
 }
 .number:hover{
-    color: black!important;
+    color: white!important;
 }
 .number:active{
-    background-color:  grey!important;    
-    color: black!important
+    background-color:  #1f2831!important;    
+    color: white!important
 }
 .number:focus{
-    color: black!important
+    color: white!important
 }
 .calc-button:hover{
-    color: black!important
+    color: white!important
 }
 .calc-button:active{
-    background-color:  grey!important;    
-    color: black!important
+    background-color:  #1f2831!important;    
+    color: white!important
 }
 .calc-button:focus{
- color: black!important
+ color: white!important
 }
 
 .not-selected{
-    background: #d9d9d9!important;    
+    background: lightslategrey!important;    
 }
 .calc-button{
-    font-size: 1.4em!important;
+    font-size: 1.1em!important;
     font-weight: bold!important;
-    padding: 10px!important;
+    padding: 2%!important;
     text-align: center!important;
     width: 38.7%!important;
-    min-width: 50px!important;
-    margin: 1%!important;
+    /* min-width: 50px!important; */
+    /* margin: 1%!important;
     margin-right: 0px!important;
+    margin-bottom: 0px!important; */
     height: 100%!important;
+    
+    margin: 1px;
+    color: white!important;
+    /* height: 25%!important; */
     border-radius: 0px!important;
     border: none!important;
 }
+/*
+lightslategrey
+#ba9077 bej
+#1f2831 navbar
+#eeeeee gri
+*/

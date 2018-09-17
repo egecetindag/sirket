@@ -20,7 +20,7 @@
 }
 
   .ant-menu-horizontal >.ant-menu-item:hover > .navbar-icon > div> .icon, .ant-menu-horizontal > .ant-menu-submenu:hover > .navbar-icon > div> .icon, .ant-menu-horizontal > .ant-menu-item-active > .navbar-icon > div> .icon, .ant-menu-horizontal > .ant-menu-submenu-active > .navbar-icon > div> .icon, .ant-menu-horizontal > .ant-menu-item-open > .navbar-icon > div> .icon, .ant-menu-horizontal > .ant-menu-submenu-open, .ant-menu-horizontal > .ant-menu-item-selected > .navbar-icon > div> .icon, .ant-menu-horizontal > .ant-menu-submenu-selected > .navbar-icon > div> .icon{
-      background: #9AECDB
+      background: #bcd5d1
   }
   .navbar-button{
       position: absolute;
