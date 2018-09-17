@@ -10,6 +10,8 @@ import { SummaryDashboard } from './SummaryDashboard'
 import { StockReport } from './StockReport'
 import { ActivityLog } from './ActivityLog'
 import { PaymentReport} from "./PaymentReport";
+import { ProductReport} from "./ProductReport";
+
 const { Header, Sider, Content } = Layout;
 import { Route } from 'react-router';
 import { DatePicker } from 'antd';
@@ -46,9 +48,9 @@ class ReportPage extends Component<Props> {
     if (e.key === '5') {
       history.push('/report/product')
     }
-    if (e.key === '6') {
-      history.push('/report/operator')
-    }
+    // if (e.key === '6') {
+    //   history.push('/report/operator')
+    // }
     // buraya diger caseler gelecek
   }
 
@@ -108,10 +110,10 @@ render() {
                 <Icon type="inbox" />
                 <span>Ürün Raporu</span>
               </Menu.Item>
-              <Menu.Item key="6">
-                <Icon type="user" />
-                <span>Operatör Raporu</span>
-              </Menu.Item>
+              {/*<Menu.Item key="6">*/}
+                {/*<Icon type="user" />*/}
+                {/*<span>Operatör Raporu</span>*/}
+              {/*</Menu.Item>*/}
             </Menu>
           </Sider>
 
@@ -131,12 +133,12 @@ render() {
           <Route path='/report/activity' render={(props) => (
              <ActivityLog {...props} dates={this.state.dates}/>
            )}/>
-              <Route path='/report/product' render={(props) => (
-                <ActivityLog {...props} dates={this.state.dates}/>
-              )}/>
-              <Route path='/report/operator' render={(props) => (
-                <ActivityLog {...props} dates={this.state.dates}/>
-              )}/>
+          <Route path='/report/product' render={(props) => (
+              <ProductReport {...props} dates={this.state.dates}/>
+          )}/>
+              {/*<Route path='/report/operator' render={(props) => (*/}
+                {/*<ActivityLog {...props} dates={this.state.dates}/>*/}
+              {/*)}/>*/}
               </Content>
           </Layout>
         </Layout>

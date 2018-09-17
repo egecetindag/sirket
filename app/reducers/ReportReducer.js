@@ -6,6 +6,7 @@ const initialState = {
     stockReportTotal:{},
     activityLog:[],
     paymentReport:[],
+    productReport:[],
 };
 
 export default (state = initialState, action) => {
@@ -33,6 +34,11 @@ export default (state = initialState, action) => {
               ...state,
               paymentReport: action.payload.data
             };
+      case t.RETRIEVE_PRODUCT_REPORT_SUCCESS:
+        return{
+          ...state,
+          productReport: action.payload.data
+        };
     default:
     return{
         ...state

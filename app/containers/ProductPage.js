@@ -17,7 +17,7 @@ class ProductPage extends Component<Props> {
             type: 'edit',
             selected: {},
             name: '',
-            detailModal: true,
+            detailModal: false,
             // continue: false,
             // barkod: '',
             // editVisible:false,

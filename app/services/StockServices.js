@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export const retrieveStocksService = (obj) => {
   const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }
-  return axios.get(host + `/getStocks?barcode=${obj.barcode ? obj.barcode : ''}&name=${obj.name ? obj.name :''}&description=&category=${obj.category ? obj.category :''}&pageNumber=1&pageSize=10&orderBy=&orderAs=`, config)
+  return axios.get(host + `/getStocks?barcode=${obj.barcode ? obj.barcode : ''}&name=${obj.name ? obj.name :''}&description=&category=${obj.category ? obj.category :''}&pageNumber=&pageSize=&orderBy=&orderAs=`, config)
 }
 export const retrieveStockByBarcodeService = (barcode) => {
   const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }

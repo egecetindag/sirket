@@ -204,6 +204,7 @@
     "babel-plugin-import": "^1.8.0",
     "devtron": "^1.4.0",
     "electron-debug": "^1.5.0",
+    "electron-download-manager": "^2.2.0",
     "font-awesome": "^4.7.0",
     "highcharts": "^6.1.1",
     "history": "^4.7.2",

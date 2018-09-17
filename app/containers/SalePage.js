@@ -135,7 +135,7 @@ class SalePage extends Component<Props> {
                 let basketProducts =[];
                 e.state.products.map(product =>{
                     let a = {};
-                    a.id = product.id;
+                    a.id = product.product.id;
                     a.qty = e.state.quantities[product.id];
                     a.discount = 0;
                     basketProducts.push(a);

@@ -92,3 +92,26 @@ export const retrievePaymentReport = (first,last) => {
 
   }
 }
+
+export const retrieveProductReport = (first,last,name,category) => {
+  return async (dispatch) => {
+    try {
+      let response = await dispatch(()=>s.getProductReportService(first,last,name,category))
+      if (response.status === 200) {
+        dispatch({
+          type: t.RETRIEVE_PRODUCT_REPORT_SUCCESS,
+          payload: response.data
+        })
+      } else {
+        throw Error
+      }
+    }
+    catch (error) {
+      console.log('error', error)
+      dispatch({
+        type: t.RETRIEVE_PRODUCT_REPORT_FAILURE
+      })
+    }
+
+  }
+}

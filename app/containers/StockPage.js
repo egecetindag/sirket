@@ -87,7 +87,7 @@ class StockPage extends Component<Props> {
   //     });
   // }
   handleSearch = (value) => {
-    this.props.retrieveStocks(value);
+    this.props.retrieveStocks({name:value});
   }
   onSearchChange = (e) => {
     this.setState({
@@ -124,9 +124,9 @@ class StockPage extends Component<Props> {
     }
 
   };
-  search = () => {
-
-  }
+    // search = () => {
+    //
+    // }
   handleWithoutBarcode = () => {
     this.setState({
       continue: true

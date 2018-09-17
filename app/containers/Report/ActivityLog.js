@@ -40,6 +40,13 @@ class ActivityLog extends Component<Props> {
     this.props.retrieveActivityLog(this.state.dates[0],this.state.dates[1],0);
   }
 
+  componentWillReceiveProps(nextProps) {
+    // You don't have to do this check first, but it can help prevent an unneeded render
+    if (nextProps.dates !== this.props.dates) {
+      this.props.retrieveActivityLog(nextProps.dates[0].unix(),nextProps.dates[1].unix());
+    }
+  }
+
 
   render(){
 

@@ -151,11 +151,11 @@ class ReceivingPage extends Component<Props> {
             render: (text) => {
 
                 if (text === 'Bekliyor'){
-                  return <div><Icon type='clock-circle-o' /> {text} </div>
+                  return <div><Icon type='clock-circle-o' style={{color:'#6e6e6e'}}/> {text} </div>
                 }else if (text === 'Bitti'){
-                  return <div><Icon type='check' /> {text} </div>
+                  return <div><Icon type='check' style={{color:'#59a856'}}/> {text} </div>
                 }else if (text === 'Gecikmiş'){
-                  return <div><Icon type='exclamation-circle-o' /> {text} </div>
+                  return <div><Icon type='exclamation-circle-o' style={{color:'#f76255'}}/> {text} </div>
                 }
             }
 
@@ -205,16 +205,16 @@ class ReceivingPage extends Component<Props> {
                 <div className='page-body'>
 
                   <Tabs defaultActiveKey="1" onChange={this.handleTabClick}>
-                    <TabPane tab={<span><Icon type="info-circle" />Hepsi</span>} key="1">
+                    <TabPane tab={<span><Icon type="info-circle" style={{color:'#108ee9'}}/>Hepsi</span>} key="1">
 
                     </TabPane>
-                    <TabPane tab={<span><Icon type="clock-circle" />Bekliyor</span>} key="2">
+                    <TabPane tab={<span><Icon type="clock-circle" style={{color:'#6e6e6e'}}/>Bekliyor</span>} key="2">
 
                     </TabPane>
-                    <TabPane tab={<span><Icon type="exclamation-circle" />Gecikmiş</span>} key="3">
+                    <TabPane tab={<span><Icon type="exclamation-circle" style={{color:'#f76255'}}/>Gecikmiş</span>} key="3">
 
                     </TabPane>
-                    <TabPane tab={<span><Icon type="check-circle" />Alındı</span>} key="4">
+                    <TabPane tab={<span><Icon type="check-circle" style={{color:'#59a856'}}/>Alındı</span>} key="4">
 
                     </TabPane>
                   </Tabs>
