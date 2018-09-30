@@ -326,7 +326,7 @@ class SalePage extends Component<Props> {
 
         return (
             <div style={{ display: 'flex', position: 'absolute', height: '89%', width: '98%' }}>
-                <div style={{ width: '40%', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+                <div style={{ width: '35%', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
                     {/* <div className='sale-total'><div style={{ fontSize: '1.4em' }}>Toplam</div><div style={{ fontSize: '1.3em' }}>{this.calculateTotal()}₺</div></div> */}
                     <Table
                         className='sale-list'
@@ -384,8 +384,8 @@ class SalePage extends Component<Props> {
                         </div>
                 </div>
 
-                <div style={{ border: '1px solid #d9d9d9', width: '60%', marginLeft: '1%', background:'#eeeeee' }}>
-                    <div style={{ display: 'flex', height: '45px', padding: '15px', backgroundColor: 'lightslategrey', justifyContent: 'space-between' }}>
+                <div style={{ border: '1px solid #d9d9d9', width: '65%', marginLeft: '1%', background:'#fbf9ff' }}>
+                    <div style={{ display: 'flex', height: '45px', padding: '15px', backgroundColor: '#e2e2e2', justifyContent: 'space-between' }}>
                         <div className='sale-header'>
                             <div className="demo">
                                 <Breadcrumb>
@@ -417,13 +417,13 @@ class SalePage extends Component<Props> {
                                 return (
                                     <div className='sale-products' onClick={() => this.handleRightItemClick(index)}>
                                         <CustomImage name={stock.product.id} />
-                                        <div style={{ backgroundColor: '#ba525b', color:'white', margin: '-15px',display:'flex',alignItems:'center', flexDirection:'column', justifyContent:'center',height:'50px'}}>
+                                        <div style={{ backgroundColor: 'white', color:'#383c43', margin: '-15px',display:'flex',alignItems:'center', flexDirection:'column', justifyContent:'center',height:'50px'}}>
                                             <div className='txt' style={stock.product.name.length < 10 ? {fontSize: '1.2em'}: stock.product.name.length < 15 ? {fontSize: '1em'} : stock.product.name.length < 20 ? {fontSize: '0.8em'} : {fontSize:'0.8em', display:'flex', flexWrap:'wrap', width:'160px'} }>
                                                 {stock.product.name}
                                             </div>
-                                            <div style={{ textAlign: 'center', fontSize: '1.2em' }}>
-                                                {stock.product.salePrice}₺
-                                        </div>
+                                            {/*<div style={{ textAlign: 'center', fontSize: '1.2em' }}>*/}
+                                                {/*{stock.product.salePrice}₺*/}
+                                            {/*</div>*/}
                                             <div className='filter'><Icons iconName='shopping' height='0px' /></div>
                                         </div>
                                     </div>

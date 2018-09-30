@@ -140,14 +140,10 @@ class StockPage extends Component<Props> {
 
   }
 
-  onCheckboxChance = (value) => {
-    console.log("value " , value.target.checked);
+  onCheckboxChance = (value,productId) => {
 
-    console.log("selected ", this.state.selected);
+    this.props.setFavoriteProduct(productId,value.target.checked,this.state.name);
 
-    this.props.setFavoriteProduct(this.state.selected.product.id,value.target.checked,this.state.name);
-
-    // this.props.retrieveStocks(this.state.name);
   };
 
   render() {
@@ -155,7 +151,7 @@ class StockPage extends Component<Props> {
       title: 'Favori',
       dataIndex: 'isFavorite',
       key: 'favorite',
-      render: (text) => <div> {text} <Checkbox checked={text} onChange={this.onCheckboxChance} /></div>
+      render: (text,record) => <div> {text} <Checkbox checked={text} onChange={(value)=>this.onCheckboxChance(value,record.product.id)} /></div>
     },{
       title: 'Barkod',
       dataIndex: 'product.barcode',
