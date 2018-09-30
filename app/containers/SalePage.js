@@ -346,13 +346,33 @@ class SalePage extends Component<Props> {
                     <div className='sale-calculate'>
                             <div style={{ alignItems: 'center', width: '50%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                                 <div style={{ display: 'flex', width: '100%' }}>
-                                    <Button onClick={this.finishSale} className='calculate-sale bitir'>Satisi Bitir</Button>
-                                    <Button className='calculate-sale fiyat'>Fiyat gor</Button>
+                                    <Button onClick={this.finishSale} className='calculate-sale bitir'>
+                                      <div>
+                                        <div><Icon type="check-circle" theme="outlined" style={{fontSize:'1.5em'}} /></div>
+                                        <div style={{fontSize:'0.7em'}}>Satisi Bitir</div>
+                                      </div>
+                                    </Button>
+                                    <Button className='calculate-sale fiyat'>
+                                      <div>
+                                        <div><Icon type="tag" theme="outlined" style={{fontSize:'1.5em'}} /></div>
+                                        <div style={{fontSize:'0.7em'}}>Fiyat Gör</div>
+                                    </div>
+                                    </Button>
 
                                 </div>
                                 <div style={{ display: 'flex', width: '100%' }}>
-                                    <Button className='calculate-sale veresiye'>Veresiye</Button>
-                                    <Button onClick={this.emptyBasketConfirm} className='calculate-sale bosalt'>Sepeti Bosalt</Button>
+                                    <Button className='calculate-sale veresiye'>
+                                      <div>
+                                        <div><Icon type="form" theme="outlined" style={{fontSize:'1.5em'}} /></div>
+                                          <div style={{fontSize:'0.7em'}}>Veresiye</div>
+                                        </div>
+                                    </Button>
+                                    <Button onClick={this.emptyBasketConfirm} className='calculate-sale bosalt'>
+                                      <div>
+                                        <div><Icon type="delete" theme="outlined" style={{fontSize:'1.5em'}} /></div>
+                                        <div style={{fontSize:'0.7em'}}>Sepeti Boşalt</div>
+                                      </div>
+                                    </Button>
                                 </div>
                             </div>
                             <div style={{ width: '60%',display:'flex', flexDirection:'column', height:'20.2vh' }}>
