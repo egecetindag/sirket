@@ -13,6 +13,12 @@ export const createStockService = (dataToSend) => {
   const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }
   return axios.post(host + "/createStock", dataToSend, config)
 }
+
+export const setFavoriteProduct = (productId,isFavorite) => {
+  const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }
+  return axios.get(host + `/setFavoriteProduct?productId=${productId}&isFavorite=${isFavorite}`, config)
+}
+
 export const updateStockService = (dataToSend) => {
   const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }
   return axios.post(host + "/updateStock", dataToSend, config)

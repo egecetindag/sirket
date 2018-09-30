@@ -417,7 +417,7 @@ class SalePage extends Component<Props> {
                                 return (
                                     <div className='sale-products' onClick={() => this.handleRightItemClick(index)}>
                                         <CustomImage name={stock.product.id} />
-                                        <div style={{ backgroundColor: '#ba9077', color:'white', margin: '-15px',display:'flex',alignItems:'center', flexDirection:'column', justifyContent:'center',height:'50px'}}>
+                                        <div style={{ backgroundColor: '#ba525b', color:'white', margin: '-15px',display:'flex',alignItems:'center', flexDirection:'column', justifyContent:'center',height:'50px'}}>
                                             <div className='txt' style={stock.product.name.length < 10 ? {fontSize: '1.2em'}: stock.product.name.length < 15 ? {fontSize: '1em'} : stock.product.name.length < 20 ? {fontSize: '0.8em'} : {fontSize:'0.8em', display:'flex', flexWrap:'wrap', width:'160px'} }>
                                                 {stock.product.name}
                                             </div>

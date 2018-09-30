@@ -100,6 +100,30 @@ export const createStock = (dataToSend,str) => {
     }
 }
 
+export const setFavoriteProduct = (productId,isFavorite,searchText) => {
+  return async (dispatch) => {
+    try {
+      let response = await dispatch(()=>s.setFavoriteProduct(productId,isFavorite))
+      if (response.status === 200) {
+        dispatch({
+          type: t.SET_FAVORITE_PRODUCT_SUCCESS,
+          payload: response.data
+        });
+        dispatch(retrieveStocks({name:searchText}));
+      } else {
+        throw Error
+      }
+    }
+    catch (error) {
+      console.log('error', error)
+      dispatch({
+        type: t.SET_FAVORITE_PRODUCT_FAILURE
+      })
+    }
+
+  }
+}
+
 export const updateStock = (dataToSend,str) => {
     return async (dispatch) => {
         try {

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 type Props = {};
-import { Table, Button, Icon, Modal, Select, Form, Input, InputNumber, Popconfirm } from 'antd'
+import { Table, Button, Icon, Modal, Select, Form, Input, InputNumber,Checkbox, Popconfirm } from 'antd'
 const Search = Input.Search;
 const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { retrieveStocks, retrieveStockByBarcode, createStock, updateStock, deleteStock } from '../actions/StockActions';
+import { retrieveStocks, retrieveStockByBarcode, createStock, updateStock, deleteStock,setFavoriteProduct } from '../actions/StockActions';
 import { retrieveDealers } from '../actions/DealerActions';
 import { retrieveProducts } from '../actions/ProductActions'
 import style from '../assets/styles/stock.css'
@@ -140,10 +140,23 @@ class StockPage extends Component<Props> {
 
   }
 
+  onCheckboxChance = (value) => {
+    console.log("value " , value.target.checked);
 
+    console.log("selected ", this.state.selected);
+
+    this.props.setFavoriteProduct(this.state.selected.product.id,value.target.checked,this.state.name);
+
+    // this.props.retrieveStocks(this.state.name);
+  };
 
   render() {
     const columns = [{
+      title: 'Favori',
+      dataIndex: 'isFavorite',
+      key: 'favorite',
+      render: (text) => <div> {text} <Checkbox checked={text} onChange={this.onCheckboxChance} /></div>
+    },{
       title: 'Barkod',
       dataIndex: 'product.barcode',
       key: 'barcode',
@@ -384,6 +397,6 @@ function mapStateToProps({ stockReducer, productReducer, dealerReducer }) {
   }
 }
 
-const ConnectedPage = connect(mapStateToProps, { retrieveStocks, retrieveProducts, retrieveDealers, retrieveStockByBarcode, createStock, updateStock, deleteStock })(StockPage);
+const ConnectedPage = connect(mapStateToProps, { retrieveStocks, retrieveProducts,setFavoriteProduct, retrieveDealers, retrieveStockByBarcode, createStock, updateStock, deleteStock })(StockPage);
 const WrappedPage = Form.create()(ConnectedPage);
 export { WrappedPage as StockPage }
