@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 type Props = {};
-import { Table, Button, Icon, Modal, Form, Input, InputNumber, Popconfirm } from 'antd'
+import { Table, Button, Icon, Modal, Form, Input, InputNumber, Popconfirm, Upload } from 'antd'
 const Search = Input.Search;
 const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { retrieveProducts, createProduct, updateProduct, deleteProduct } from '../actions/ProductActions'
 import moment from 'moment'
-import {CustomImage} from '../assets/ProductPhotos/CustomImage'
+import { CustomImage } from '../assets/ProductPhotos/CustomImage'
 class ProductPage extends Component<Props> {
     props: Props
     constructor(props) {
@@ -96,14 +96,34 @@ class ProductPage extends Component<Props> {
             detailModal: false
         })
     }
+    // handlePathChange = (info) => {
+    //     if (info.file.status === 'uploading') {
+    //       this.setState({ loading: true });
+    //       return;
+    //     }
+    //     if (info.file.status === 'done') {
+    //       // Get this url from response in real world.
+    //       getBase64(info.file.originFileObj, imageUrl => this.setState({
+    //         imageUrl,
+    //         loading: false,
+    //       }));
+    //     }
+    //   }
+    
+   
     render() {
+        const uploadButton = (
+            <div>
+                <Icon type={this.state.loading ? 'loading' : 'plus'} />
+                <div className="ant-upload-text">Yukle</div>
+            </div>
+        );
         const columns = [
             {
                 title: 'Detay',
                 key: 'detail',
                 render: (record) =>
                     <Button onClick={this.showDetails} style={{ border: 'none', background: 'transparent' }}> <Icon type='search' /></Button>
-
             },
             {
                 title: 'Barkod',
@@ -196,6 +216,19 @@ class ProductPage extends Component<Props> {
                         </Button>,
                     ]}
                 >
+                    <div style={{display:'flex', justifyContent:'center',marginBottom:'24px'}}>
+                        <Upload
+                            listType="picture-card"
+                            className="avatar-uploader"
+                            name="avatar"
+                            showUploadList={false}
+                            action="//jsonplaceholder.typicode.com/posts/"
+                            onChange={this.handlePathChange}
+                        >
+                            >
+                            {this.props.imageUrl ? <img src={this.props.imageUrl} alt="avatar" /> : uploadButton}
+                        </Upload>
+                    </div>
                     <Form className='stock-form'>
                         <FormItem
                             label="Barkod"
@@ -286,13 +319,13 @@ class ProductPage extends Component<Props> {
                     visible={this.state.detailModal}
                     onCancel={this.handleCancelDetail}
                     onOk={this.handleOkDetail}
-                    width = {800}
+                    width={800}
                     height={400}
                 >
-                    <div style={{display:'flex',alignItems:'center', justifyContent:'center'}}>
-                        <div style={{border:'1px solid #e6e6e6', width:'500px',height:'300px'}}>
-                        {/* <CustomImage height={'300px'} width={'300px'}  divWith={'exist'} name ={1}/> */}
-                        <div style={{display:'flex',height:'100%',alignItems:'center', justifyContent:'center'}}><Button style={{border:'none',height:'100%',width:'100%'}}></Button></div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ border: '1px solid #e6e6e6', width: '500px', height: '300px' }}>
+                            {/* <CustomImage height={'300px'} width={'300px'}  divWith={'exist'} name ={1}/> */}
+                            <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}><Button style={{ border: 'none', height: '100%', width: '100%' }}></Button></div>
                         </div>
                         <div>
 
