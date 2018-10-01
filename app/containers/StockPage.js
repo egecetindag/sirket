@@ -417,7 +417,7 @@ class StockPage extends Component<Props> {
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('favorite', {
-                    initialValue: type === 'edit' ? selected.isFavorite : {false},
+                    initialValue: type === 'edit' ? selected.isFavorite : false,
                     rules: [{
                       required: false, message: 'Favori!'
                     }],

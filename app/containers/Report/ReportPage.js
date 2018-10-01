@@ -91,23 +91,23 @@ render() {
               onClick={this.handleMenuSelect}
             >
               <Menu.Item key="1">
-                <Icon type="dashboard" />
+                <Icon type="dashboard" style={{fontSize:'1.4em'}}/>
                 <span>Satış Raporu</span>
               </Menu.Item>
               <Menu.Item key="2">
-                <Icon type="area-chart" />
+                <Icon type="line-chart" style={{fontSize:'1.4em'}}/>
                 <span>Stock Raporu</span>
               </Menu.Item>
               <Menu.Item key="3">
-                <Icon type="credit-card" />
+                <Icon type="credit-card" style={{fontSize:'1.4em'}}/>
                 <span>Ödeme Raporu</span>
               </Menu.Item>
               <Menu.Item key="4">
-                <Icon type="bars" />
+                <Icon type="bars" style={{fontSize:'1.4em'}}/>
                 <span>Activity Log</span>
               </Menu.Item>
               <Menu.Item key="5">
-                <Icon type="inbox" />
+                <Icon type="inbox" style={{fontSize:'1.4em'}} />
                 <span>Ürün Raporu</span>
               </Menu.Item>
               {/*<Menu.Item key="6">*/}
