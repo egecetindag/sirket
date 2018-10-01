@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 type Props = {};
-import { Table, Button, Icon, Modal, Form, Input, InputNumber, Popconfirm } from 'antd'
+import { Table, Button, Icon, Modal, Form, Input, InputNumber,Upload, Popconfirm } from 'antd'
 const Search = Input.Search;
 const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
@@ -96,7 +96,29 @@ class ProductPage extends Component<Props> {
             detailModal: false
         })
     }
+
+
+
     render() {
+
+      const props = {
+        name: 'file',
+        action: 'http://localhost:8091/api/uploadFile',
+        headers: {
+          authorization: 'Bearer ' + localStorage.getItem('userToken')
+        },
+        onChange(info) {
+          if (info.file.status !== 'uploading') {
+            console.log(info.file, info.fileList);
+          }
+          if (info.file.status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully`);
+          } else if (info.file.status === 'error') {
+            message.error(`${info.file.name} file upload failed.`);
+          }
+        },
+      };
+
         const columns = [
             {
                 title: 'Detay',
@@ -278,6 +300,13 @@ class ProductPage extends Component<Props> {
                                     <InputNumber min={0} formatter={value => `${value}₺`} />
                                 )}
                             </FormItem>
+                          <FormItem>
+                            <Upload {...props}>
+                              <Button>
+                                <Icon type="upload" /> Click to Upload
+                              </Button>
+                            </Upload>
+                          </FormItem>
                         </div>
                     </Form>
                 </Modal>
