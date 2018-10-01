@@ -199,11 +199,11 @@ class StockPage extends Component<Props> {
       dataIndex: 'product.salePrice',
       key: 'salePrice',
     },
-      {
-        title: <div><Icon type="user" theme="outlined" style={{fontSize:'1.3em'}}/> Tedarikci</div>,
-        dataIndex: 'dealerName',
-        key: 'dealerName',
-      },
+      // {
+      //   title: <div><Icon type="user" theme="outlined" style={{fontSize:'1.3em'}}/> Tedarikci</div>,
+      //   dataIndex: 'dealerName',
+      //   key: 'dealerName',
+      // },
     {
       title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> Giris Tarihi</div>,
       dataIndex: 'creationDate',
