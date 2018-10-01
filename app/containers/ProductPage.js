@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 type Props = {};
-import { Table, Button, Icon, Modal, Form, Input, InputNumber,Upload, Popconfirm } from 'antd'
+import { Table, Button, Icon, Modal, Form, Input, InputNumber, Upload, Popconfirm, Dropdown, Menu } from "antd";
 const Search = Input.Search;
 const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
@@ -126,7 +126,7 @@ class ProductPage extends Component<Props> {
         const uploadButton = (
             <div>
                 <Icon type={this.state.loading ? 'loading' : 'plus'} />
-                <div className="ant-upload-text">Yukle</div>
+                <div className="ant-upload-text">Yükle</div>
             </div>
         );
 
@@ -136,58 +136,77 @@ class ProductPage extends Component<Props> {
         }
       };
 
+      const menu = (
+        <Menu>
+          <Menu.Item>
+            <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" /> Düzenle</Button>
+          </Menu.Item>
+          <Menu.Item>
+            <Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" /> Sil</Button></Popconfirm>
+          </Menu.Item>
+        </Menu>
+      );
+
         const columns = [
+            // {
+            //     title: 'Detay',
+            //     key: 'detail',
+            //     render: (record) =>
+            //         <Button onClick={this.showDetails} style={{ border: 'none', background: 'transparent' }}> <Icon type='search' /></Button>
+            // },
             {
-                title: 'Detay',
-                key: 'detail',
-                render: (record) =>
-                    <Button onClick={this.showDetails} style={{ border: 'none', background: 'transparent' }}> <Icon type='search' /></Button>
-            },
-            {
-                title: 'Barkod',
+              title: <div><Icon type="barcode" theme="outlined" style={{fontSize:'1.3em'}}/> Barkod</div>,
                 dataIndex: 'barcode',
                 key: 'barcode',
             }, {
-                title: 'Isim',
+            title: <div><Icon type="profile" theme="outlined" style={{fontSize:'1.3em'}}/> Isim</div>,
                 dataIndex: 'name',
                 key: 'name',
             }, {
-                title: 'Description',
+            title: <div><Icon type="profile" theme="outlined" style={{fontSize:'1.3em'}}/> Description</div>,
                 dataIndex: 'description',
                 key: 'description',
             },
             {
-                title: 'Kategori',
+              title: <div><Icon type="appstore" theme="outlined" style={{fontSize:'1.3em'}}/> Kategori</div>,
                 dataIndex: 'category',
                 key: 'category',
             },
             {
-                title: 'Alis Fiyati',
+              title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.2em'}}/> Alis Fiyati</div>,
                 dataIndex: 'purchasePrice',
                 key: 'purchasePrice',
             },
             {
-                title: 'Satis Fiyati',
+              title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.2em'}}/> Satis Fiyati</div>,
                 dataIndex: 'salePrice',
                 key: 'salePrice',
-            }, {
-                title: 'Kaydeden',
-                dataIndex: 'userName',
-                key: 'userName',
-            }, {
-                title: 'Giris Tarihi',
+            },
+            // {
+            //     title: 'Kaydeden',
+            //     dataIndex: 'userName',
+            //     key: 'userName',
+            // },
+          {
+            title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.2em'}}/> Giris Tarihi</div>,
                 dataIndex: 'registerDate',
                 key: 'registerDate',
                 render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
             },
-            {
-                title: 'Duzenle',
-                render: () => <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" /></Button>
-            },
-            {
-                title: 'Sil',
-                render: () => <Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" /></Button></Popconfirm>
-            },
+          {
+            title: 'Actions',
+            render: () => <Dropdown overlay={menu} trigger={['click']}>
+              <Icon type="ellipsis" style={{ fontSize: '21px' }} />
+            </Dropdown>
+          },
+            // {
+            //     title: 'Duzenle',
+            //     render: () => <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" /></Button>
+            // },
+            // {
+            //     title: 'Sil',
+            //     render: () => <Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" /></Button></Popconfirm>
+            // },
 
         ]
         const { getFieldDecorator } = this.props.form;
@@ -195,7 +214,7 @@ class ProductPage extends Component<Props> {
         return (
             <div>
                 <div className='page-header' >
-                    <div className='header-h'>Urunler</div>
+                    <div className='header-h'>Ürünler</div>
                     <div style={{ display: 'flex' }}>
                         <Search
                             style={{ height: '32px', marginRight: '10px' }}
@@ -203,7 +222,7 @@ class ProductPage extends Component<Props> {
                             onSearch={this.handleSearch}
                             onChange={this.onSearchChange}
                         />
-                        <Button onClick={() => this.handleModalOpen('create')} >Yeni Urun Girisi<Icon type='plus' /></Button>
+                        <Button onClick={() => this.handleModalOpen('create')} >Yeni Ürün Girişi<Icon type='plus' /></Button>
                     </div>
                 </div>
                 <div className='page-body'>
@@ -227,7 +246,7 @@ class ProductPage extends Component<Props> {
                 </div>
 
                 <Modal
-                    title={this.state.type === 'edit' ? 'Urun Duzenle' : 'Yeni Urun'}
+                    title={this.state.type === 'edit' ? 'Ürün Düzenle' : 'Yeni Ürün'}
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
@@ -248,7 +267,6 @@ class ProductPage extends Component<Props> {
                             onChange={this.handlePathChange}
                             {...uploadProps }
                         >
-
                             {this.state.imageUrl ? <img src={this.state.imageUrl} alt="avatar" width={118} height={118} /> : uploadButton}
                         </Upload>
 
@@ -272,13 +290,13 @@ class ProductPage extends Component<Props> {
                         </FormItem>
                         <div>
                             <FormItem
-                                label="Isim"
+                                label="İsim"
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('name', {
                                     initialValue: type === 'edit' ? selected.name : '',
                                     rules: [{
-                                        required: true, message: 'Isim girin!'
+                                        required: true, message: 'İsim girin!'
                                     }],
                                 })(
                                     <Input />
@@ -286,7 +304,7 @@ class ProductPage extends Component<Props> {
 
                             </FormItem>
                             <FormItem
-                                label="Aciklama"
+                                label="Açıklama"
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('description', {
@@ -312,21 +330,35 @@ class ProductPage extends Component<Props> {
                                 )}
                             </FormItem>
 
+                          <FormItem
+                            label="Kaydeden"
+                            style={{ display: 'flex' }}
+                          >
+                            {getFieldDecorator('kaydeden', {
+                              initialValue: type === 'edit' ? selected.userName : 'Kullanıcı Adı!',
+                              rules: [{
+                                required: false, message: 'Kayıt Yapan Kullanıcı!'
+                              }],
+                            })(
+                              <Input disabled={true} />
+                            )}
+                          </FormItem>
+
                             <FormItem
-                                label="Alis Fiyati"
+                                label="Alış Fiyatı"
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('purchasePrice', {
                                     initialValue: type === 'edit' ? selected.purchasePrice : '',
                                     rules: [{
-                                        required: true, message: 'Alis fiyatini girin!'
+                                        required: true, message: 'Alış fiyatını girin!'
                                     }],
                                 })(
                                     <InputNumber min={0} formatter={value => `${value}₺`} />
                                 )}
                             </FormItem>
                             <FormItem
-                                label="Satis Fiyati"
+                                label="Satış Fiyatı"
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('salePrice', {
@@ -349,7 +381,7 @@ class ProductPage extends Component<Props> {
                     </Form>
                 </Modal>
                 <Modal
-                    title={'Urun Detayi'}
+                    title={'Ürün Detayı'}
                     visible={this.state.detailModal}
                     onCancel={this.handleCancelDetail}
                     onOk={this.handleOkDetail}

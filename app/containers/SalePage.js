@@ -303,20 +303,20 @@ class SalePage extends Component<Props> {
 
             {
                 title: 'Urun',
-                width: '30%',
+                width: '50%',
                 dataIndex: 'product.name',
                 key: 'urun',
             },
             {
                 title: 'Adet',
-                width: '30%',
+                width: '25%',
                 key: 'qty',
                 color: 'black',
                 render: (text, record, key) => <div>{this.state.quantities[record.id]}</div>
             },
             {
                 title: 'Fiyat',
-                width: '30%',
+                width: '25%',
                 key: 'salePrice',
                 render: (text, record) => <div>{record.product.salePrice * this.state.quantities[record.id]} ₺ </div>
             }
@@ -330,6 +330,7 @@ class SalePage extends Component<Props> {
                     {/* <div className='sale-total'><div style={{ fontSize: '1.4em' }}>Toplam</div><div style={{ fontSize: '1.3em' }}>{this.calculateTotal()}₺</div></div> */}
                     <Table
                         className='sale-list'
+                        size="small"
                         dataSource={this.state.products}
                         columns={columns}
                         rowClassName={(record, index) => index === this.state.selectedRow ? 'sale-selected-row' : ''}
@@ -387,18 +388,18 @@ class SalePage extends Component<Props> {
                                     <Button onClick={() => this.numberSelected(4)} className='number'>4</Button>
                                     <Button onClick={() => this.numberSelected(5)} className='number'>5</Button>
                                     <Button onClick={() => this.numberSelected(6)} className='number'>6</Button>
-                                    <Button onClick={() => { this.setState({ selectedButton: 1 }) }} className={this.state.selectedButton === 1 ? 'calc-button selected' : 'calc-button not-selected'} >Adet</Button>
+                                    <Button onClick={() => { this.setState({ selectedButton: 1 }) }} className={this.state.selectedButton === 1 ? 'calc-button selected' : 'calc-button not-selected'} ><div style={{fontSize:'12px'}}>Adet</div></Button>
                                 </div>
                                 <div style={{ display: 'flex',height:'24%',marginBottom:'2px' }}>
                                     <Button onClick={() => this.numberSelected(7)} className='number'>7</Button>
                                     <Button onClick={() => this.numberSelected(8)} className='number'>8</Button>
                                     <Button onClick={() => this.numberSelected(9)} className='number'>9</Button>
-                                    <Button onClick={this.delete} className={this.state.selectedButton === 2 ? 'calc-button selected' : 'calc-button not-selected'}>Sil</Button>
+                                  <Button onClick={this.delete} className={this.state.selectedButton === 2 ? 'calc-button selected' : 'calc-button not-selected'}><div style={{fontSize:'12px'}}>Sil</div></Button>
                                 </div>
                                 <div style={{ display: 'flex',height:'24%',marginBottom:'2px' }}>
                                     <Button onClick={() => this.numberSelected(0)} className='calc-button not-selected'>0</Button>
                                     <Button className='number'>%</Button>
-                                    <Button onClick={() => { this.setState({ selectedButton: 3 }) }} className={this.state.selectedButton === 3 ? 'calc-button selected' : 'calc-button not-selected'}>Discount</Button>
+                                  <Button onClick={() => { this.setState({ selectedButton: 3 }) }} className={this.state.selectedButton === 3 ? 'calc-button selected' : 'calc-button not-selected'}><div style={{fontSize:'12px'}}>İndirim</div></Button>
                                 </div>
                             </div>
                         </div>
