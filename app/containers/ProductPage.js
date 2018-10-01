@@ -8,6 +8,13 @@ import { connect } from 'react-redux';
 import { retrieveProducts, createProduct, updateProduct, deleteProduct } from '../actions/ProductActions'
 import moment from 'moment'
 import { CustomImage } from '../assets/ProductPhotos/CustomImage'
+
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
 class ProductPage extends Component<Props> {
     props: Props
     constructor(props) {
@@ -35,7 +42,8 @@ class ProductPage extends Component<Props> {
                     description: values.description,
                     category: values.category ? values.category : 'Diger',
                     purchasePrice: values.purchasePrice,
-                    salePrice: values.salePrice
+                    salePrice: values.salePrice,
+                    imagePath: this.state.imageUrl,
 
                 }
                 if (this.state.type === 'create') {
@@ -96,21 +104,23 @@ class ProductPage extends Component<Props> {
             detailModal: false
         })
     }
-    // handlePathChange = (info) => {
-    //     if (info.file.status === 'uploading') {
-    //       this.setState({ loading: true });
-    //       return;
-    //     }
-    //     if (info.file.status === 'done') {
-    //       // Get this url from response in real world.
-    //       getBase64(info.file.originFileObj, imageUrl => this.setState({
-    //         imageUrl,
-    //         loading: false,
-    //       }));
-    //     }
-    //   }
-    
+    handlePathChange = (info) => {
+      console.log("info for image: ", info)
+        if (info.file.status === 'uploading') {
+          this.setState({ loading: true });
+          return;
+        }
+        if (info.file.status === 'done') {
 
+          this.setState({
+            imageUrl: info.file.response.url,
+            loading: false,
+          })
+
+          //Get this url from response in real world.
+          //getBase64(info.file.originFileObj, imageUrl => console.log("base64:", imageUrl));
+        }
+      }
 
     render() {
         const uploadButton = (
@@ -119,22 +129,11 @@ class ProductPage extends Component<Props> {
                 <div className="ant-upload-text">Yukle</div>
             </div>
         );
-      const props = {
-        name: 'file',
-        action: 'http://localhost:8091/api/uploadFile',
+
+      const uploadProps = {
         headers: {
           authorization: 'Bearer ' + localStorage.getItem('userToken')
-        },
-        onChange(info) {
-          if (info.file.status !== 'uploading') {
-            console.log(info.file, info.fileList);
-          }
-          if (info.file.status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully`);
-          } else if (info.file.status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-          }
-        },
+        }
       };
 
         const columns = [
@@ -216,7 +215,10 @@ class ProductPage extends Component<Props> {
                         }}
                         onRow={(record) => {
                             return {
-                                onClick: () => this.setState({ selected: record })
+                                onClick: () => this.setState({
+                                  selected: record,
+                                  imageUrl: record.imagePath,
+                                })
                             }
                         }}
                         pagination={{ pageSize: 6 }}
@@ -236,19 +238,25 @@ class ProductPage extends Component<Props> {
                     ]}
                 >
                     <div style={{display:'flex', justifyContent:'center',marginBottom:'24px'}}>
+
                         <Upload
                             listType="picture-card"
                             className="avatar-uploader"
-                            name="avatar"
+                            name="file"
                             showUploadList={false}
-                            action="//jsonplaceholder.typicode.com/posts/"
+                            action="http://localhost:8091/api/uploadFile"
                             onChange={this.handlePathChange}
+                            {...uploadProps }
                         >
-                            >
-                            {this.props.imageUrl ? <img src={this.props.imageUrl} alt="avatar" /> : uploadButton}
+
+                            {this.state.imageUrl ? <img src={this.state.imageUrl} alt="avatar" width={118} height={118} /> : uploadButton}
                         </Upload>
+
                     </div>
                     <Form className='stock-form'>
+                      <FormItem>
+
+                      </FormItem>
                         <FormItem
                             label="Barkod"
                             style={{ display: 'flex' }}
@@ -330,13 +338,13 @@ class ProductPage extends Component<Props> {
                                     <InputNumber min={0} formatter={value => `${value}₺`} />
                                 )}
                             </FormItem>
-                          <FormItem>
-                            <Upload {...props}>
-                              <Button>
-                                <Icon type="upload" /> Click to Upload
-                              </Button>
-                            </Upload>
-                          </FormItem>
+                          {/*<FormItem>*/}
+                            {/*<Upload {...props}>*/}
+                              {/*<Button>*/}
+                                {/*<Icon type="upload" /> Click to Upload*/}
+                              {/*</Button>*/}
+                            {/*</Upload>*/}
+                          {/*</FormItem>*/}
                         </div>
                     </Form>
                 </Modal>

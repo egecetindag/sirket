@@ -13,10 +13,12 @@ export const CustomImage = ({height, width,divWith, name}) =>{
     }
     
     try{
-        path = require('./'+name+'.jpg')
-        return<div style={{width: divWith ? '' : '150px', display:'flex', justifyContent:'center'}}><img style={style.imgStyle} src={path}/></div>
+        //path = require(name)
+      //console.log("path", path)
+        return <div style={{width: divWith ? '' : '150px', display:'flex', justifyContent:'center'}}><img style={style.imgStyle} src={name}/></div>
     }
     catch(err){
+      console.log("errror: ",err)
         return <div style={{width: divWith ? '' : '150px', display:'flex', justifyContent:'center'}}><div style={style.imgStyle}/></div>
     }
 
