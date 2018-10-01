@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {retrievePayments,createPayment, updatePayment,deletePayment,setPaymentStatus} from '../actions/PaymentActions'
 import {retrieveDealers} from '../actions/DealerActions';
+import { Icons } from "../assets/Icons";
 type Props = {};
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -128,53 +129,53 @@ class PaymentPage extends Component<Props> {
 
     render() {
         const columns = [{
-            title: 'Müşteri',
+          title: <div><Icon type="user" theme="outlined" style={{fontSize:'1.3em'}}/> Müşteri</div>,
             dataIndex: 'personName',
             key: 'personName',
         }, {
-            title: 'Telefon',
+          title: <div><Icon type="phone" theme="outlined" style={{fontSize:'1.3em'}}/> Telefon</div>,
             dataIndex: 'personPhone',
             key: 'personPhone',
         }, {
-            title: 'Miktar',
+            title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.3em'}}/>  Miktar</div>,
             dataIndex: 'amount',
             key: 'amount',
         },
         {
-            title: 'Özet',
+          title: <div><Icon type="file-text" theme="outlined" style={{fontSize:'1.3em'}}/> Özet</div>,
             dataIndex: 'summary',
             key: 'summary',
         },
         {
-            title: 'Son Güncellenme',
+          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> Son Güncellenme</div>,
             dataIndex: 'updateDate',
             key: 'updateDate',
             render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
         },
         {
-            title: 'Ödeme Tarihi',
+          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> Ödeme Tarihi</div>,
             dataIndex: 'expectedDate',
             key: 'expectedDate',
             render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
         },
         {
-            title: 'Durum',
+          title: <div><Icon type="pie-chart" theme="outlined" style={{fontSize:'1.3em'}}/> Durum</div>,
             dataIndex: 'status',
             key: 'status',
 
             render: (text) => {
 
                 if (text === 'Bekliyor'){
-                  return <div><Icon type='clock-circle-o' style={{color:'#6e6e6e'}} /> {text} </div>
+                  return <div><Icon type='clock-circle-o' style={{color:'#6e6e6e'}} /> {text}</div>
                 }else if (text === 'Bitti'){
-                  return <div><Icon type='check' style={{color:'#59a856'}}/> {text} </div>
+                  return <div><Icon type='check' style={{color:'#59a856'}}/> {text}</div>
                 }else if (text === 'Gecikmiş'){
-                  return <div><Icon type='exclamation-circle-o' style={{color:'#f76255'}} /> {text} </div>
+                  return <div><Icon type='exclamation-circle-o' style={{color:'#f76255'}} /> {text}</div>
                 }
             }
 
         },{
-            title: 'Kaydeden',
+            title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.3em'}}/> Kaydeden</div>,
             dataIndex: 'userName',
             key: 'userName',
         },

@@ -74,29 +74,29 @@ class DealerPage extends Component<Props> {
 
     render() {
         const columns = [{
-            title: 'İsim',
+          title: <div><Icon type="user" theme="outlined" style={{fontSize:'1.3em'}}/> İsim</div>,
             dataIndex: 'name',
             key: 'name',
         }, {
-            title: 'Telefon',
+          title: <div><Icon type="phone" theme="outlined" style={{fontSize:'1.3em'}} /> Telefon</div>,
             dataIndex: 'phone',
             key: 'phone',
         }, {
-          title: 'Email',
+          title: <div><Icon type="mail" theme="outlined" style={{fontSize:'1.3em'}} /> Email </div>,
           dataIndex: 'email',
           key: 'email',
         },
         {
-            title: 'Adres',
+          title: <div><Icon type="phone" theme="outlined" style={{fontSize:'1.3em'}} /> Adres</div>,
             dataIndex: 'address',
             key: 'address',
         },{
-            title: 'Kaydeden',
+            title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.3em'}} /> Kaydeden </div>,
             dataIndex: 'userName',
             key: 'userName',
           },
         {
-            title: 'Giris Tarihi',
+          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}} /> Giris Tarihi </div>,
             dataIndex: 'creationDate',
             key: 'creationDate',
             render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>

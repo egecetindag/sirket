@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 type Props = {};
-import { Table, Button, Icon, Modal, Select, Form, Input, InputNumber,Checkbox, Popconfirm } from 'antd'
+import { Table, Button, Icon, Modal, Select, Form,Menu, Input, InputNumber,Checkbox,Switch, Popconfirm ,Dropdown} from 'antd'
 const Search = Input.Search;
 const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
@@ -44,7 +44,8 @@ class StockPage extends Component<Props> {
         const dataToSend = {
           productId: this.state.product.id,
           qty: values.adet,
-          dealerId: parseInt(values.dealer)
+          dealerId: parseInt(values.dealer),
+          isFavorite: values.favorite,
         }
         // console.log('data', dataToSend)
         if (this.state.type === 'create') {
@@ -147,62 +148,87 @@ class StockPage extends Component<Props> {
   };
 
   render() {
-    const columns = [{
-      title: 'Favori',
-      dataIndex: 'isFavorite',
-      key: 'favorite',
-      render: (text,record) => <div> {text} <Checkbox checked={text} onChange={(value)=>this.onCheckboxChance(value,record.product.id)} /></div>
-    },{
-      title: 'Barkod',
+
+    const menu = (
+      <Menu>
+        <Menu.Item>
+          <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="star" />Favori</Button>
+        </Menu.Item>
+        <Menu.Item>
+          <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" />Düzenle</Button>
+        </Menu.Item>
+        <Menu.Item>
+          <Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" />Sil</Button></Popconfirm>
+        </Menu.Item>
+      </Menu>
+    );
+
+    const columns = [
+    //   {
+    //   title: <div><Icon type="star" theme="outlined" style={{fontSize:'1.2em'}}/> Favori</div>,
+    //   dataIndex: 'isFavorite',
+    //   key: 'favorite',
+    //   render: (text,record) => <div> {text} <Switch checked={text} onChange={(value)=>this.onCheckboxChance(value,record.product.id)} /></div>
+    // },
+      {
+      title: <div><Icon type="barcode" theme="outlined" style={{fontSize:'1.3em'}}/> Barkod</div>,
       dataIndex: 'product.barcode',
       key: 'barcode',
     }, {
-      title: 'Isim',
+      title: <div><Icon type="profile" theme="outlined" style={{fontSize:'1.3em'}}/> Isim</div>,
       dataIndex: 'product.name',
       key: 'name',
     },
     {
-      title: 'Kategori',
+      title: <div><Icon type="appstore" theme="outlined" style={{fontSize:'1.3em'}}/> Kategori</div>,
       dataIndex: 'product.category',
       key: 'kategori',
     },
+      {
+        title: <div><Icon type="calculator" theme="outlined" style={{fontSize:'1.3em'}}/> Adet </div>,
+        dataIndex: 'qty',
+        key: 'qty',
+      },
     {
-      title: 'Tedarikci',
-      dataIndex: 'dealerName',
-      key: 'dealerName',
-    },
-    {
-      title: 'Alis Fiyati',
+      title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.2em'}}/> Alis Fiyati</div>,
       dataIndex: 'product.purchasePrice',
       key: 'purchasePrice',
     },
     {
-      title: 'Satis Fiyati',
+      title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.3em'}}/> Satis Fiyati</div>,
       dataIndex: 'product.salePrice',
       key: 'salePrice',
     },
+      {
+        title: <div><Icon type="user" theme="outlined" style={{fontSize:'1.3em'}}/> Tedarikci</div>,
+        dataIndex: 'dealerName',
+        key: 'dealerName',
+      },
     {
-      title: 'Giris Tarihi',
+      title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> Giris Tarihi</div>,
       dataIndex: 'creationDate',
       key: 'creationDate',
       render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
     },
-    {
-      title: 'Adet',
-      dataIndex: 'qty',
-      key: 'qty',
-    }, {
-      title: 'Kaydeden',
-      dataIndex: 'userName',
-      key: 'userName',
-    }, {
-      title: 'Duzenle',
-      render: () => <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" /></Button>
-    },
-    {
-      title: 'Sil',
-      render: () => <Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" /></Button></Popconfirm>
-    },
+    //   {
+    //     title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.2em'}}/> Kaydeden</div>,
+    //   dataIndex: 'userName',
+    //   key: 'userName',
+    // },
+      {
+      title: 'Actions',
+      render: () => <Dropdown overlay={menu} trigger={['click']}>
+        <Icon type="ellipsis" style={{ fontSize: '21px' }} />
+      </Dropdown>
+      },
+    // },{
+    //   title: 'Duzenle',
+    //   render: () => <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" /></Button>
+    // },
+    // {
+    //   title: 'Sil',
+    //   render: () => <Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" /></Button></Popconfirm>
+    // },
 
     ];
     const { getFieldDecorator } = this.props.form;
@@ -234,7 +260,7 @@ class StockPage extends Component<Props> {
                 onClick: () => this.setState({ selected: record })
               }
             }}
-            pagination={{ pageSize: 6 }}
+            pagination={{ pageSize: 8 }}
           />
         </div>
 
@@ -333,6 +359,21 @@ class StockPage extends Component<Props> {
                 </FormItem>
 
                 <FormItem
+                  label="Kaydeden"
+                  style={{ display: 'flex' }}
+                >
+                  {getFieldDecorator('kaydeden', {
+                    initialValue: type === 'edit' ? selected.userName : 'Kullanıcı Adı!',
+                    rules: [{
+                      required: false, message: 'Kayıt Yapan Kullanıcı!'
+                    }],
+                  })(
+                    <Input disabled={true} />
+                  )}
+
+                </FormItem>
+
+                <FormItem
                   label="Alis Fiyati"
                   style={{ display: 'flex' }}
                 >
@@ -371,6 +412,20 @@ class StockPage extends Component<Props> {
                     <InputNumber min={0} />
                   )}
                 </FormItem>
+                <FormItem
+                  label="Favori"
+                  style={{ display: 'flex' }}
+                >
+                  {getFieldDecorator('favorite', {
+                    initialValue: type === 'edit' ? selected.isFavorite : {false},
+                    rules: [{
+                      required: false, message: 'Favori!'
+                    }],
+                  })(
+                    <Switch checked={selected.isFavorite} />
+                  )}
+                </FormItem>
+
               </div>
             }
           </Form>

@@ -87,24 +87,24 @@ class ExpensePage extends Component<Props> {
 
     render() {
         const columns = [{
-            title: 'Başlık',
+          title: <div><Icon type="bars" theme="outlined" style={{fontSize:'1.3em'}}/> Başlık</div>,
             dataIndex: 'name',
             key: 'name',
         }, {
-            title: 'Tanım',
+          title: <div><Icon type="form" theme="outlined" style={{fontSize:'1.3em'}}/> Tanım</div>,
             dataIndex: 'description',
             key: 'description',
         }, {
-            title: 'Miktar',
+          title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.3em'}}/> Miktar</div>,
             dataIndex: 'price',
             key: 'price',
         },{
-            title: 'Kaydeden',
+          title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.3em'}}/> Kaydeden</div>,
             dataIndex: 'userName',
             key: 'userName',
         },
         {
-            title: 'Giriş Tarihi',
+          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> Giriş Tarihi</div>,
             dataIndex: 'createDate',
             key: 'createDate',
             render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
