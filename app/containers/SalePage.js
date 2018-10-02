@@ -303,20 +303,20 @@ class SalePage extends Component<Props> {
 
             {
                 title: 'Urun',
-                width: '50%',
+                width: '70%',
                 dataIndex: 'product.name',
                 key: 'urun',
             },
             {
                 title: 'Adet',
-                width: '25%',
+                width: '15%',
                 key: 'qty',
                 color: 'black',
                 render: (text, record, key) => <div>{this.state.quantities[record.id]}</div>
             },
             {
                 title: 'Fiyat',
-                width: '25%',
+                width: '15%',
                 key: 'salePrice',
                 render: (text, record) => <div>{record.product.salePrice * this.state.quantities[record.id]} ₺ </div>
             }

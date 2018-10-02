@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import moment from "moment";
-import { Button, Form, Icon, Popconfirm, Input, Table, Row, Col, Divider, Select,Progress } from "antd";
+import { Button, Form, Icon, Popconfirm, Input, Table, Row, Col, Divider, Select, Progress, message } from "antd";
 const Search = Input.Search;
 import connect from "react-redux/es/connect/connect";
 import { retrieveProductReport, retrieveStockReport } from "../../actions/ReportActions";
 import {retrieveStocksCategories} from '../../actions/StockActions'
+import { getProductReportExcel } from "../../services/ReportServices";
+import { extractFileName } from "./ExtractFileName";
+import { saveAs } from "file-saver";
 
 
 
@@ -54,6 +57,37 @@ class ProductReport extends Component<Props> {
   }
 
 
+  handleDownload(first,last){
+
+    //this.setState({ downloading: 'inProgress' });
+    let self = this;
+
+    getProductReportExcel(first,last).then((response) => {
+      // console.log("Response", response);
+      this.setState({ downloading: 'inProgress'});
+      //extract file name from Content-Disposition header
+      var filename=extractFileName(response.headers['content-disposition']);
+      //console.log("File name",filename);
+      //invoke 'Save As' dialog
+      saveAs(response.data, filename)
+      console.log("#1")
+      this.setState({ downloading: 'done'});
+
+
+    }).catch(function (error) {
+        console.log(error);
+        self.setState({ downloading: 'error' });
+
+        if (error.response) {
+          console.log('Error', error.response.status);
+          message.error('Dosya indirme hatası! ' ,error.response.status);
+        } else {
+          console.log('Error', error.message);
+          message.error('Dosya indirme hatası! ' ,error.message);
+        }
+      })
+  }
+
   
   render() {
 
@@ -94,7 +128,7 @@ class ProductReport extends Component<Props> {
         </div>),
         dataIndex: 'grossProfit',
         key: 'grossProfit',
-
+        render: (text) => <div>{text.toFixed(2)}</div>
       },
       {
         title: (<div>
@@ -103,11 +137,12 @@ class ProductReport extends Component<Props> {
           </div>
           <Divider/>
           <div>
-            {this.props.productReport.totalNetProfit}
+            {this.props.productReport.totalNetProfit ? this.props.productReport.totalNetProfit.toFixed(2) : ''}
           </div>
         </div>),
         dataIndex: 'netProfit',
         key: 'netProfit',
+        render: (text) => <div>{text.toFixed(2)}</div>
       },{
         title: (<div>
           <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
@@ -120,6 +155,7 @@ class ProductReport extends Component<Props> {
         </div>),
         dataIndex: 'discount',
         key: 'discount',
+        render: (text) => <div>{text}</div>
       },
       {
         title: (<div>
@@ -133,6 +169,7 @@ class ProductReport extends Component<Props> {
         </div>),
         dataIndex: 'markup',
         key: 'markup',
+        render: (text) => <div>{text.toFixed(2)}</div>
       },{
         title: (<div>
           <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
@@ -145,7 +182,7 @@ class ProductReport extends Component<Props> {
         </div>),
         dataIndex: 'profitPercentage',
         key: 'profitPercentage',
-        sorter: (a, b) => a - b,
+        // sorter: (a, b) => a - b,
         render: (text) => <div>{text.toFixed(2)}</div>
       },
       {
@@ -194,7 +231,7 @@ class ProductReport extends Component<Props> {
               }
             </Select>
             &nbsp;
-            <Button type="primary" icon="download" >Excel indir</Button>
+            <Button type="primary" icon="download" onClick={() => this.handleDownload(this.props.dates[0].unix(),this.props.dates[1].unix())}>Excel indir</Button>
 
           </div>
 

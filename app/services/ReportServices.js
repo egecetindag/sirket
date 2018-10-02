@@ -31,3 +31,35 @@ export const getProductReportService = (first, last,name,category) => {
   const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }
   return axios.get(host + `/getProductReport?timeInterval=${first},${last}&productName=${name}&category=${category}`, config)
 }
+
+export const getDashboardReportExcel = (first, last) => {
+  const config = {
+    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') },
+    responseType: 'blob',
+  }
+  return axios.get(host + `/getSaleSummaryReportDailyAsExcel?timeInterval=${first},${last}`, config)
+}
+
+export const getStockReportExcel = () => {
+  const config = {
+    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') },
+    responseType: 'blob',
+  }
+  return axios.get(host + `/getCurrentStockReportAsExcel`, config)
+}
+
+export const getPaymentReportExcel = (first, last) => {
+  const config = {
+    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') },
+    responseType: 'blob',
+  }
+  return axios.get(host + `/getPaymentReportAsExcel?timeInterval=${first},${last}`, config)
+}
+
+export const getProductReportExcel = (first, last) => {
+  const config = {
+    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') },
+    responseType: 'blob',
+  }
+  return axios.get(host + `/getProductReportAsExcel?timeInterval=${first},${last}`, config)
+}

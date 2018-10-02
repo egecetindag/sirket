@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Card, Col, Form, Row, Tooltip, Icon, Divider, Progress, Table, Button } from "antd";
+import { Card, Col, Form, Row, Tooltip, Icon, Divider, Progress, Table, Button,message } from "antd";
 // import { Chart, ArgumentAxis, ValueAxis, LineSeries } from "@devexpress/dx-react-chart-material-ui";
 import ReactHighcharts from 'react-highcharts';
 import Highlight from 'react-highlight';
 import {retrieveSummaryDashboardReport} from '../../actions/ReportActions'
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { getDashboardReportExcel } from '../../services/ReportServices'
+import { saveAs } from 'file-saver';
+import {extractFileName} from "./ExtractFileName";
 
 class SummaryDashboard extends Component<Props> {
   props: Props
@@ -14,6 +17,7 @@ class SummaryDashboard extends Component<Props> {
     this.state = {
       key: 'gross',
       noTitleKey: 'gross',
+      downloading: '',
     }
   }
 
@@ -33,8 +37,47 @@ class SummaryDashboard extends Component<Props> {
     }
   }
 
-  handleDownload(){
+  handleDownload(first,last){
 
+    //this.setState({ downloading: 'inProgress' });
+    let self = this;
+
+    getDashboardReportExcel(first,last).then((response) => {
+     // console.log("Response", response);
+      this.setState({ downloading: 'inProgress'});
+      //extract file name from Content-Disposition header
+      var filename=extractFileName(response.headers['content-disposition']);
+      //console.log("File name",filename);
+      //invoke 'Save As' dialog
+      saveAs(response.data, filename)
+      console.log("#1")
+      this.setState({ downloading: 'done'});
+
+
+    })
+    //   .then(() => {
+    //   if(this.state.downloading === 'done'){
+    //     setTimeout(()=> {message.success('Dosya indirme tamamlandı',5)},200);
+    //     this.setState({ downloading: ''});
+    //   }
+
+    // there is not a possible way to understand if it is downloaded or cancelled
+    // so for now I give up showing success message
+
+    // })
+
+      .catch(function (error) {
+      console.log(error);
+      self.setState({ downloading: 'error' });
+
+      if (error.response) {
+        console.log('Error', error.response.status);
+        message.error('Dosya indirme hatası! ' ,error.response.status);
+      } else {
+        console.log('Error', error.message);
+        message.error('Dosya indirme hatası! ' ,error.message);
+      }
+    })
   }
   
   render() {
@@ -266,7 +309,8 @@ class SummaryDashboard extends Component<Props> {
                    }}
                    pagination={{ pageSize: 6 }}
                    title={() => <div style={{fontWeight:'bold', fontSize:'16px', textAlign:'center'}}>Satış Özet Listesi</div>}
-                   footer={() => <div ><Button onClick="handleDownload" type="primary" icon="download" >Excel indir</Button></div>}
+                   footer={() => <div ><Button onClick={() => this.handleDownload(this.props.dates[0].unix(),this.props.dates[1].unix())} type="primary" icon="download" >Excel indir</Button></div>}
+                   //footer={() => <div ><a href="http://localhost/index.txt">Download </a> </div>}
             />
           </Row>
 

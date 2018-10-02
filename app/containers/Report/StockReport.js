@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import moment from "moment";
-import { Button, Form, Icon, Popconfirm, Input, Table, Row, Col, Divider, Select,Progress } from "antd";
+import { Button, Form, Icon, Popconfirm, Input, Table, Row, Col, Divider, Select, Progress, message } from "antd";
 const Search = Input.Search;
 import {retrieveStockReport} from '../../actions/ReportActions'
 import {retrieveStocksCategories} from '../../actions/StockActions'
 import connect from "react-redux/es/connect/connect";
+import { getStockReportExcel } from "../../services/ReportServices";
+import { extractFileName } from "./ExtractFileName";
+import { saveAs } from "file-saver";
 
 class StockReport extends Component<Props> {
   props: Props
@@ -34,6 +37,36 @@ class StockReport extends Component<Props> {
       name: e.target.value
     })
     this.handleSearch(e.target.value);
+  }
+
+  handleDownload(){
+
+    //this.setState({ downloading: 'inProgress' });
+    let self = this;
+
+    getStockReportExcel().then((response) => {
+      // console.log("Response", response);
+      this.setState({ downloading: 'inProgress'});
+      //extract file name from Content-Disposition header
+      var filename=extractFileName(response.headers['content-disposition']);
+      //console.log("File name",filename);
+      //invoke 'Save As' dialog
+      saveAs(response.data, filename)
+      this.setState({ downloading: 'done'});
+
+
+    }).catch(function (error) {
+        console.log(error);
+        self.setState({ downloading: 'error' });
+
+        if (error.response) {
+          console.log('Error', error.response.status);
+          message.error('Dosya indirme hatası! ' ,error.response.status);
+        } else {
+          console.log('Error', error.message);
+          message.error('Dosya indirme hatası! ' ,error.message);
+        }
+      })
   }
   
   render() {
@@ -171,11 +204,9 @@ class StockReport extends Component<Props> {
               }
             </Select>
             &nbsp;
-            <Button type="primary" icon="download" >Excel indir</Button>
+            <Button type="primary" icon="download" onClick={() => this.handleDownload()} >Excel indir</Button>
 
           </div>
-
-
 
         </div>
         <div>

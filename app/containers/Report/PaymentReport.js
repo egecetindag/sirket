@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { Card, Col, Form, Row, Divider, Progress, Table, Button } from "antd";
+import { Card, Col, Form, Row, Divider, Progress, Table, Button, message } from "antd";
 import ReactHighcharts from 'react-highcharts';
 import {retrievePaymentReport} from '../../actions/ReportActions'
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { getPaymentReportExcel } from "../../services/ReportServices";
+import { extractFileName } from "./ExtractFileName";
+import { saveAs } from "file-saver";
 
 class PaymentReport extends Component<Props> {
   props: Props
@@ -23,6 +26,35 @@ class PaymentReport extends Component<Props> {
     if (nextProps.dates !== this.props.dates) {
       this.props.retrievePaymentReport(nextProps.dates[0].unix(),nextProps.dates[1].unix());
     }
+  }
+
+  handleDownload(first,last){
+
+    //this.setState({ downloading: 'inProgress' });
+    let self = this;
+
+    getPaymentReportExcel(first,last).then((response) => {
+      // console.log("Response", response);
+      this.setState({ downloading: 'inProgress'});
+      //extract file name from Content-Disposition header
+      var filename=extractFileName(response.headers['content-disposition']);
+      //console.log("File name",filename);
+      //invoke 'Save As' dialog
+      saveAs(response.data, filename)
+      this.setState({ downloading: 'done'});
+
+    }).catch(function (error) {
+        console.log(error);
+        self.setState({ downloading: 'error' });
+
+        if (error.response) {
+          console.log('Error', error.response.status);
+          message.error('Dosya indirme hatası! ' ,error.response.status);
+        } else {
+          console.log('Error', error.message);
+          message.error('Dosya indirme hatası! ' ,error.message);
+        }
+      })
   }
   
   render() {
@@ -73,7 +105,7 @@ class PaymentReport extends Component<Props> {
     var expensePercent = (this.props.paymentReport.totalExpenses*100) / totalResultToDivide;
     var paymentPercent = (this.props.paymentReport.totalPayments*100) / totalResultToDivide;
 
-    console.log("percents: ",receivingPercent,expensePercent,paymentPercent);
+    // console.log("percents: ",receivingPercent,expensePercent,paymentPercent);
 
     const columns = [
       {
@@ -163,7 +195,7 @@ class PaymentReport extends Component<Props> {
 
         <div style={{marginTop:'25px'}}>
           <Row>
-            {console.log("xx ",this.props.paymentReport)}
+            {/*{console.log("xx ",this.props.paymentReport)}*/}
             <Table dataSource={this.props.paymentReport ? this.props.paymentReport.itemsAsObject : []  }
                    columns={columns}
                    rowKey={(record) => {
@@ -176,7 +208,7 @@ class PaymentReport extends Component<Props> {
                    }}
                    pagination={{ pageSize: 6 }}
                    title={() => <div style={{fontWeight:'bold', fontSize:'16px', textAlign:'center'}}>Gelir/Gider Listesi</div>}
-                   footer={() => <div ><Button type="primary" icon="download" >Excel indir</Button></div>}
+                   footer={() => <div ><Button type="primary" icon="download" onClick={() => this.handleDownload(this.props.dates[0].unix(),this.props.dates[1].unix())}>Excel indir</Button></div>}
             />
           </Row>
 
