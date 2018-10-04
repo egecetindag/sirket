@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 type Props = {};
-import { List, Icon, Avatar, Button, Input, Table, Row, Col, Breadcrumb, Dropdown, Menu, Select, Modal, message } from 'antd'
+import { List, Icon, Avatar, Button, Input, Table, Row, Col, Breadcrumb,Card, Dropdown, Menu, Select, Modal, message } from 'antd'
 import { Link } from 'react-router-dom';
 import { connect, Switch, Route } from 'react-redux';
 import { ProductPage } from './ProductPage'
@@ -302,21 +302,21 @@ class SalePage extends Component<Props> {
         const columns = [
 
             {
-                title: 'Urun',
-                width: '70%',
+                title: 'Ürün',
+                width: '64%',
                 dataIndex: 'product.name',
                 key: 'urun',
             },
             {
                 title: 'Adet',
-                width: '15%',
+                width: '18%',
                 key: 'qty',
                 color: 'black',
                 render: (text, record, key) => <div>{this.state.quantities[record.id]}</div>
             },
             {
                 title: 'Fiyat',
-                width: '15%',
+                width: '18%',
                 key: 'salePrice',
                 render: (text, record) => <div>{record.product.salePrice * this.state.quantities[record.id]} ₺ </div>
             }
@@ -328,6 +328,14 @@ class SalePage extends Component<Props> {
             <div style={{ display: 'flex', position: 'absolute', height: '89%', width: '98%' }}>
                 <div style={{ width: '35%', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
                     {/* <div className='sale-total'><div style={{ fontSize: '1.4em' }}>Toplam</div><div style={{ fontSize: '1.3em' }}>{this.calculateTotal()}₺</div></div> */}
+
+
+
+                  <div className='sale-total' >
+                    <div style={{fontWeight: 'bold', fontSize: '2.2em'}}>Toplam: {this.calculateTotal()}₺</div>
+                    <div style={{fontWeight: 'bold', fontSize: '0.8em'}}>indirim: 0₺</div>
+                  </div>
+
                     <Table
                         className='sale-list'
                         size="small"
@@ -342,40 +350,17 @@ class SalePage extends Component<Props> {
                                 },
                             };
                         }}
+
                     />
+
+
+
+
+
+
                     <Search placeholder='Urun barkodu girin' onSearch={this.handleSearch} />
                     <div className='sale-calculate'>
-                            <div style={{ alignItems: 'center', width: '50%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-                                <div style={{ display: 'flex', width: '100%' }}>
-                                    <Button onClick={this.finishSale} className='calculate-sale bitir'>
-                                      <div>
-                                        <div><Icon type="check-circle" theme="outlined" style={{fontSize:'1.5em'}} /></div>
-                                        <div style={{fontSize:'0.7em'}}>Satisi Bitir</div>
-                                      </div>
-                                    </Button>
-                                    <Button className='calculate-sale fiyat'>
-                                      <div>
-                                        <div><Icon type="tag" theme="outlined" style={{fontSize:'1.5em'}} /></div>
-                                        <div style={{fontSize:'0.7em'}}>Fiyat Gör</div>
-                                    </div>
-                                    </Button>
 
-                                </div>
-                                <div style={{ display: 'flex', width: '100%' }}>
-                                    <Button className='calculate-sale veresiye'>
-                                      <div>
-                                        <div><Icon type="form" theme="outlined" style={{fontSize:'1.5em'}} /></div>
-                                          <div style={{fontSize:'0.7em'}}>Veresiye</div>
-                                        </div>
-                                    </Button>
-                                    <Button onClick={this.emptyBasketConfirm} className='calculate-sale bosalt'>
-                                      <div>
-                                        <div><Icon type="delete" theme="outlined" style={{fontSize:'1.5em'}} /></div>
-                                        <div style={{fontSize:'0.7em'}}>Sepeti Boşalt</div>
-                                      </div>
-                                    </Button>
-                                </div>
-                            </div>
                             <div style={{ width: '60%',display:'flex', flexDirection:'column', height:'20.2vh' }}>
                                 <div style={{ display: 'flex', height:'24%',marginBottom:'2px' }}>
                                     <Button onClick={() => this.numberSelected(1)} className='number'>1</Button>
@@ -402,6 +387,39 @@ class SalePage extends Component<Props> {
                                   <Button onClick={() => { this.setState({ selectedButton: 3 }) }} className={this.state.selectedButton === 3 ? 'calc-button selected' : 'calc-button not-selected'}><div style={{fontSize:'12px'}}>İndirim</div></Button>
                                 </div>
                             </div>
+
+                      <div style={{ alignItems: 'center', width: '50%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', width: '100%' }}>
+                          <Button onClick={this.finishSale} className='calculate-sale bitir'>
+                            <div>
+                              <div><Icon type="check-circle" theme="outlined" style={{fontSize:'1.5em'}} /></div>
+                              <div style={{fontSize:'0.7em'}}>Satisi Bitir</div>
+                            </div>
+                          </Button>
+                          <Button className='calculate-sale fiyat'>
+                            <div>
+                              <div><Icon type="tag" theme="outlined" style={{fontSize:'1.5em'}} /></div>
+                              <div style={{fontSize:'0.7em'}}>Fiyat Gör</div>
+                            </div>
+                          </Button>
+
+                        </div>
+                        <div style={{ display: 'flex', width: '100%' }}>
+                          <Button className='calculate-sale veresiye'>
+                            <div>
+                              <div><Icon type="form" theme="outlined" style={{fontSize:'1.5em'}} /></div>
+                              <div style={{fontSize:'0.7em'}}>Veresiye</div>
+                            </div>
+                          </Button>
+                          <Button onClick={this.emptyBasketConfirm} className='calculate-sale bosalt'>
+                            <div>
+                              <div><Icon type="delete" theme="outlined" style={{fontSize:'1.5em'}} /></div>
+                              <div style={{fontSize:'0.7em'}}>Sepeti Boşalt</div>
+                            </div>
+                          </Button>
+                        </div>
+                      </div>
+
                         </div>
                 </div>
 
@@ -437,7 +455,7 @@ class SalePage extends Component<Props> {
                             {this.state.stocks.map((stock, index) => {
                                 return (
                                     <div className='sale-products' onClick={() => this.handleRightItemClick(index)}>
-                                      {console.log("resim: ", stock)}
+
                                         <CustomImage name={stock.product.imagePath} />
                                         <div style={{ backgroundColor: 'white', color:'#383c43', margin: '-15px',display:'flex',alignItems:'center', flexDirection:'column', justifyContent:'center',height:'50px'}}>
                                             <div className='txt' style={stock.product.name.length < 10 ? {fontSize: '1.2em'}: stock.product.name.length < 15 ? {fontSize: '1em'} : stock.product.name.length < 20 ? {fontSize: '0.8em'} : {fontSize:'0.8em', display:'flex', flexWrap:'wrap', width:'160px'} }>
@@ -452,7 +470,7 @@ class SalePage extends Component<Props> {
                                 )
                             })}
                         </div>
-                       
+
                     </div>
                 </div>
             </div>

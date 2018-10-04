@@ -98,6 +98,7 @@ class ExpensePage extends Component<Props> {
           title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.3em'}}/> Miktar</div>,
             dataIndex: 'price',
             key: 'price',
+            //sorter: (a,b) => a.price-b.price,
         },{
           title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.3em'}}/> Kaydeden</div>,
             dataIndex: 'userName',

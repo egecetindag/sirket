@@ -1,25 +1,40 @@
+/*.sale-menu{*/
+  /*height: 100%;*/
+  /*border: 2px solid #d9d9d9;*/
+  /*!*overflow: fragments;*!*/
+/*}*/
+
 .sale-list{
     height: 100%;
-    border: 2px solid #d9d9d9;
+    border: 1px solid #d9d9d9;
     overflow-y: auto;
-    margin-bottom: 10px
+    margin-bottom: 5px;
+
 }
+
 .sale-total{
     height: 100px;
-    margin: 10px 0px;
+    margin: 5px 0px;
     margin-top: 0px;
-    color: #00ff02;
-    background: #000000;
-    font-family: monospace;
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    font-weight: bold;
-    font-size: 1.1em;
-    justify-content: space-between;
+    border: 2px solid #d9d9d9;
+    background-color: rgb(251, 249, 255);
+    color: #545b62;
+    /*color: white;*/
+    /*background: #1f2831;*/
+    /*color: white;*/
+    /*background: #1f2831;*/
+
+    /*font-family: monospace;*/
+    /*display: flex;*/
+    /*align-items: right;*/
+    text-align: right;
+    padding: 10px;
+
+    /*justify-content: space-between;*/
 }
+
 .sale-calculate{
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     height: 300px;
     border-top: 1px solid #d9d9d9;
@@ -33,11 +48,10 @@
 }
 .sale-products{
     height: 180px;
-    padding: 10px;
-    margin: 10px;
+    /*width: 135px;*/
     padding: 15px;
-    position: relative;
     margin: 15px;
+    position: relative;
     box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.4);
     background: white;
 }
@@ -68,7 +82,8 @@
     cursor: pointer;
 }
 .selected{
-    background-color: #6fc89a !important;
+    /*background-color: #6fc89a !important;*/
+    background-color: #e2e2e2 !important;
     color: white!important;
 }
 .selected:focus{
