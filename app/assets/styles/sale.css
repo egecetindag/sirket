@@ -222,3 +222,49 @@ lightslategrey
 #1f2831 navbar
 #eeeeee gri
 */
+.ribbon{
+    background: #6fc89a;
+    position: absolute;
+    right: -7px;
+    padding: 5px;
+    width: 50px;
+    text-align: center;
+    top: 30px;
+}
+ .ribbon-b1{
+    position: absolute;
+    border-style: solid;
+    border-color: transparent;
+    bottom: 0px;
+    height: 8px;
+    border-width: 15px 10px 0px 0px;
+    border-right-color: #6fc89a;
+    right: 50px;
+ }
+ .ribbon-b2{
+    position: absolute;
+    border-style: solid;
+    border-color: transparent;
+    bottom: 14.5px;
+    border-width: 0px 10px 16px 0px;
+    border-right-color: #6fc89a;
+    right: 50px;
+ }
+.ribbon-a {
+    position: absolute;
+    border-style: solid;
+    border-color: transparent;
+    bottom: -7px;
+    border-width: 0 0 7px 7px;
+    border-left-color: #222;
+    right: 0;
+}
+.shadow{
+    height: 30.56px;
+    width: 61px;
+    top: 0px;
+    z-index: 100;
+    position: absolute;
+    right: 0px;
+    box-shadow: 0px 4px 5px -3px;
+}

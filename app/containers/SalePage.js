@@ -467,7 +467,8 @@ class SalePage extends Component<Props> {
                                                 {/*{stock.product.salePrice}₺*/}
                                             {/*</div>*/}
                                             <div className='filter'><Icons iconName='shopping' height='0px' /></div>
-                                        </div>
+                                            <div className='ribbon'><div className='shadow'/><span className='ribbon-b1'/><span className='ribbon-b2'/>{stock.product.salePrice}₺<span className='ribbon-a'/></div></div>
+                                        
                                     </div>
                                 )
                             })}
