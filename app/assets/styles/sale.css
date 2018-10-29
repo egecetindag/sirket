@@ -17,8 +17,12 @@
     margin: 5px 0px;
     margin-top: 0px;
     border: 2px solid #d9d9d9;
-    background-color: rgb(251, 249, 255);
-    color: #545b62;
+    background-color: #f3f3f3;
+    /*background-color: rgb(188, 213, 209);*/
+    /*background-color: rgb(251, 249, 255);*/
+    color: #464b52;
+    font-family:  ;
+    /*color: #545b62;*/
     /*color: white;*/
     /*background: #1f2831;*/
     /*color: white;*/
@@ -83,15 +87,16 @@
 }
 .selected{
     /*background-color: #6fc89a !important;*/
-    background-color: #e2e2e2 !important;
+    background-color: #edeae5 !important;
     color: white!important;
 }
 .selected:focus{
-    background-color: #6fc89a!important;
+    background-color: #f2fb96!important;
+    /*background-color: #6fc89a!important;*/
     color: white!important;
 }
 .selected:active{
-    background-color: #6fc89a!important;
+    background-color: #f2fb96!important;
     color: white!important;
 }
 
@@ -105,12 +110,12 @@
     width: 100%;
     border: none!important;
     /* box-shadow: 2px 2px 3px #888585; */
-    background: #e2e2e2 !important;
+    background: #edeae5 !important;
     color:#545b62!important;
 }
 /* .bitir:active{
     background-color: #94b3b7!important;
-    
+
 }
 .veresiye:active{
     background-color: #94b3b7!important;
@@ -132,7 +137,7 @@
 .calculate-sale:focus{
     color: white!important;
 }
-/* 
+/*
 .bitir{
     background-color: lightslategrey!important;
 }
@@ -150,13 +155,13 @@
     background: white;
     width: 25px!important;
     height: 25px!important
-    
+
 }
 .sale-selected-row{
     background-color:#e6f7ff
 }
 .number{
-    background: #e2e2e2!important;
+    background: #edeae5!important;
     font-size: 1.4em!important;
     border-radius: 0!important;
     font-weight: bold!important;
@@ -179,7 +184,7 @@
     color: white!important;
 }
 .number:active{
-    background-color:  #1f2831!important;    
+    background-color:  #1f2831!important;
     color: white!important
 }
 .number:focus{
@@ -189,7 +194,7 @@
     color: white!important
 }
 .calc-button:active{
-    background-color:  #1f2831!important;    
+    background-color:  #1f2831!important;
     color: white!important
 }
 .calc-button:focus{
@@ -197,7 +202,7 @@
 }
 
 .not-selected{
-    background: #e2e2e2 !important;
+    background: #edeae5 !important;
 }
 .calc-button{
     font-size: 1.1em!important;
@@ -223,13 +228,18 @@ lightslategrey
 #eeeeee gri
 */
 .ribbon{
-    background: #6fc89a;
+    background: #f2fb96;
+    /*background: #e65861;*/
     position: absolute;
     right: -7px;
     padding: 5px;
     width: 50px;
     text-align: center;
-    top: 30px;
+    top: 10px;
+    color:black;
+    /*font-weight: bold;*/
+    /*border-color: black;*/
+  /*border-bottom-color: black;*/
 }
  .ribbon-b1{
     position: absolute;
@@ -238,7 +248,8 @@ lightslategrey
     bottom: 0px;
     height: 8px;
     border-width: 15px 10px 0px 0px;
-    border-right-color: #6fc89a;
+    border-right-color: #c7d8c6;
+    /*border-right-color: #6fc89a;*/
     right: 50px;
  }
  .ribbon-b2{
@@ -247,7 +258,9 @@ lightslategrey
     border-color: transparent;
     bottom: 14.5px;
     border-width: 0px 10px 16px 0px;
-    border-right-color: #6fc89a;
+    border-right-color: #c7d8c6;
+    /*border-right-color: rgb(188, 213, 209);*/
+    /*border-right-color: #6fc89a;*/
     right: 50px;
  }
 .ribbon-a {
@@ -261,7 +274,7 @@ lightslategrey
 }
 .shadow{
     height: 30.56px;
-    width: 61px;
+    width: 50px;
     top: 0px;
     z-index: 100;
     position: absolute;

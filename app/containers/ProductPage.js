@@ -176,7 +176,7 @@ class ProductPage extends Component<Props> {
               title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.2em'}}/> Alis Fiyati</div>,
                 dataIndex: 'purchasePrice',
                 key: 'purchasePrice',
-                sorter: (a, b) => a.purchasePrice - b.purchasePrice,
+                // sorter: (a, b) => a.purchasePrice - b.purchasePrice,
             },
             {
               title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.2em'}}/> Satis Fiyati</div>,

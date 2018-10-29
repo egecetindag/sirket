@@ -332,8 +332,8 @@ class SalePage extends Component<Props> {
 
 
                   <div className='sale-total' >
-                    <div style={{fontWeight: 'bold', fontSize: '2.2em'}}>Toplam: {this.calculateTotal()}₺</div>
-                    <div style={{fontWeight: 'bold', fontSize: '0.8em'}}>indirim: 0₺</div>
+                    <div style={{fontWeight: 'bold', fontSize: '2.1em'}}>TOPLAM: {this.calculateTotal()}₺</div>
+                    <div style={{fontWeight: 'bold', fontSize: '0.8em'}}>Indirim: 0₺</div>
                   </div>
 
 
@@ -426,7 +426,7 @@ class SalePage extends Component<Props> {
                 </div>
 
                 <div style={{ border: '1px solid #d9d9d9', width: '65%', marginLeft: '1%', background:'#fbf9ff' }}>
-                    <div style={{ display: 'flex', height: '45px', padding: '15px', backgroundColor: '#e2e2e2', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', height: '45px', padding: '15px', backgroundColor: '#f3f3f3', justifyContent: 'space-between' }}>
                         <div className='sale-header'>
                             <div className="demo">
                                 <Breadcrumb>
@@ -467,8 +467,9 @@ class SalePage extends Component<Props> {
                                                 {/*{stock.product.salePrice}₺*/}
                                             {/*</div>*/}
                                             <div className='filter'><Icons iconName='shopping' height='0px' /></div>
-                                            <div className='ribbon'><div className='shadow'/><span className='ribbon-b1'/><span className='ribbon-b2'/>{stock.product.salePrice}₺<span className='ribbon-a'/></div></div>
-                                        
+                                            {/*<div className='ribbon'><div className='shadow'/><span className='ribbon-b1'/><span className='ribbon-b2'/>{stock.product.salePrice}₺<span className='ribbon-a'/></div></div>*/}
+                                            <div className='ribbon'><div className='shadow'/>{stock.product.salePrice}₺<span className='ribbon-a'/></div></div>
+
                                     </div>
                                 )
                             })}
