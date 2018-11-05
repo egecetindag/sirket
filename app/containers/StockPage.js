@@ -10,6 +10,8 @@ import { retrieveDealers } from '../actions/DealerActions';
 import { retrieveProducts } from '../actions/ProductActions'
 import style from '../assets/styles/stock.css'
 
+const MenuItem = Menu.Item;
+
 import moment from 'moment'
 class StockPage extends Component<Props> {
   props: Props
@@ -151,15 +153,15 @@ class StockPage extends Component<Props> {
 
     const menu = (
       <Menu>
-        <Menu.Item>
+        <MenuItem>
           <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="star" />Favori</Button>
-        </Menu.Item>
-        <Menu.Item>
+        </MenuItem>
+        <MenuItem>
           <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" />Düzenle</Button>
-        </Menu.Item>
-        <Menu.Item>
+        </MenuItem>
+        <MenuItem>
           <Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" />Sil</Button></Popconfirm>
-        </Menu.Item>
+        </MenuItem>
       </Menu>
     );
 

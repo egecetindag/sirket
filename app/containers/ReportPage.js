@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 
 const { Header, Sider, Content } = Layout;
 
+const MenuItem = Menu.Item;
+
 import style from '../assets/styles/stock.css'
 
 import moment from 'moment'
@@ -72,18 +74,18 @@ class ReportPage extends Component<Props> {
                   defaultSelectedKeys={['1']}
                   onClick={this.handleClick}
               >
-                <Menu.Item key="1">
+                <MenuItem key="1">
                   <Icon type="user" />
                   <span>Summary Dashboard</span>
-                </Menu.Item>
-                <Menu.Item key="2">
+                </MenuItem>
+                <MenuItem key="2">
                   <Icon type="video-camera" />
                   <span>Stock Report</span>
-                </Menu.Item>
-                <Menu.Item key="3">
+                </MenuItem>
+                <MenuItem key="3">
                   <Icon type="upload" />
                   <span>nav 3</span>
-                </Menu.Item>
+                </MenuItem>
               </Menu>
             </Sider>
             <Layout>

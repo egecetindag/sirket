@@ -9,6 +9,8 @@ import { retrieveProducts, createProduct, updateProduct, deleteProduct } from '.
 import moment from 'moment'
 import { CustomImage } from '../assets/ProductPhotos/CustomImage'
 
+const MenuItem = Menu.Item;
+
 function getBase64(img, callback) {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
@@ -138,12 +140,12 @@ class ProductPage extends Component<Props> {
 
       const menu = (
         <Menu>
-          <Menu.Item>
+          <MenuItem>
             <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" /> Düzenle</Button>
-          </Menu.Item>
-          <Menu.Item>
+          </MenuItem>
+          <MenuItem>
             <Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" /> Sil</Button></Popconfirm>
-          </Menu.Item>
+          </MenuItem>
         </Menu>
       );
 

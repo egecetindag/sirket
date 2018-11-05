@@ -13,6 +13,8 @@ const Option = Select.Option;
 
 type Props = {};
 
+const MenuItem = Menu.Item;
+
 class Navbar extends Component<Props> {
     props: Props
     constructor(props) {
@@ -85,51 +87,51 @@ class Navbar extends Component<Props> {
                     mode="horizontal"
                     className='navbar-menu'
                 >
-                    <Menu.Item key="0">
+                    <MenuItem key="0">
                         <div className='navbar-icon'><Icons iconName='sale' /></div>
                         <div>Satış</div>
-                    </Menu.Item>
-                    {/* <Menu.Item key="1">
+                    </MenuItem>
+                    {/* <MenuItem key="1">
                         <div className='navbar-icon'><Icons iconName='turkish-lira' /></div>
                         <div>Fiyat Gör</div>
-                    </Menu.Item>
-                    <Menu.Item key="2">
+                    </MenuItem>
+                    <MenuItem key="2">
                         <div className='navbar-icon'><Icons iconName='return' /></div>
                         <div>Ürün İade</div>
-                    </Menu.Item> */}
-                    <Menu.Item key="3">
+                    </MenuItem> */}
+                    <MenuItem key="3">
                         <div className='navbar-icon'><Icons iconName='shopping' /></div>
                         <div>Ürün</div>
-                    </Menu.Item>
-                    <Menu.Item key="4">
+                    </MenuItem>
+                    <MenuItem key="4">
                         <div className='navbar-icon'><Icons iconName='home' /></div>
                         <div>Stok</div>
-                    </Menu.Item>
-                    <Menu.Item key="5">
+                    </MenuItem>
+                    <MenuItem key="5">
                         <div className='navbar-icon'><Icons iconName="user-plus" /></div>
                         <div>Müşteri</div>
-                    </Menu.Item>
-                    <Menu.Item key="6">
+                    </MenuItem>
+                    <MenuItem key="6">
                         <div className='navbar-icon'><Icons iconName="users" /></div>
                         <div>Tedarikçi</div>
-                    </Menu.Item>
-                    <Menu.Item key="7">
+                    </MenuItem>
+                    <MenuItem key="7">
                         <div className='navbar-icon'><Icons iconName="turkish-lira" /></div>
                         <div>Ödemeler</div>
-                    </Menu.Item>
-                    <Menu.Item key="8">
+                    </MenuItem>
+                    <MenuItem key="8">
                         <div className='navbar-icon'><Icons iconName="cost" /></div>
                         <div>Masraf</div>
-                    </Menu.Item>
-                    <Menu.Item key="9">
+                    </MenuItem>
+                    <MenuItem key="9">
                         <div className='navbar-icon'><Icons iconName="notepad" /></div>
                         <div>Tahsilat</div>
-                    </Menu.Item>
+                    </MenuItem>
 
-                    <Menu.Item key="10">
+                    <MenuItem key="10">
                         <div className='navbar-icon'><Icons iconName="chart" /></div>
                         <div>Raporlar</div>
-                    </Menu.Item>
+                    </MenuItem>
                 </Menu>
                 <Button onClick={this.showDrawer} className='navbar-button'><Icon style={{ color: 'white', fontSize: '2em' }} type="ellipsis" /></Button>
                 <Drawer

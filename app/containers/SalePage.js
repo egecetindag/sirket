@@ -16,6 +16,8 @@ const Option = Select.Option
 const confirm = Modal.confirm;
 const data = [{ name: 'slm' }, { name: 'ben' }, { name: 'ege' }]
 
+const BreadCrumbItem = Breadcrumb.Item;
+
 class SalePage extends Component<Props> {
     props: Props
     constructor(props) {
@@ -167,9 +169,15 @@ class SalePage extends Component<Props> {
         this.props.retrieveStocksCategories();
     }
     handleSearch = (e) => {
-        if (e.length === 12) {
-            this.props.retrieveStockByBarcode(e);
-        }
+
+      console.log("search: ")
+
+      this.props.retrieveStockByBarcode(e);
+        // if (e.length === 12) {
+        //     this.props.retrieveStockByBarcode(e);
+        // }
+
+      console.log(this.products)
     }
 
     handleSearchProducts = (e) => {
@@ -291,11 +299,11 @@ class SalePage extends Component<Props> {
         const extraBreadcrumbItems = pathSnippets.map((_, index) => {
             const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
             return (
-                <Breadcrumb.Item key={url}>
+                <BreadCrumbItem key={url}>
                     <Link to={url}>
                         {breadcrumbNameMap[url]}
                     </Link>
-                </Breadcrumb.Item>
+                </BreadCrumbItem>
             );
         });
 
