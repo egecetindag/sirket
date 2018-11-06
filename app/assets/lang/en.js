@@ -18,5 +18,13 @@ export const lang = {
     totalU:'Total: ',
     currency:'$',
     searchAll:'Search All Products',
-    selectProductToRemove:' Select Prooduct To Remove!'
+    selectProductToRemove:' Select Prooduct To Remove!',
+    barcode:'Barcode',
+    name:'Name',
+    description:'Description',
+    category:'Category',
+    salePrice:'Sale Price',
+    buyingPrice:'Buying Price',
+    actions:'Actions',
+    
 }

@@ -87,17 +87,17 @@
 }
 .selected{
     /*background-color: #6fc89a !important;*/
-    background-color: #edeae5 !important;
-    color: white!important;
+    background-color: #f2fb96 !important;
+    color: black!important;
 }
 .selected:focus{
     background-color: #f2fb96!important;
     /*background-color: #6fc89a!important;*/
-    color: white!important;
+    color: black!important;
 }
 .selected:active{
     background-color: #f2fb96!important;
-    color: white!important;
+    color: black!important;
 }
 
 .calculate-sale{
@@ -172,7 +172,8 @@
 }
 
 .not-selected{
-    background: #edeae5 !important;
+    background: #f3f3f3 !important;
+    color: #464b52;    
 }
 .calc-button{
     font-size: 1.1em!important;
@@ -182,8 +183,6 @@
     width: 38.7%!important;
     height: 100%!important;
     margin: 1px;
-    color: #545b62!important;
-    background: #f3f3f3!important;
     border-radius: 0px!important;
     border: none!important;
     box-shadow:  1px 1px 1px grey!important;
