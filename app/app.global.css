@@ -39,8 +39,8 @@ a:hover {
   cursor: pointer;
 }
 ant-menu-horizontal > .ant-menu-item:hover{
-  border-bottom: 2px solid #bcd5d1;
-  color: #bcd5d1;
+  border-bottom: 2px solid #f2fb96;
+  color: #f2fb96;
 } 
 .ant-menu-horizontal{
   color: white;
@@ -54,6 +54,6 @@ ant-menu-horizontal > .ant-menu-item:hover{
  .ant-menu-horizontal > .ant-menu-submenu-open, 
  .ant-menu-horizontal > .ant-menu-item-selected, 
  .ant-menu-horizontal > .ant-menu-submenu-selected {
-  border-bottom: 2px solid #bcd5d1;
-  color: #bcd5d1;
+  border-bottom: 2px solid #f2fb96;
+  color: #f2fb96;
 }

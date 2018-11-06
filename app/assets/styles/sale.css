@@ -21,7 +21,7 @@
     /*background-color: rgb(188, 213, 209);*/
     /*background-color: rgb(251, 249, 255);*/
     color: #464b52;
-    font-family:  ;
+
     /*color: #545b62;*/
     /*color: white;*/
     /*background: #1f2831;*/
@@ -106,12 +106,13 @@
     font-weight: bold!important;
     font-size: 1.1em!important;
     padding: 2px!important;
-    height: 10vh!important;
+    height: auto!important;
     width: 100%;
-    box-shadow: 1px solid grey!important;
+    box-shadow: 1px 1px 1px grey!important;
     /* box-shadow: 2px 2px 3px #888585; */
     background: #f3f3f3 !important;
     color:#545b62!important;
+    border: none!important;
 }
 .calculate-sale:hover{
     color: black!important;

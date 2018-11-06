@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {lang} from '../services/config'
 type Props = {};
 import { List, Icon, Avatar, Button, Input, Table, Row, Col, Breadcrumb,Card, Dropdown, Menu, Select, Modal, message } from 'antd'
 import { Link } from 'react-router-dom';
@@ -85,10 +86,10 @@ class SalePage extends Component<Props> {
     showDeleteConfirm = () => {
         let e = this;
         confirm({
-            title: 'Urunu alisveris sepetinden kaldirmak istediginizden emin misiniz?',
-            okText: 'Evet',
+            title: lang.areUSureToRemoveItem,
+            okText: lang.yes,
             okType: 'danger',
-            cancelText: 'Hayir',
+            cancelText: lang.no,
             onOk() {
                 e.setState({
                     selectedRow: e.state.products.length - 2,
@@ -104,10 +105,10 @@ class SalePage extends Component<Props> {
         if(this.state.products.length > 0){
         let e = this;
         confirm({
-            title: 'Sepeti bosaltmak istediginizden emin misiniz?',
-            okText: 'Evet',
+            title: lang.areUSureToEmpty,
+            okText: lang.yes,
             okType: 'danger',
-            cancelText: 'Hayir',
+            cancelText: lang.no,
             onOk() {
                 e.setState({
                     products: [],
@@ -121,7 +122,7 @@ class SalePage extends Component<Props> {
         });
     }
     else{
-        message.warn('Sepetiniz bos');
+        message.warn(lang.yourBasketIsEmpty);
     }
     }
     finishSale = () => {
@@ -129,8 +130,8 @@ class SalePage extends Component<Props> {
         let e = this;
         confirm({
             title: 'Satisi bitirmek istediginizden emin misiniz?',
-            okText: 'Evet',
-            cancelText: 'Hayir',
+            okText: lang.yes,
+            cancelText: lang.no,
             onOk() {
                 //function buraya 
                 let basket = {};
@@ -159,7 +160,7 @@ class SalePage extends Component<Props> {
         });
     }
     else{
-        message.warn('Sepetiniz bos');
+        message.warn(lang.yourBasketIsEmpty);
     }
     }
 
@@ -238,7 +239,7 @@ class SalePage extends Component<Props> {
         this.setState({ visible: flag });
     }
     handleSelect = (e) => {
-        if (e !== 'En Cok Satanlar') {
+        if (e !== lang.bestSellers) {
             this.props.retrieveStocks({ category: e })
             history.push('/sale/' + e);
         }
@@ -282,7 +283,7 @@ class SalePage extends Component<Props> {
             }
         }
         else {
-            message.warn('Silme islemi icin urun seciniz')
+            message.warn(lang.selectProductToRemove)
         }
     }
     render() {
@@ -310,23 +311,23 @@ class SalePage extends Component<Props> {
         const columns = [
 
             {
-                title: 'Ürün',
+                title: lang.product,
                 width: '64%',
                 dataIndex: 'product.name',
-                key: 'urun',
+                key: lang.product,
             },
             {
-                title: 'Adet',
+                title: lang.qty,
                 width: '18%',
-                key: 'qty',
+                key: lang.qty,
                 color: 'black',
                 render: (text, record, key) => <div>{this.state.quantities[record.id]}</div>
             },
             {
-                title: 'Fiyat',
+                title: lang.price,
                 width: '18%',
                 key: 'salePrice',
-                render: (text, record) => <div>{record.product.salePrice * this.state.quantities[record.id]} ₺ </div>
+                render: (text, record) => <div>{record.product.salePrice * this.state.quantities[record.id]} {lang.currency} </div>
             }
         ]
         const breadcrumbItems = extraBreadcrumbItems;
@@ -340,8 +341,8 @@ class SalePage extends Component<Props> {
 
 
                   <div className='sale-total' >
-                    <div style={{fontWeight: 'bold', fontSize: '2.1em'}}>TOPLAM: {this.calculateTotal()}₺</div>
-                    <div style={{fontWeight: 'bold', fontSize: '0.8em'}}>Indirim: 0₺</div>
+                    <div style={{fontWeight: 'bold', fontSize: '2.1em'}}>{lang.totalU}{this.calculateTotal()}{lang.currency}</div>
+                    <div style={{fontWeight: 'bold', fontSize: '0.8em'}}>{lang.discount}: 0{lang.currency}</div>
                   </div>
 
 
@@ -370,7 +371,7 @@ class SalePage extends Component<Props> {
 
                   <div className='sale-calculate'>
 
-                    <div style={{ width: '60%',display:'flex', flexDirection:'column', height:'20.2vh' }}>
+                    <div style={{ width: '60%',display:'flex', flexDirection:'column', height:'100%' }}>
                       <div style={{ display: 'flex', height:'24%',marginBottom:'2px' }}>
                         <Button onClick={() => this.numberSelected(1)} className='number'>1</Button>
                         <Button onClick={() => this.numberSelected(2)} className='number'>2</Button>
@@ -382,38 +383,38 @@ class SalePage extends Component<Props> {
                         <Button onClick={() => this.numberSelected(4)} className='number'>4</Button>
                         <Button onClick={() => this.numberSelected(5)} className='number'>5</Button>
                         <Button onClick={() => this.numberSelected(6)} className='number'>6</Button>
-                        <Button onClick={() => { this.setState({ selectedButton: 1 }) }} className={this.state.selectedButton === 1 ? 'calc-button selected' : 'calc-button not-selected'} ><div style={{fontSize:'12px'}}>Adet</div></Button>
+                        <Button onClick={() => { this.setState({ selectedButton: 1 }) }} className={this.state.selectedButton === 1 ? 'calc-button selected' : 'calc-button not-selected'} ><div style={{fontSize:'12px'}}>{lang.qty}</div></Button>
                       </div>
                       <div style={{ display: 'flex',height:'24%',marginBottom:'2px' }}>
                         <Button onClick={() => this.numberSelected(7)} className='number'>7</Button>
                         <Button onClick={() => this.numberSelected(8)} className='number'>8</Button>
                         <Button onClick={() => this.numberSelected(9)} className='number'>9</Button>
-                        <Button onClick={this.delete} className={this.state.selectedButton === 2 ? 'calc-button selected' : 'calc-button not-selected'}><div style={{fontSize:'12px'}}>Sil</div></Button>
+                        <Button onClick={this.delete} className={this.state.selectedButton === 2 ? 'calc-button selected' : 'calc-button not-selected'}><div style={{fontSize:'12px'}}>{lang.delete}</div></Button>
                       </div>
                       <div style={{ display: 'flex',height:'24%',marginBottom:'2px' }}>
                         <Button onClick={() => this.numberSelected(0)} className='calc-button not-selected'>0</Button>
                         <Button className='number'>%</Button>
-                        <Button onClick={() => { this.setState({ selectedButton: 3 }) }} className={this.state.selectedButton === 3 ? 'calc-button selected' : 'calc-button not-selected'}><div style={{fontSize:'12px'}}>İndirim</div></Button>
+                        <Button onClick={() => { this.setState({ selectedButton: 3 }) }} className={this.state.selectedButton === 3 ? 'calc-button selected' : 'calc-button not-selected'}><div style={{fontSize:'12px'}}>{lang.discount}</div></Button>
                       </div>
                     </div>
 
-                    <div style={{ alignItems: 'center', width: '50%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ display: 'flex', width: '100%' }}>
+                    <div style={{ alignItems: 'center', width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ display: 'flex', width: '100%', height:'50%' }}>
                         <Button onClick={this.finishSale} className='calculate-sale bitir'>
                           <div>
                             <div><Icon type="check-circle" theme="outlined" style={{fontSize:'1.5em'}} /></div>
-                            <div style={{fontSize:'0.7em'}}>Satisi Bitir</div>
+                            <div style={{fontSize:'0.7em'}}>{lang.endSale}</div>
                           </div>
                         </Button>
                         <Button className='calculate-sale fiyat'>
                           <div>
                             <div><Icon type="tag" theme="outlined" style={{fontSize:'1.5em'}} /></div>
-                            <div style={{fontSize:'0.7em'}}>Fiyat Gör</div>
+                            <div style={{fontSize:'0.7em'}}>{lang.showPrice}</div>
                           </div>
                         </Button>
 
                       </div>
-                      <div style={{ display: 'flex', width: '100%' }}>
+                      <div style={{ display: 'flex', width: '100%',height:'50%' }}>
                         <Button className='calculate-sale veresiye'>
                           <div>
                             <div><Icon type="form" theme="outlined" style={{fontSize:'1.5em'}} /></div>
@@ -423,7 +424,7 @@ class SalePage extends Component<Props> {
                         <Button onClick={this.emptyBasketConfirm} className='calculate-sale bosalt'>
                           <div>
                             <div><Icon type="delete" theme="outlined" style={{fontSize:'1.5em'}} /></div>
-                            <div style={{fontSize:'0.7em'}}>Sepeti Boşalt</div>
+                            <div style={{fontSize:'0.7em'}}>{lang.empty}</div>
                           </div>
                         </Button>
                       </div>
@@ -447,7 +448,7 @@ class SalePage extends Component<Props> {
                             <Select
                                 style={{ width: '300px', marginRight: ' 5px' }}
                                 onSelect={this.handleSelect}
-                                defaultValue='En Cok Satanlar'
+                                defaultValue={lang.bestSellers}
                                 showSearch
                                 // placeholder='Select Category'
                                 filterOption={(input, option) => (option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
@@ -456,7 +457,7 @@ class SalePage extends Component<Props> {
                             </Select>
                             <Search
                                 onChange={this.handleSearchProducts}
-                                placeholder='Tum Urunlerde Ara'
+                                placeholder={lang.searchAll}
                             />
                         </div>
                     </div>
@@ -476,7 +477,7 @@ class SalePage extends Component<Props> {
                                             {/*</div>*/}
                                             <div className='filter'><Icons iconName='shopping' height='0px' /></div>
                                             {/*<div className='ribbon'><div className='shadow'/><span className='ribbon-b1'/><span className='ribbon-b2'/>{stock.product.salePrice}₺<span className='ribbon-a'/></div></div>*/}
-                                            <div className='ribbon'><div className='shadow'/>{stock.product.salePrice}₺<span className='ribbon-a'/></div></div>
+                                            <div className='ribbon'><div className='shadow'/>{stock.product.salePrice}{lang.currency}<span className='ribbon-a'/></div></div>
 
                                     </div>
                                 )
