@@ -1,5 +1,4 @@
-const host = "http://localhost:8091"
-const pHost = "http://localhost:8091/api"
+import {pHost, host} from './config'
 import axios from 'axios'
 
 export const loginService = (dataToSend) => {

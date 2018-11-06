@@ -108,51 +108,25 @@
     padding: 2px!important;
     height: 10vh!important;
     width: 100%;
-    border: none!important;
+    box-shadow: 1px solid grey!important;
     /* box-shadow: 2px 2px 3px #888585; */
-    background: #edeae5 !important;
+    background: #f3f3f3 !important;
     color:#545b62!important;
 }
-/* .bitir:active{
-    background-color: #94b3b7!important;
-
-}
-.veresiye:active{
-    background-color: #94b3b7!important;
-}
-.bosalt:active{
-    background-color: #94b3b7!important;
-}
-.fiyat:active{
-    background-color: #94b3b7!important;
-} */
 .calculate-sale:hover{
-    color: white!important;
+    color: black!important;
   /* box-shadow: 2px 2px 3px #5d5d5d; */
 }
 .calculate-sale:active{
-    color: white!important;
-    background: #1f2831!important;
+    color: black!important;
+    background: #f2fb96!important;
 }
 .calculate-sale:focus{
-    color: white!important;
+    color: black!important;
 }
-/*
-.bitir{
-    background-color: lightslategrey!important;
-}
-
-.veresiye{
-    background-color: lightslategrey!important;
-}
-.bosalt{
-    background-color: lightslategrey!important;
-.fiyat{
-    background-color: lightslategrey!important;
-} */
 
 .sale-products:hover >div> .filter> div> .icon{
-    background: white;
+    background: black;
     width: 25px!important;
     height: 25px!important
 
@@ -161,7 +135,7 @@
     background-color:#e6f7ff
 }
 .number{
-    background: #edeae5!important;
+    background: #f3f3f3!important;
     font-size: 1.4em!important;
     border-radius: 0!important;
     font-weight: bold!important;
@@ -169,36 +143,31 @@
     padding: 2%!important;
     text-align: center;
     width: 18.8%!important;
-    /* min-width: 50px!important; */
     margin:1px !important;
     color: #545b62!important;
-    /* margin-top: 1%!important;
-    margin-left: 1%!important;
-    margin-bottom: 0%!important;
-    margin-right: 0px!important; */
-    /*margin: 3px;*/
     border: none!important;
     cursor: pointer;
+    box-shadow:  1px 1px 1px grey!important;
 }
 .number:hover{
-    color: white!important;
+    color: black!important;
 }
 .number:active{
-    background-color:  #1f2831!important;
-    color: white!important
+    background-color:  #f2fb96!important;
+    color: black!important
 }
 .number:focus{
-    color: white!important
+    color: black!important
 }
 .calc-button:hover{
-    color: white!important
+    color: black!important
 }
 .calc-button:active{
-    background-color:  #1f2831!important;
-    color: white!important
+    background-color: #f2fb96!important;
+    color: black!important
 }
 .calc-button:focus{
- color: white!important
+ color: black!important
 }
 
 .not-selected{
@@ -210,16 +179,13 @@
     padding: 2%!important;
     text-align: center!important;
     width: 38.7%!important;
-    /* min-width: 50px!important; */
-    /* margin: 1%!important;
-    margin-right: 0px!important;
-    margin-bottom: 0px!important; */
     height: 100%!important;
     margin: 1px;
     color: #545b62!important;
-    /* height: 25%!important; */
+    background: #f3f3f3!important;
     border-radius: 0px!important;
     border: none!important;
+    box-shadow:  1px 1px 1px grey!important;
 }
 /*
 lightslategrey
