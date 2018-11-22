@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Home.css';
 import 'antd/dist/antd.css'
-import { Button, Select, Menu, Icon, Drawer } from 'antd'
+import { Button, Select, Menu, Icon, Drawer,Avatar, Divider } from 'antd'
 import { Icons } from '../assets/Icons'
 import { history } from '../store/configureStore'
 import './Navbar.css'
@@ -153,7 +153,13 @@ class Navbar extends Component<Props> {
                     onClose={this.onClose}
                     visible={this.state.visible}
                 >
+
+
+                     
+                    <Avatar size={116} icon="user" />
+                    <Divider />
                     <Button onClick ={this.handleLogout} >Logout</Button>
+                
                 </Drawer>
             </div>
 

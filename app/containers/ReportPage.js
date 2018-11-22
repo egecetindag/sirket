@@ -6,6 +6,8 @@ const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import {lang} from '../services/config'
+
 const { Header, Sider, Content } = Layout;
 
 const MenuItem = Menu.Item;
@@ -57,7 +59,7 @@ class ReportPage extends Component<Props> {
     return (
       <div>
         <div className='page-header' >
-          <div className='header-h'>Raporlar</div>
+          <div className='header-h'>{lang.reports}</div>
           <div style={{ display: 'flex' }}>
 
 

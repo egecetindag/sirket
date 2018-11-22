@@ -99,5 +99,12 @@ export const lang = {
     receivings: 'Receivings',
     searchReceiving: 'Search Receiving',
     receivingEntry: 'Receiving Entry',
+    reports: 'Reports',
+    saleReport: 'Sale Report',
+    stockReport: 'Stock Report',
+    paymentReport: 'Payment Report',
+    activityLog: 'Activity Log',
+    productReport: 'Product Report',
+    
 
 }

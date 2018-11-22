@@ -20,6 +20,8 @@ const dateFormat = 'DD/MM/YYYY';
 import style from '../../assets/styles/stock.css'
 import moment from 'moment'
 
+import {lang} from '../../services/config'
+
 const MenuItem = Menu.Item
 
 
@@ -68,7 +70,7 @@ render() {
   return (
     <div>
       <div className='page-header' >
-        <div className='header-h'>Raporlar</div>
+        <div className='header-h'>{lang.reports}</div>
         <div style={{ display: 'flex' }}>
             <RangePicker
               placeholder={['Başlangıç Tarihi', 'Bitiş Tarihi']}
@@ -94,23 +96,23 @@ render() {
             >
               <MenuItem key="1">
                 <Icon type="dashboard" style={{fontSize:'1.4em'}}/>
-                <span>Satış Raporu</span>
+                <span>{lang.saleReport}</span>
               </MenuItem>
               <MenuItem key="2">
                 <Icon type="line-chart" style={{fontSize:'1.4em'}}/>
-                <span>Stock Raporu</span>
+                <span>{lang.stockReport}</span>
               </MenuItem>
               <MenuItem key="3">
                 <Icon type="credit-card" style={{fontSize:'1.4em'}}/>
-                <span>Ödeme Raporu</span>
+                <span>{lang.paymentReport}</span>
               </MenuItem>
               <MenuItem key="4">
                 <Icon type="bars" style={{fontSize:'1.4em'}}/>
-                <span>Activity Log</span>
+                <span>{lang.activityLog}</span>
               </MenuItem>
               <MenuItem key="5">
                 <Icon type="inbox" style={{fontSize:'1.4em'}} />
-                <span>Ürün Raporu</span>
+                <span>{lang.productReport}</span>
               </MenuItem>
               {/*<Menu.Item key="6">*/}
                 {/*<Icon type="user" />*/}
