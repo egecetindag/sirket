@@ -7,6 +7,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {retrieveReceivings,createReceiving, updateReceiving,deleteReceiving,setReceivingStatus} from '../actions/ReceivingActions'
 import moment from 'moment'
+
+import {lang} from '../services/config'
+
 class ReceivingPage extends Component<Props> {
     props: Props
     constructor(props) {
@@ -119,57 +122,57 @@ class ReceivingPage extends Component<Props> {
 
     render() {
         const columns = [{
-          title: <div><Icon type="user" theme="outlined" style={{fontSize:'1.3em'}}/> Müşteri</div>,
+          title: <div><Icon type="user" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.customer}</div>,
             dataIndex: 'personName',
             key: 'personName',
         }, {
-          title: <div><Icon type="phone" theme="outlined" style={{fontSize:'1.3em'}}/> Telefon</div>,
+          title: <div><Icon type="phone" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.phone}</div>,
             dataIndex: 'personPhone',
             key: 'personPhone',
         }, {
-          title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.3em'}}/> Miktar</div>,
+          title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.amount}</div>,
             dataIndex: 'amount',
             key: 'amount',
         },
         {
-          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> Son Güncellenme</div>,
+          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.lastUpdate}</div>,
             dataIndex: 'updateDate',
             key: 'updateDate',
             render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
         },
         {
-          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> Ödeme Tarihi</div>,
+          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.paymentDate}</div>,
             dataIndex: 'expectedDate',
             key: 'expectedDate',
             render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
         },
         {
-          title: <div><Icon type="pie-chart" theme="outlined" style={{fontSize:'1.3em'}}/> Durum</div>,
+          title: <div><Icon type="pie-chart" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.status}</div>,
             dataIndex: 'status',
             key: 'status',
 
             render: (text) => {
 
                 if (text === 'Bekliyor'){
-                  return <div><Icon type='clock-circle-o' style={{color:'#6e6e6e'}}/> {text}</div>
+                  return <div><Icon type='clock-circle-o' style={{color:'#6e6e6e'}}/> {lang.pending}</div>
                 }else if (text === 'Bitti'){
-                  return <div><Icon type='check' style={{color:'#59a856'}}/> {text}</div>
+                  return <div><Icon type='check' style={{color:'#59a856'}}/> {lang.finished}</div>
                 }else if (text === 'Gecikmiş'){
-                  return <div><Icon type='exclamation-circle-o' style={{color:'#f76255'}}/> {text}</div>
+                  return <div><Icon type='exclamation-circle-o' style={{color:'#f76255'}}/> {lang.pending}</div>
                 }
             }
 
         },{
-            title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.3em'}}/> Kaydeden</div>,
+            title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.registrar}</div>,
             dataIndex: 'userName',
             key: 'userName',
         },{
-            title: 'Duzenle',
+            title: lang.edit,
             render:() => <Button onClick={()=>this.handleModalOpen('edit')} style={{border:'0', background:'transparent'}}><Icon type="edit" /></Button>
         },
         {
-            title: 'Sil',
-            render:() =><Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button></Popconfirm>
+            title: lang.delete,
+            render:() =><Popconfirm placement="topLeft" title={lang.areUSureToRemoveItem} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button></Popconfirm>
         },
     
     ]
@@ -191,11 +194,11 @@ class ReceivingPage extends Component<Props> {
         return (
             <div>
                 <div className='page-header' >
-                    <div className='header-h'>Tahsilatlar</div>
+                    <div className='header-h'>{lang.receivings}</div>
                     <div style={{ display: 'flex' }}>
                         <Search
                             style={{ height: '32px', marginRight: '10px' }}
-                            placeholder="Tahsilat Ara"
+                            placeholder={lang.searchReceiving}
                             onSearch={this.handleSearch}
                             onChange = {this.onSearchChange}
                         />
@@ -205,16 +208,16 @@ class ReceivingPage extends Component<Props> {
                 <div className='page-body'>
 
                   <Tabs defaultActiveKey="1" onChange={this.handleTabClick}>
-                    <TabPane tab={<span><Icon type="info-circle" style={{color:'#108ee9'}}/>Hepsi</span>} key="1">
+                    <TabPane tab={<span><Icon type="info-circle" style={{color:'#108ee9'}}/>{lang.all}</span>} key="1">
 
                     </TabPane>
-                    <TabPane tab={<span><Icon type="clock-circle" style={{color:'#6e6e6e'}}/>Bekliyor</span>} key="2">
+                    <TabPane tab={<span><Icon type="clock-circle" style={{color:'#6e6e6e'}}/>{lang.pending}</span>} key="2">
 
                     </TabPane>
-                    <TabPane tab={<span><Icon type="exclamation-circle" style={{color:'#f76255'}}/>Gecikmiş</span>} key="3">
+                    <TabPane tab={<span><Icon type="exclamation-circle" style={{color:'#f76255'}}/>{lang.overdue}</span>} key="3">
 
                     </TabPane>
-                    <TabPane tab={<span><Icon type="check-circle" style={{color:'#59a856'}}/>Alındı</span>} key="4">
+                    <TabPane tab={<span><Icon type="check-circle" style={{color:'#59a856'}}/>{lang.finished}</span>} key="4">
 
                     </TabPane>
                   </Tabs>
@@ -241,13 +244,13 @@ class ReceivingPage extends Component<Props> {
                 
 
                 <Modal
-                    title= 'Tahsilat Kaydı'
+                    title= {lang.receivingEntry}
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
-                        <Button onClick={this.handleCancel}>Kapat</Button>,
+                        <Button onClick={this.handleCancel}>{lang.close}</Button>,
                         <Button type="primary" onClick={this.handlePaymentOk} icon="check">
-                            Ödeme Yapıldı
+                            {lang.paymentIsDone}
                         </Button>,
                     ]}
                 >

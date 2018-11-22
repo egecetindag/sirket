@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { retrieveProducts, createProduct, updateProduct, deleteProduct } from '../actions/ProductActions'
 import moment from 'moment'
 import { CustomImage } from '../assets/ProductPhotos/CustomImage'
+import {lang} from '../services/config'
 
 const MenuItem = Menu.Item;
 
@@ -128,7 +129,7 @@ class ProductPage extends Component<Props> {
         const uploadButton = (
             <div>
                 <Icon type={this.state.loading ? 'loading' : 'plus'} />
-                <div className="ant-upload-text">Yükle</div>
+                <div className="ant-upload-text">{lang.upload}</div>
             </div>
         );
 
@@ -144,7 +145,7 @@ class ProductPage extends Component<Props> {
             <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" /> Düzenle</Button>
           </MenuItem>
           <MenuItem>
-            <Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" /> Sil</Button></Popconfirm>
+            <Popconfirm placement="topLeft" title={lang.areUSureToRemoveItem} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" /> {lang.delete}</Button></Popconfirm>
           </MenuItem>
         </Menu>
       );
@@ -157,31 +158,31 @@ class ProductPage extends Component<Props> {
             //         <Button onClick={this.showDetails} style={{ border: 'none', background: 'transparent' }}> <Icon type='search' /></Button>
             // },
             {
-              title: <div><Icon type="barcode" theme="outlined" style={{fontSize:'1.3em'}}/> Barkod</div>,
+              title: <div><Icon type="barcode" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.barcode}</div>,
                 dataIndex: 'barcode',
                 key: 'barcode',
             }, {
-            title: <div><Icon type="profile" theme="outlined" style={{fontSize:'1.3em'}}/> Isim</div>,
+            title: <div><Icon type="profile" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.name}</div>,
                 dataIndex: 'name',
                 key: 'name',
             }, {
-            title: <div><Icon type="profile" theme="outlined" style={{fontSize:'1.3em'}}/> Description</div>,
+            title: <div><Icon type="profile" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.description}</div>,
                 dataIndex: 'description',
                 key: 'description',
             },
             {
-              title: <div><Icon type="appstore" theme="outlined" style={{fontSize:'1.3em'}}/> Kategori</div>,
+              title: <div><Icon type="appstore" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.category}</div>,
                 dataIndex: 'category',
                 key: 'category',
             },
             {
-              title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.2em'}}/> Alis Fiyati</div>,
+              title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.2em'}}/> {lang.buyingPrice}</div>,
                 dataIndex: 'purchasePrice',
                 key: 'purchasePrice',
                 // sorter: (a, b) => a.purchasePrice - b.purchasePrice,
             },
             {
-              title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.2em'}}/> Satis Fiyati</div>,
+              title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.2em'}}/> {lang.salePrice}</div>,
                 dataIndex: 'salePrice',
                 key: 'salePrice',
             },
@@ -191,13 +192,13 @@ class ProductPage extends Component<Props> {
             //     key: 'userName',
             // },
           {
-            title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.2em'}}/> Giris Tarihi</div>,
+            title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.2em'}}/> {lang.registerDate}</div>,
                 dataIndex: 'registerDate',
                 key: 'registerDate',
                 render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
             },
           {
-            title: 'Actions',
+            title: lang.actions,
             render: () => <Dropdown overlay={menu} trigger={['click']}>
               <Icon type="ellipsis" style={{ fontSize: '21px' }} />
             </Dropdown>
@@ -217,15 +218,15 @@ class ProductPage extends Component<Props> {
         return (
             <div>
                 <div className='page-header' >
-                    <div className='header-h'>Ürünler</div>
+                    <div className='header-h'>{lang.products}</div>
                     <div style={{ display: 'flex' }}>
                         <Search
                             style={{ height: '32px', marginRight: '10px' }}
-                            placeholder="Ürün Ara"
+                            placeholder={lang.searchProduct}
                             onSearch={this.handleSearch}
                             onChange={this.onSearchChange}
                         />
-                        <Button onClick={() => this.handleModalOpen('create')} >Yeni Ürün Girişi<Icon type='plus' /></Button>
+                        <Button onClick={() => this.handleModalOpen('create')} >{lang.createNewProduct}<Icon type='plus' /></Button>
                     </div>
                 </div>
                 <div className='page-body'>
@@ -249,13 +250,13 @@ class ProductPage extends Component<Props> {
                 </div>
 
                 <Modal
-                    title={this.state.type === 'edit' ? 'Ürün Düzenle' : 'Yeni Ürün'}
+                    title={this.state.type === 'edit' ? lang.editProduct : lang.newProduct}
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
-                        <Button onClick={this.handleCancel}>Iptal</Button>,
+                        <Button onClick={this.handleCancel}>{lang.cancel}</Button>,
                         <Button type="primary" onClick={this.handleOk}>
-                            Kaydet
+                            {lang.save}
                         </Button>,
                     ]}
                 >
@@ -279,13 +280,13 @@ class ProductPage extends Component<Props> {
 
                       </FormItem>
                         <FormItem
-                            label="Barkod"
+                            label={lang.barcode}
                             style={{ display: 'flex' }}
                         >
                             {getFieldDecorator('barcode', {
                                 initialValue: type === 'edit' ? selected.barcode : this.state.barkod,
                                 rules: [{
-                                    required: false, message: 'Barkodu girin!'
+                                    required: false, message: lang.typeProductBarcode
                                 }],
                             })(
                                 <Input onChange={this.handleBarcode} />
@@ -293,13 +294,13 @@ class ProductPage extends Component<Props> {
                         </FormItem>
                         <div>
                             <FormItem
-                                label="İsim"
+                                label={lang.name}
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('name', {
                                     initialValue: type === 'edit' ? selected.name : '',
                                     rules: [{
-                                        required: true, message: 'İsim girin!'
+                                        required: true, message: lang.typeName
                                     }],
                                 })(
                                     <Input />
@@ -307,7 +308,7 @@ class ProductPage extends Component<Props> {
 
                             </FormItem>
                             <FormItem
-                                label="Açıklama"
+                                label={lang.description}
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('description', {
@@ -320,7 +321,7 @@ class ProductPage extends Component<Props> {
                                 )}
                             </FormItem>
                             <FormItem
-                                label="Kategori"
+                                label={lang.category}
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('category', {
@@ -334,13 +335,13 @@ class ProductPage extends Component<Props> {
                             </FormItem>
 
                           <FormItem
-                            label="Kaydeden"
+                            label={lang.registrar}
                             style={{ display: 'flex' }}
                           >
                             {getFieldDecorator('kaydeden', {
-                              initialValue: type === 'edit' ? selected.userName : 'Kullanıcı Adı!',
+                              initialValue: type === 'edit' ? selected.userName : lang.username,
                               rules: [{
-                                required: false, message: 'Kayıt Yapan Kullanıcı!'
+                                required: false, message: lang.typeRegistrar
                               }],
                             })(
                               <Input disabled={true} />
@@ -348,26 +349,26 @@ class ProductPage extends Component<Props> {
                           </FormItem>
 
                             <FormItem
-                                label="Alış Fiyatı"
+                                label={lang.buyingPrice}
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('purchasePrice', {
                                     initialValue: type === 'edit' ? selected.purchasePrice : '',
                                     rules: [{
-                                        required: true, message: 'Alış fiyatını girin!'
+                                        required: true, message: lang.typeBuyingPrice
                                     }],
                                 })(
                                     <InputNumber min={0} formatter={value => `${value}₺`} />
                                 )}
                             </FormItem>
                             <FormItem
-                                label="Satış Fiyatı"
+                                label={lang.salePrice}
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('salePrice', {
                                     initialValue: type === 'edit' ? selected.salePrice : '',
                                     rules: [{
-                                        required: true, message: 'Satis fiyatini girin!'
+                                        required: true, message: lang.typeSalePrice
                                     }],
                                 })(
                                     <InputNumber min={0} formatter={value => `${value}₺`} />

@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {retrieveExpenses,createExpense, updateExpense,deleteExpense} from '../actions/ExpenseActions'
 
+import {lang} from '../services/config'
+
 type Props = {};
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -87,36 +89,36 @@ class ExpensePage extends Component<Props> {
 
     render() {
         const columns = [{
-          title: <div><Icon type="bars" theme="outlined" style={{fontSize:'1.3em'}}/> Başlık</div>,
+          title: <div><Icon type="bars" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.title}</div>,
             dataIndex: 'name',
             key: 'name',
         }, {
-          title: <div><Icon type="form" theme="outlined" style={{fontSize:'1.3em'}}/> Tanım</div>,
+          title: <div><Icon type="form" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.description}</div>,
             dataIndex: 'description',
             key: 'description',
         }, {
-          title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.3em'}}/> Miktar</div>,
+          title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.amount}</div>,
             dataIndex: 'price',
             key: 'price',
             //sorter: (a,b) => a.price-b.price,
         },{
-          title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.3em'}}/> Kaydeden</div>,
+          title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.registrar}</div>,
             dataIndex: 'userName',
             key: 'userName',
         },
         {
-          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> Giriş Tarihi</div>,
+          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/>{lang.registerDate}</div>,
             dataIndex: 'createDate',
             key: 'createDate',
             render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
         },
         {
-            title: 'Duzenle',
+            title: lang.edit,
             render:() => <Button onClick={()=>this.handleModalOpen('edit')} style={{border:'0', background:'transparent'}}><Icon type="edit" /></Button>
         },
         {
-            title: 'Sil',
-            render:() =><Popconfirm placement="topLeft" title="Silmek istediginizden emin misiniz?" onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button></Popconfirm>
+            title: lang.delete,
+            render:() =><Popconfirm placement="topLeft" title={areUSureToRemoveItem} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button></Popconfirm>
         },
     
     ]
@@ -127,15 +129,15 @@ class ExpensePage extends Component<Props> {
         return (
           <div>
             <div className='page-header' >
-              <div className='header-h'>Masraflar</div>
+            <div className='header-h'>{lang.expenses}</div>
               <div style={{ display: 'flex' }}>
                 <Search
                   style={{ height: '32px', marginRight: '10px' }}
-                  placeholder="Masraf Ara"
+                  placeholder={lang.searchExpense}
                   onSearch={this.handleSearch}
                   onChange={this.onSearchChange}
                 />
-                <Button onClick={()=>this.handleModalOpen('create')} >Yeni Masraf Kaydı<Icon type='plus' /></Button>
+                <Button onClick={()=>this.handleModalOpen('create')} >{lang.newExpenseEntry}<Icon type='plus' /></Button>
 
               </div>
             </div>
@@ -157,25 +159,25 @@ class ExpensePage extends Component<Props> {
                 
 
             <Modal
-              title='Masraf Kaydı'
+              title={lang.newExpenseEntry}
               visible={this.state.visible}
               onCancel={this.handleCancel}
               footer={[
-                <Button onClick={this.handleCancel}>Kapat</Button>,
+                <Button onClick={this.handleCancel}>{lang.close}</Button>,
                 <Button onClick={this.handleOk}>
-                            Kaydet
+                            {lang.save}
                 </Button>
               ]}
             >
               <Form className='stock-form'>
                 <FormItem
-                  label="Başlık"
+                  label={lang.title}
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('name', {
                         initialValue: type === 'edit' ? selected.name : '',
                         rules: [{
-                          required: true, message: 'Başlık bilgisi girin!'
+                          required: true, message: lang.typeTitle
                         }],
                       })(
                           <Input/>
@@ -184,7 +186,7 @@ class ExpensePage extends Component<Props> {
 
                 <div>
                     <FormItem
-                      label="Tanım"
+                      label={lang.description}
                       style={{ display: 'flex' }}
                     >
                       {getFieldDecorator('description', {
@@ -197,13 +199,13 @@ class ExpensePage extends Component<Props> {
                       )}
                     </FormItem>
                   <FormItem
-                    label="Miktar"
+                    label={lang.amount}
                     style={{ display: 'flex' }}
                   >
                     {getFieldDecorator('price', {
                       initialValue: type === 'edit' ? selected.price : '',
                       rules: [{
-                        required: true, message: 'Miktar girin!'
+                        required: true, message: lang.typeAmount
                       }],
                     })(
                       <Input />

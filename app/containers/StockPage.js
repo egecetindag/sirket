@@ -9,6 +9,7 @@ import { retrieveStocks, retrieveStockByBarcode, createStock, updateStock, delet
 import { retrieveDealers } from '../actions/DealerActions';
 import { retrieveProducts } from '../actions/ProductActions'
 import style from '../assets/styles/stock.css'
+import {lang} from '../services/config'
 
 const MenuItem = Menu.Item;
 
@@ -154,13 +155,13 @@ class StockPage extends Component<Props> {
     const menu = (
       <Menu>
         <MenuItem>
-          <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="star" />Favori</Button>
+          <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="star" />{lang.favorite}</Button>
         </MenuItem>
         <MenuItem>
-          <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" />Düzenle</Button>
+          <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" />{lang.edit}</Button>
         </MenuItem>
         <MenuItem>
-          <Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" />Sil</Button></Popconfirm>
+          <Popconfirm placement="topLeft" title={lang.areUSureToRemoveItem} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{ border: '0', background: 'transparent' }}><Icon type="delete" />{lang.delete}</Button></Popconfirm>
         </MenuItem>
       </Menu>
     );
@@ -173,31 +174,31 @@ class StockPage extends Component<Props> {
     //   render: (text,record) => <div> {text} <Switch checked={text} onChange={(value)=>this.onCheckboxChance(value,record.product.id)} /></div>
     // },
       {
-      title: <div><Icon type="barcode" theme="outlined" style={{fontSize:'1.3em'}}/> Barkod</div>,
+      title: <div><Icon type="barcode" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.barcode}</div>,
       dataIndex: 'product.barcode',
       key: 'barcode',
     }, {
-      title: <div><Icon type="profile" theme="outlined" style={{fontSize:'1.3em'}}/> Isim</div>,
+      title: <div><Icon type="profile" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.name}</div>,
       dataIndex: 'product.name',
       key: 'name',
     },
     {
-      title: <div><Icon type="appstore" theme="outlined" style={{fontSize:'1.3em'}}/> Kategori</div>,
+      title: <div><Icon type="appstore" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.category}</div>,
       dataIndex: 'product.category',
       key: 'kategori',
     },
       {
-        title: <div><Icon type="calculator" theme="outlined" style={{fontSize:'1.3em'}}/> Adet </div>,
+        title: <div><Icon type="calculator" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.qty} </div>,
         dataIndex: 'qty',
         key: 'qty',
       },
     {
-      title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.2em'}}/> Alis Fiyati</div>,
+      title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.2em'}}/> {lang.buyingPrice}</div>,
       dataIndex: 'product.purchasePrice',
       key: 'purchasePrice',
     },
     {
-      title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.3em'}}/> Satis Fiyati</div>,
+      title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.salePrice}</div>,
       dataIndex: 'product.salePrice',
       key: 'salePrice',
     },
@@ -207,7 +208,7 @@ class StockPage extends Component<Props> {
       //   key: 'dealerName',
       // },
     {
-      title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> Giris Tarihi</div>,
+      title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.registerDate}</div>,
       dataIndex: 'creationDate',
       key: 'creationDate',
       render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
@@ -218,7 +219,7 @@ class StockPage extends Component<Props> {
     //   key: 'userName',
     // },
       {
-      title: 'Actions',
+      title: lang.actions,
       render: () => <Dropdown overlay={menu} trigger={['click']}>
         <Icon type="ellipsis" style={{ fontSize: '21px' }} />
       </Dropdown>
@@ -238,15 +239,15 @@ class StockPage extends Component<Props> {
     return (
       <div>
         <div className='page-header' >
-          <div className='header-h'>Stok</div>
+          <div className='header-h'>{lang.stock}</div>
           <div style={{ display: 'flex' }}>
             <Search
               style={{ height: '32px', marginRight: '10px' }}
-              placeholder="Stok Ara"
+              placeholder={lang.searchInStock}
               onSearch={this.handleSearch}
               onChange={this.onSearchChange}
             />
-            <Button onClick={() => this.handleModalOpen('create')}>Yeni Stok Girisi<Icon type='plus' /></Button>
+            <Button onClick={() => this.handleModalOpen('create')}>{lang.newStockEntry}<Icon type='plus' /></Button>
 
           </div>
         </div>
@@ -268,25 +269,25 @@ class StockPage extends Component<Props> {
 
 
         <Modal
-          title={this.state.type === 'edit' ? 'Stok Girdisi Duzenle' : 'Yeni Giriş'}
+          title={this.state.type === 'edit' ? lang.updateStockEntry : lang.newStockEntry}
           visible={this.state.visible}
           onCancel={this.handleCancel}
           footer={[
-            <Button onClick={this.handleCancel}>Iptal</Button>,
+            <Button onClick={this.handleCancel}>{lang.cancel}</Button>,
             <Button type="primary" onClick={this.handleOk}>
-              Kaydet
+              {lang.save}
                 </Button>,
           ]}
         >
           <Form className='stock-form'>
             <FormItem
-              label="Barkod"
+              label={lang.barcode}
               style={{ display: 'flex' }}
             >
               {getFieldDecorator('barkod', {
-                initialValue: type === 'edit' ? selected.product.barcode : 'Barkodu taratin veya arama yapin',
+                initialValue: type === 'edit' ? selected.product.barcode : lang.scanBarcodeOrSearch,
                 rules: [{
-                  required: false, message: 'Bir urun secin!'
+                  required: false, message: lang.chooseProduct
                 }],
               })(
                 <Select
@@ -297,7 +298,7 @@ class StockPage extends Component<Props> {
                   filterOption={(input, option) => (option.props.children + option.props.id).toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >{this.props.products.map(p => <Option key={p.id} a={p} id={p.barcode}>{p.name}</Option>)}</Select>
               )}
-              {/* <Button style={{ border: '0', fontSize: '0.8em' }} onClick={this.handleWithoutBarcode}>Barkodsuz devam et</Button> */}
+              {/* <Button style={{ border: '0', fontSize: '0.8em' }} onClick={this.handleWithoutBarcode}>{lang.continueWithoutBarcode}</Button> */}
 
             </FormItem>
 
@@ -308,7 +309,7 @@ class StockPage extends Component<Props> {
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('dealer', {
-                    initialValue: type === 'edit' ? selected.dealerId : 'Tedarikci seciniz',
+                    initialValue: type === 'edit' ? selected.dealerId : lang.selectDealer,
                     rules: [{
                       required: false
                     }],
@@ -320,13 +321,13 @@ class StockPage extends Component<Props> {
                   )}
                 </FormItem>
                 <FormItem
-                  label="Isim"
+                  label={lang.name}
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('isim', {
                     initialValue: type === 'edit' ? selected.product.name : product.name,
                     rules: [{
-                      required: true, message: 'Isim girin!'
+                      required: true, message: lang.typeName
                     }],
                   })(
                     <Input disabled={type === 'edit'} />
@@ -334,7 +335,7 @@ class StockPage extends Component<Props> {
 
                 </FormItem>
                 <FormItem
-                  label="Aciklama"
+                  label={lang.description}
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('aciklama', {
@@ -347,7 +348,7 @@ class StockPage extends Component<Props> {
                   )}
                 </FormItem>
                 <FormItem
-                  label="Kategori"
+                  label={lang.category}
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('kategori', {
@@ -361,13 +362,13 @@ class StockPage extends Component<Props> {
                 </FormItem>
 
                 <FormItem
-                  label="Kaydeden"
+                  label={lang.registrar}
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('kaydeden', {
-                    initialValue: type === 'edit' ? selected.userName : 'Kullanıcı Adı!',
+                    initialValue: type === 'edit' ? selected.userName : lang.username,
                     rules: [{
-                      required: false, message: 'Kayıt Yapan Kullanıcı!'
+                      required: false, message: lang.typeRegistrar
                     }],
                   })(
                     <Input disabled={true} />
@@ -376,52 +377,52 @@ class StockPage extends Component<Props> {
                 </FormItem>
 
                 <FormItem
-                  label="Alis Fiyati"
+                  label={lang.buyingPrice}
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('alisFiyati', {
                     initialValue: type === 'edit' ? selected.product.purchasePrice : product.purchasePrice,
                     rules: [{
-                      required: true, message: 'Alis fiyatini girin!'
+                      required: true, message: lang.typeBuyingPrice
                     }],
                   })(
                     <InputNumber min={0} formatter={value => `${value}₺`} />
                   )}
                 </FormItem>
                 <FormItem
-                  label="Satis Fiyati"
+                  label={lang.salePrice}
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('satisFiyati', {
                     initialValue: type === 'edit' ? selected.product.salePrice : product.salePrice,
                     rules: [{
-                      required: true, message: 'Satis fiyatini girin!'
+                      required: true, message: lang.typeSalePrice
                     }],
                   })(
                     <InputNumber min={0} formatter={value => `${value}₺`} />
                   )}
                 </FormItem>
                 <FormItem
-                  label="Adet"
+                  label={lang.qty}
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('adet', {
                     initialValue: type === 'edit' ? selected.qty : '',
                     rules: [{
-                      required: true, message: 'Adeti girin!'
+                      required: true, message: lang.typeQty
                     }],
                   })(
                     <InputNumber min={0} />
                   )}
                 </FormItem>
                 <FormItem
-                  label="Favori"
+                  label={lang.favorite}
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('favorite', {
                     initialValue: type === 'edit' ? selected.isFavorite : false,
                     rules: [{
-                      required: false, message: 'Favori!'
+                      required: false, message: lang.favorite
                     }],
                   })(
                     <Switch checked={selected.isFavorite} />

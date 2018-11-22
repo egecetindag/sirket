@@ -366,7 +366,7 @@ class SalePage extends Component<Props> {
 
 
 
-                    <Search placeholder='Urun barkodu girin' onSearch={this.handleSearch} />
+                    <Search placeholder={lang.typeProductBarcode} onSearch={this.handleSearch} />
 
 
                   <div className='sale-calculate'>

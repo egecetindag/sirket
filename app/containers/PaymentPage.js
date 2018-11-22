@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import {retrievePayments,createPayment, updatePayment,deletePayment,setPaymentStatus} from '../actions/PaymentActions'
 import {retrieveDealers} from '../actions/DealerActions';
 import { Icons } from "../assets/Icons";
+import {lang} from '../services/config';
+
 type Props = {};
 const Search = Input.Search;
 const FormItem = Form.Item;
@@ -129,63 +131,63 @@ class PaymentPage extends Component<Props> {
 
     render() {
         const columns = [{
-          title: <div><Icon type="user" theme="outlined" style={{fontSize:'1.3em'}}/> Müşteri</div>,
+          title: <div><Icon type="user" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.customer}</div>,
             dataIndex: 'personName',
             key: 'personName',
         }, {
-          title: <div><Icon type="phone" theme="outlined" style={{fontSize:'1.3em'}}/> Telefon</div>,
+          title: <div><Icon type="phone" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.phone}</div>,
             dataIndex: 'personPhone',
             key: 'personPhone',
         }, {
-            title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.3em'}}/>  Miktar</div>,
+            title: <div><Icon type="dollar" theme="outlined" style={{fontSize:'1.3em'}}/>  {lang.amount}</div>,
             dataIndex: 'amount',
             key: 'amount',
         },
         {
-          title: <div><Icon type="file-text" theme="outlined" style={{fontSize:'1.3em'}}/> Özet</div>,
+          title: <div><Icon type="file-text" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.summary}</div>,
             dataIndex: 'summary',
             key: 'summary',
         },
         {
-          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> Son Güncellenme</div>,
+          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.lastUpdate}</div>,
             dataIndex: 'updateDate',
             key: 'updateDate',
             render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
         },
         {
-          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> Ödeme Tarihi</div>,
+          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.paymentDate}</div>,
             dataIndex: 'expectedDate',
             key: 'expectedDate',
             render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
         },
         {
-          title: <div><Icon type="pie-chart" theme="outlined" style={{fontSize:'1.3em'}}/> Durum</div>,
+          title: <div><Icon type="pie-chart" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.status}</div>,
             dataIndex: 'status',
             key: 'status',
 
             render: (text) => {
 
                 if (text === 'Bekliyor'){
-                  return <div><Icon type='clock-circle-o' style={{color:'#6e6e6e'}} /> {text}</div>
+                  return <div><Icon type='clock-circle-o' style={{color:'#6e6e6e'}} /> {lang.pending}</div>
                 }else if (text === 'Bitti'){
-                  return <div><Icon type='check' style={{color:'#59a856'}}/> {text}</div>
+                  return <div><Icon type='check' style={{color:'#59a856'}}/> {lang.finished}</div>
                 }else if (text === 'Gecikmiş'){
-                  return <div><Icon type='exclamation-circle-o' style={{color:'#f76255'}} /> {text}</div>
+                  return <div><Icon type='exclamation-circle-o' style={{color:'#f76255'}} /> {lang.overdue}</div>
                 }
             }
 
         },{
-            title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.3em'}}/> Kaydeden</div>,
+            title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.registrar}</div>,
             dataIndex: 'userName',
             key: 'userName',
         },
         {
-            title: 'Duzenle',
+            title: lang.edit,
             render:() => <Button onClick={()=>this.handleModalOpen('edit')} style={{border:'0', background:'transparent'}}><Icon type="edit" /></Button>
         },
         {
-            title: 'Sil',
-            render:() =><Popconfirm placement="topLeft" title="Silmek istediginizden emin misiniz?" onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button></Popconfirm>
+            title: lang.delete,
+            render:() =><Popconfirm placement="topLeft" title={lang.areUSureToRemoveItem} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button></Popconfirm>
         },
     
     ]
@@ -206,25 +208,25 @@ class PaymentPage extends Component<Props> {
         return (
           <div>
             <div className='page-header' >
-              <div className='header-h'>Ödemeler</div>
+              <div className='header-h'>{lang.payments}</div>
               <div style={{ display: 'flex' }}>
                 <Search
                   style={{ height: '32px', marginRight: '10px' }}
-                  placeholder="Ödeme Ara"
+                  placeholder={lang.searchPayment}
                   onSearch={this.handleSearch}
                   onChange={this.onSearchChange}
                 />
-                <Button onClick={()=>this.handleModalOpen('create')} >Yeni Ödeme Kaydı<Icon type='plus' /></Button>
+                <Button onClick={()=>this.handleModalOpen('create')} >{lang.newPaymentEntry}<Icon type='plus' /></Button>
 
               </div>
             </div>
             <div className='page-body'>
 
               <Tabs defaultActiveKey="1" onChange={this.handleTabClick}>
-                <TabPane tab={<span><Icon type="info-circle" style={{color:'#108ee9'}} />Hepsi</span>} key="1" />
-                <TabPane tab={<span><Icon type="clock-circle" style={{color:'#6e6e6e'}} />Bekliyor</span>} key="2" />
-                <TabPane tab={<span><Icon type="exclamation-circle" style={{color:'#f76255'}} />Gecikmiş</span>} key="3" />
-                <TabPane tab={<span><Icon type="check-circle" style={{color:'#59a856'}} />Ödenmiş</span>} key="4" />
+                <TabPane tab={<span><Icon type="info-circle" style={{color:'#108ee9'}} />{lang.all}</span>} key="1" />
+                <TabPane tab={<span><Icon type="clock-circle" style={{color:'#6e6e6e'}} />{lang.pending}</span>} key="2" />
+                <TabPane tab={<span><Icon type="exclamation-circle" style={{color:'#f76255'}} />{lang.overdue}</span>} key="3" />
+                <TabPane tab={<span><Icon type="check-circle" style={{color:'#59a856'}} />{lang.finished}</span>} key="4" />
               </Tabs>
 
               <Table
@@ -243,31 +245,31 @@ class PaymentPage extends Component<Props> {
                 
 
             <Modal
-              title='Ödeme Kaydı'
+              title={lang.newPaymentEntry}
               visible={this.state.visible}
               onCancel={this.handleCancel}
               footer={[
-                <Button onClick={this.handleCancel}>Kapat</Button>,
+                <Button onClick={this.handleCancel}>{lang.close}</Button>,
                 <Button onClick={this.handleOk}>
-                            Kaydet
+                            {lang.save}
                 </Button>,
                 <Button type="primary" onClick={this.handlePaymentOk} icon="check">
-                            Ödeme Yapıldı
+                            {lang.paymentIsDone}
                 </Button>
                     ]}
             >
               <Form className='stock-form'>
                 <FormItem
-                  label="İsim"
+                  label={lang.name}
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('personId', {
                         initialValue: type === 'edit' ? selected.name : '',
                         rules: [{
-                          required: false, message: 'İsim girin!'
+                          required: false, message: lang.choosePerson
                         }],
                       })(
-                    <Select placeholder="Kişi seçin" style={{ width: '200px' }}
+                    <Select placeholder={lang.choosePerson} style={{ width: '200px' }}
                             showSearch
                             filterOption={(input, option) => (option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
                     >{this.props.dealers.map(p => <Option key={p.id}>{p.name}</Option>)}</Select>
@@ -276,13 +278,13 @@ class PaymentPage extends Component<Props> {
 
                 <div>
                   <FormItem
-                    label="Miktar"
+                    label={lang.amount}
                     style={{ display: 'flex' }}
                   >
                     {getFieldDecorator('amount', {
                       initialValue: type === 'edit' ? selected.amount : '',
                       rules: [{
-                        required: true, message: 'Miktar girin!'
+                        required: true, message: lang.typeAmount
                       }],
                     })(
                       <Input />
@@ -290,7 +292,7 @@ class PaymentPage extends Component<Props> {
 
                   </FormItem>
                   <FormItem
-                    label="Özet"
+                    label={lang.summary}
                     style={{ display: 'flex' }}
                   >
                     {getFieldDecorator('summary', {
@@ -304,7 +306,7 @@ class PaymentPage extends Component<Props> {
 
                   </FormItem>
                   <FormItem
-                    label="Ödeme Tarihi"
+                    label={lang.paymentDate}
                     style={{ display: 'flex' }}
                   >
                     {getFieldDecorator('expectedDate', {
@@ -313,12 +315,12 @@ class PaymentPage extends Component<Props> {
                         required: false
                       }],
                     })(
-                      <DatePicker placeholder="Tarih Seçin" />
+                      <DatePicker placeholder={lang.pickDate} />
                     )}
 
                   </FormItem>
                   <FormItem
-                    label="Durum"
+                    label={lang.status}
                     style={{ display: 'flex' }}
                   >
                     {getFieldDecorator('status', {
@@ -328,9 +330,9 @@ class PaymentPage extends Component<Props> {
                       }],
                     })(
                       <Select style={{ width: 120 }}>
-                        <Option value="Bekliyor">Bekliyor</Option>
-                        <Option value="Bitti">Ödendi</Option>
-                        <Option value="Gecikmiş">Gecikmiş</Option>
+                        <Option value="Bekliyor">{lang.pending}</Option>
+                        <Option value="Bitti">{lang.finished}</Option>
+                        <Option value="Gecikmiş">{lang.overdue}</Option>
                       </Select>
                     )}
 

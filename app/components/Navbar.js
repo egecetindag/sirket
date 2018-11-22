@@ -9,6 +9,7 @@ import { history } from '../store/configureStore'
 import './Navbar.css'
 import { connect } from 'react-redux'
 import {logout} from '../actions/AuthActions'
+import {lang} from '../services/config'
 const Option = Select.Option;
 
 type Props = {};
@@ -75,6 +76,9 @@ class Navbar extends Component<Props> {
           case '10':
             history.push('/report/saleReport');
             break;
+            case '11':
+            // history.push('/report');
+            break;
 
         }
     }
@@ -89,7 +93,7 @@ class Navbar extends Component<Props> {
                 >
                     <MenuItem key="0">
                         <div className='navbar-icon'><Icons iconName='sale' /></div>
-                        <div>Satış</div>
+                        <div>{lang.sale}</div>
                     </MenuItem>
                     {/* <MenuItem key="1">
                         <div className='navbar-icon'><Icons iconName='turkish-lira' /></div>
@@ -101,42 +105,49 @@ class Navbar extends Component<Props> {
                     </MenuItem> */}
                     <MenuItem key="3">
                         <div className='navbar-icon'><Icons iconName='shopping' /></div>
-                        <div>Ürün</div>
+                        <div>{lang.product}</div>
                     </MenuItem>
                     <MenuItem key="4">
                         <div className='navbar-icon'><Icons iconName='home' /></div>
-                        <div>Stok</div>
+                        <div>{lang.stock}</div>
                     </MenuItem>
                     <MenuItem key="5">
                         <div className='navbar-icon'><Icons iconName="user-plus" /></div>
-                        <div>Müşteri</div>
+                        <div>{lang.customer}</div>
                     </MenuItem>
                     <MenuItem key="6">
                         <div className='navbar-icon'><Icons iconName="users" /></div>
-                        <div>Tedarikçi</div>
+                        <div>{lang.dealer}</div>
                     </MenuItem>
                     <MenuItem key="7">
                         <div className='navbar-icon'><Icons iconName="turkish-lira" /></div>
-                        <div>Ödemeler</div>
+                        <div>{lang.payment}</div>
                     </MenuItem>
                     <MenuItem key="8">
                         <div className='navbar-icon'><Icons iconName="cost" /></div>
-                        <div>Masraf</div>
+                        <div>{lang.expense}</div>
                     </MenuItem>
                     <MenuItem key="9">
                         <div className='navbar-icon'><Icons iconName="notepad" /></div>
-                        <div>Tahsilat</div>
+                        <div>{lang.receiving}</div>
                     </MenuItem>
 
                     <MenuItem key="10">
                         <div className='navbar-icon'><Icons iconName="chart" /></div>
-                        <div>Raporlar</div>
+                        <div>{lang.report}</div>
+                    </MenuItem>
+                    <MenuItem key="11">
+                        <div className='navbar-icon'><Icons iconName="settings-work-tool" /></div>
+                        <div>{lang.settings}</div>
                     </MenuItem>
                 </Menu>
-                <Button onClick={this.showDrawer} className='navbar-button'><Icon style={{ color: 'white', fontSize: '2em' }} type="ellipsis" /></Button>
+                <div>
+
+                    <Button onClick={this.showDrawer} className='navbar-button'><Icon style={{ color: 'white', fontSize: '2em' }} type="ellipsis" /></Button>
+                </div>
                 <Drawer
                     style={{textAlign:'center'}}
-                    title='cemal Turkoglu'
+                    title={lang.drawerTitle}
                     placement="right"
                     closable={false}
                     onClose={this.onClose}

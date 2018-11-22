@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {retrieveClients,createClient,updateClient,deleteClient} from '../actions/ClientActions'
 import moment from 'moment'
+import {lang} from '../services/config'
 
 class ClientPage extends Component<Props> {
     props: Props
@@ -76,40 +77,40 @@ class ClientPage extends Component<Props> {
 
     render() {
         const columns = [{
-          title: <div><Icon type="user" theme="outlined" style={{fontSize:'1.3em'}}/> İsim </div>,
+          title: <div><Icon type="user" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.name} </div>,
             dataIndex: 'name',
             key: 'name',
         }, {
-            title: <div><Icon type="phone" theme="outlined" style={{fontSize:'1.3em'}} /> Telefon</div>,
+            title: <div><Icon type="phone" theme="outlined" style={{fontSize:'1.3em'}} /> {lang.phone}</div>,
             dataIndex: 'phone',
             key: 'phone',
         }, {
-          title: <div><Icon type="mail" theme="outlined" style={{fontSize:'1.3em'}}/> Email</div>,
+          title: <div><Icon type="mail" theme="outlined" style={{fontSize:'1.3em'}}/> {lang.email}</div>,
           dataIndex: 'email',
           key: 'email',
         },
         {
-          title: <div><Icon type="home" theme="outlined" style={{fontSize:'1.3em'}} /> Adres </div>,
+          title: <div><Icon type="home" theme="outlined" style={{fontSize:'1.3em'}} /> {lang.address} </div>,
             dataIndex: 'address',
             key: 'address',
         },{
-            title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.4em'}} /> Kaydeden </div>,
+            title: <div><Icon type="idcard" theme="outlined" style={{fontSize:'1.4em'}} /> {lang.registrar} </div>,
             dataIndex: 'userName',
             key: 'userName',
         },
         {
-          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}} /> Giris Tarihi</div>,
+          title: <div><Icon type="calendar" theme="outlined" style={{fontSize:'1.3em'}} /> {lang.registerDate}</div>,
             dataIndex: 'creationDate',
             key: 'creationDate',
             render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
         },
           {
-            title: 'Duzenle',
+            title: lang.edit,
             render:() => <Button onClick={()=>this.handleModalOpen('edit')} style={{border:'0', background:'transparent'}}><Icon type="edit" /></Button>
           },
           {
-            title: 'Sil',
-            render:() =><Popconfirm placement="topLeft" title={'Silmek istediginizden emin misiniz?'} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button></Popconfirm>
+            title: lang.delete,
+            render:() =><Popconfirm placement="topLeft" title={lang.areUSureToRemoveItem} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button></Popconfirm>
           },
         ]
         const { getFieldDecorator } = this.props.form;
@@ -118,15 +119,15 @@ class ClientPage extends Component<Props> {
         return (
             <div>
                 <div className='page-header' >
-                    <div className='header-h'>Müşteriler</div>
+                    <div className='header-h'>{lang.customers}</div>
                     <div style={{ display: 'flex' }}>
                         <Search
                             style={{ height: '32px', marginRight: '10px' }}
-                            placeholder="Müşteri Ara"
+                            placeholder={lang.searchCustomer}
                             onSearch={this.handleSearch}
                             onChange = {this.onSearchChange}
                         />
-                        <Button onClick={()=>this.handleModalOpen('create')} >Yeni Müşteri Girisi<Icon type='plus' /></Button>
+                        <Button onClick={()=>this.handleModalOpen('create')} >{lang.newCustomerEntry}<Icon type='plus' /></Button>
 
                     </div>
                 </div>
@@ -147,25 +148,25 @@ class ClientPage extends Component<Props> {
 
 
                 <Modal
-                    title={this.state.type === 'edit' ? 'Müşteri Duzenle': 'Yeni Müşteri'}
+                    title={this.state.type === 'edit' ? lang.editCustomer: lang.newCustomerEntry}
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     footer={[
-                        <Button onClick={this.handleCancel}>Iptal</Button>,
+                        <Button onClick={this.handleCancel}>{lang.cancel}</Button>,
                         <Button type="primary" onClick={this.handleOk}>
-                            Kaydet
+                            {lang.save}
                         </Button>,
                     ]}
                 >
                     <Form className='stock-form'>
                         <FormItem
-                            label="İsim"
+                            label={lang.name}
                             style={{ display: 'flex' }}
                         >
                             {getFieldDecorator('name', {
                                 initialValue: type === 'edit' ? selected.name : '',
                                 rules: [{
-                                    required: false, message: 'İsim girin!'
+                                    required: false, message: lang.typeName
                                 }],
                             })(
                                 <Input />
@@ -173,13 +174,13 @@ class ClientPage extends Component<Props> {
                         </FormItem>
                         <div>
                             <FormItem
-                                label="Telefon"
+                                label={lang.phone}
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('phone', {
                                     initialValue: type === 'edit' ? selected.phone : '',
                                     rules: [{
-                                        required: true, message: 'Telefon girin!'
+                                        required: true, message: lang.typePhone
                                     }],
                                 })(
                                     <Input />
@@ -187,7 +188,7 @@ class ClientPage extends Component<Props> {
 
                             </FormItem>
                             <FormItem
-                                label="Email"
+                                label={lang.email}
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('email', {
@@ -200,7 +201,7 @@ class ClientPage extends Component<Props> {
                                 )}
                             </FormItem>
                             <FormItem
-                                label="Adres"
+                                label={lang.address}
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('address', {
