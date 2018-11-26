@@ -157,6 +157,7 @@ class Navbar extends Component<Props> {
 
                      
                     <Avatar size={116} icon="user" />
+                    
                     <Divider />
                     <Button onClick ={this.handleLogout} >Logout</Button>
                 

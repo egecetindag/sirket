@@ -5,6 +5,9 @@ import moment from 'moment';
 import {retrieveActivityLog} from '../../actions/ReportActions'
 import connect from "react-redux/es/connect/connect";
 
+import {lang} from '../../services/config'
+
+
 var typeIcons = {
   Sale: "shopping-cart",
   Stock: "shop",
@@ -58,7 +61,7 @@ class ActivityLog extends Component<Props> {
           <h3>Activity Logs </h3>
 
           <div>
-            <Input placeholder="Kişi Seçin"/>
+            <Input placeholder={lang.choosePerson}/>
           </div>
 
         </div>
@@ -79,7 +82,7 @@ class ActivityLog extends Component<Props> {
                     {log.description}
                   </div>
                   <div style={{fontSize:'12px'}}>
-                    <b>operator:</b> {log.user}, <b>tarih:</b> {moment.unix(log.date).format('DD/MM/YYYY')}
+                    <b>operator:</b> {log.user}, <b>{lang.date}:</b> {moment.unix(log.date).format('DD/MM/YYYY')}
                   </div>
 
 

@@ -9,6 +9,7 @@ import { retrieveProducts, createProduct, updateProduct, deleteProduct } from '.
 import moment from 'moment'
 import { CustomImage } from '../assets/ProductPhotos/CustomImage'
 import {lang} from '../services/config'
+import {pHost} from '../services/config'
 
 const MenuItem = Menu.Item;
 
@@ -267,7 +268,7 @@ class ProductPage extends Component<Props> {
                             className="avatar-uploader"
                             name="file"
                             showUploadList={false}
-                            action="http://localhost:8091/api/uploadFile"
+                            action= {pHost+ "/uploadFile"}
                             onChange={this.handlePathChange}
                             {...uploadProps }
                         >

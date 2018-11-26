@@ -9,6 +9,8 @@ import { getStockReportExcel } from "../../services/ReportServices";
 import { extractFileName } from "./ExtractFileName";
 import { saveAs } from "file-saver";
 
+import {lang} from '../../services/config'
+
 class StockReport extends Component<Props> {
   props: Props
   constructor(props) {
@@ -61,10 +63,10 @@ class StockReport extends Component<Props> {
 
         if (error.response) {
           console.log('Error', error.response.status);
-          message.error('Dosya indirme hatası! ' ,error.response.status);
+          message.error(lang.fileDownloadError ,error.response.status);
         } else {
           console.log('Error', error.message);
-          message.error('Dosya indirme hatası! ' ,error.message);
+          message.error(lang.fileDownloadError ,error.message);
         }
       })
   }
@@ -73,11 +75,11 @@ class StockReport extends Component<Props> {
     const columns = [{
       title: (<div>
                   <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-                      İsim
+                      {lang.name}
                   </div>
                   <Divider/>
                   <div>
-                      Toplam
+                      {lang.total}
                   </div>
               </div>),
       dataIndex: 'name',
@@ -85,7 +87,7 @@ class StockReport extends Component<Props> {
     }, {
       title: (<div>
                 <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-                  Kategori
+                  {lang.category}
                 </div>
                 <Divider/>
                 <div>
@@ -97,7 +99,7 @@ class StockReport extends Component<Props> {
     }, {
       title:(<div>
               <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-                Adet
+                {lang.qty}
               </div>
               <Divider/>
               <div>
@@ -110,7 +112,7 @@ class StockReport extends Component<Props> {
       {
         title: (<div>
           <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-            Alış Fiyatı
+            {lang.buyingPrice}
           </div>
           <Divider/>
           <div>
@@ -122,7 +124,7 @@ class StockReport extends Component<Props> {
       },{
         title: (<div>
                   <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-                    Bürüt Değer
+                    {lang.grossValue}
                   </div>
                   <Divider/>
                   <div>
@@ -134,7 +136,7 @@ class StockReport extends Component<Props> {
       },{
         title: (<div>
                   <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-                    Satış Fiyatı
+                    {lang.salePrice}
                   </div>
                   <Divider/>
                   <div>
@@ -146,7 +148,7 @@ class StockReport extends Component<Props> {
       },{
         title: (<div>
                   <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-                    Net Değeri
+                    {lang.netValue}
                   </div>
                   <Divider/>
                   <div>
@@ -158,7 +160,7 @@ class StockReport extends Component<Props> {
       },{
         title: (<div>
                   <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-                    Toplam Kar
+                    {lang.totalProfit}
                   </div>
                   <Divider/>
                   <div>
@@ -181,7 +183,7 @@ class StockReport extends Component<Props> {
           <div style={{ display: 'flex' }}>
             <Search
               style={{ height: '32px', marginRight: '10px' }}
-              placeholder="Barcode / İsim / Kategori"
+              placeholder={lang.barcode_name_category}
               onSearch={this.handleSearch}
               onChange={this.onSearchChange}
             />
@@ -204,7 +206,7 @@ class StockReport extends Component<Props> {
               }
             </Select>
             &nbsp;
-            <Button type="primary" icon="download" onClick={() => this.handleDownload()} >Excel indir</Button>
+            <Button type="primary" icon="download" onClick={() => this.handleDownload()} >{lang.downloadExcel}</Button>
 
           </div>
 

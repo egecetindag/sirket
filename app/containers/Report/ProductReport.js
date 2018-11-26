@@ -9,6 +9,7 @@ import { getProductReportExcel } from "../../services/ReportServices";
 import { extractFileName } from "./ExtractFileName";
 import { saveAs } from "file-saver";
 
+import {lang} from '../../services/config'
 
 
 class ProductReport extends Component<Props> {
@@ -80,10 +81,10 @@ class ProductReport extends Component<Props> {
 
         if (error.response) {
           console.log('Error', error.response.status);
-          message.error('Dosya indirme hatası! ' ,error.response.status);
+          message.error(lang.fileDownloadError ,error.response.status);
         } else {
           console.log('Error', error.message);
-          message.error('Dosya indirme hatası! ' ,error.message);
+          message.error(lang.fileDownloadError ,error.message);
         }
       })
   }
@@ -94,11 +95,11 @@ class ProductReport extends Component<Props> {
     const columns = [{
       title: (<div>
         <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-          İsim
+          {lang.name}
         </div>
         <Divider/>
         <div>
-          Toplam
+          {lang.total}
         </div>
       </div>),
       dataIndex: 'productName',
@@ -106,7 +107,7 @@ class ProductReport extends Component<Props> {
     },{
       title:(<div>
         <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-          Adet
+          {lang.qty}
         </div>
         <Divider/>
         <div>
@@ -119,7 +120,7 @@ class ProductReport extends Component<Props> {
       {
         title: (<div>
           <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-            Brüt Kar
+            {lang.grossProfit}
           </div>
           <Divider/>
           <div>
@@ -133,11 +134,11 @@ class ProductReport extends Component<Props> {
       {
         title: (<div>
           <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-            Net Kar
+           {lang.netProfit}
           </div>
           <Divider/>
           <div>
-            {this.props.productReport.totalNetProfit ? this.props.productReport.totalNetProfit.toFixed(2) : ''}
+            {this.props.productReport.totalNetProfit ? this.props.productReport.totalNetProfit.toFixed(2) : '0'}
           </div>
         </div>),
         dataIndex: 'netProfit',
@@ -146,7 +147,7 @@ class ProductReport extends Component<Props> {
       },{
         title: (<div>
           <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-            İndirim
+            {lang.discount}
           </div>
           <Divider/>
           <div>
@@ -160,7 +161,7 @@ class ProductReport extends Component<Props> {
       {
         title: (<div>
           <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-            Kar Marjı (%)
+            {lang.profitMargin}(%)
           </div>
           <Divider/>
           <div>
@@ -173,7 +174,7 @@ class ProductReport extends Component<Props> {
       },{
         title: (<div>
           <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-            Kar Dilimi (%)
+            {lang.profitPercentage} (%)
           </div>
           <Divider/>
           <div>
@@ -188,7 +189,7 @@ class ProductReport extends Component<Props> {
       {
         title: (<div>
           <div style={{fontWeight: 'bold', fontSize: '1.1em'}}>
-            İade Sayısı
+            {lang.numberOfReturn}
           </div>
           <Divider/>
           <div>
@@ -208,7 +209,7 @@ class ProductReport extends Component<Props> {
           <div style={{ display: 'flex' }}>
             <Search
               style={{ height: '32px', marginRight: '10px' }}
-              placeholder="Ürün İsmi"
+              placeholder={lang.nameOfProduct}
               onSearch={this.handleSearch}
               onChange={this.onSearchChange}
             />
@@ -218,7 +219,7 @@ class ProductReport extends Component<Props> {
               onSelect={this.handleSelect}
               // optionLabelProp='id'
               showSearch
-              placeholder='Kategori'
+              placeholder={lang.category}
               filterOption={(input, option) => (option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
             >
               {this.props.stockCategories.map((category, index) => {
@@ -231,7 +232,7 @@ class ProductReport extends Component<Props> {
               }
             </Select>
             &nbsp;
-            <Button type="primary" icon="download" onClick={() => this.handleDownload(this.props.dates[0].unix(),this.props.dates[1].unix())}>Excel indir</Button>
+            <Button type="primary" icon="download" onClick={() => this.handleDownload(this.props.dates[0].unix(),this.props.dates[1].unix())}>{lang.downloadExcel}</Button>
 
           </div>
 

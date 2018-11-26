@@ -73,7 +73,7 @@ render() {
         <div className='header-h'>{lang.reports}</div>
         <div style={{ display: 'flex' }}>
             <RangePicker
-              placeholder={['Başlangıç Tarihi', 'Bitiş Tarihi']}
+              placeholder={[lang.startDate, lang.endDate]}
               format={dateFormat}
               onChange={this.onChange}
               defaultValue={this.state.dates}

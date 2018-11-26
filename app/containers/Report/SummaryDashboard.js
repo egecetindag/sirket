@@ -9,6 +9,7 @@ import moment from 'moment';
 import { getDashboardReportExcel } from '../../services/ReportServices'
 import { saveAs } from 'file-saver';
 import {extractFileName} from "./ExtractFileName";
+import {lang} from '../../services/config'
 
 class SummaryDashboard extends Component<Props> {
   props: Props
@@ -72,10 +73,10 @@ class SummaryDashboard extends Component<Props> {
 
       if (error.response) {
         console.log('Error', error.response.status);
-        message.error('Dosya indirme hatası! ' ,error.response.status);
+        message.error(lang.fileDownloadError ,error.response.status);
       } else {
         console.log('Error', error.message);
-        message.error('Dosya indirme hatası! ' ,error.message);
+        message.error(lang.fileDownloadError ,error.message);
       }
     })
   }
@@ -96,17 +97,20 @@ class SummaryDashboard extends Component<Props> {
         }
       },
       series: [{
-        name: "Net Kazanç",
+        name: lang.netProfitFromSales,
         data: []
-      }]
+      }],
+      credits:{
+        enabled: false
+      },
     };
 
     var tabListNoTitle = [{
       key: 'gross',
-      tab: 'Satış Tablosu',
+      tab: lang.totalEarnings,
     }, {
       key: 'net',
-      tab: 'Kar Tablosu',
+      tab: lang.netProfit,
     }];
     // console.log(this.props.dashboardSummaryReport) ;
 
@@ -124,9 +128,12 @@ class SummaryDashboard extends Component<Props> {
         }
       },
       series: [{
-        name: "Brüt Kazanç",
+        name: lang.totalEarningsFromSales,
         data: []
-      }]
+      }],
+      credits:{
+        enabled: false
+      },
     };
 
     var contentListNoTitle = {
@@ -145,7 +152,7 @@ class SummaryDashboard extends Component<Props> {
     configNet.xAxis.categories = this.props.dashboardSummaryReport.timestamps ? this.props.dashboardSummaryReport.timestamps.map(i => moment.unix(i).format("DD/MM")) : [];
     // console.log("configNet:",configNet);
 
-    var TL = '₺';
+    var TL = lang.currency;
     var netProfitPercent = (this.props.dashboardSummaryReport.netProfit *100)/this.props.dashboardSummaryReport.grossProfit;
     var discountPercent = (this.props.dashboardSummaryReport.discount *100)/this.props.dashboardSummaryReport.grossProfit;
     var saleCountPercent = (this.props.dashboardSummaryReport.saleCount *100)/this.props.dashboardSummaryReport.itemCount;
@@ -155,43 +162,43 @@ class SummaryDashboard extends Component<Props> {
 
     const columns = [
       {
-        title: 'Toplam Kazanç',
+        title: lang.totalEarnings,
         dataIndex: 'grossProfit',
         key: 'grossProfit',
       },
       {
-        title: 'Net Kazanç',
+        title: lang.netProfit,
         dataIndex: 'netProfit',
         key: 'netProfit',
       },
       {
-        title: 'Satış Sayısı',
+        title: lang.numOfSale,
         dataIndex: 'saleCount',
         key: 'saleCount',
       },
       {
-        title: 'Ürün Sayısı',
+        title: lang.numOfProduct,
         dataIndex: 'itemCount',
         key: 'itemCount',
       },
       {
-        title: 'Müşteri Sayısı',
+        title: lang.numOfCustomer,
         dataIndex: 'customerCount',
         key: 'customerCount',
       },
       {
-        title: 'İndirim',
+        title: lang.discount,
         dataIndex: 'discount',
         key: 'discount',
       },
       {
-        title: 'Sepet Değeri',
+        title: lang.basketValue,
         dataIndex: 'basketValue',
         key: 'basketValue',
         render: (text) => <div>{text.toFixed(2)}</div>
       },
       {
-      title: 'Tarih',
+      title: lang.date,
       dataIndex: 'timestamp',
       key: 'timestamp',
       render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
@@ -207,7 +214,7 @@ class SummaryDashboard extends Component<Props> {
 
               <Card style={{textAlign : 'center'}}>
                 <div>
-                Toplam Kazanç
+                {lang.totalEarnings}
                 </div>
                 <Divider/>
                 <Progress type="circle" percent={100} format={() => this.props.dashboardSummaryReport.grossProfit + TL}  />
@@ -218,7 +225,7 @@ class SummaryDashboard extends Component<Props> {
             <Col span={4}>
 
               <Card style={{textAlign : 'center'}}>
-                Net Kazanç
+                {lang.netProfit}
                 <Divider/>
                 <Progress type="circle" percent={netProfitPercent} format={() => this.props.dashboardSummaryReport.netProfit + TL} />
               </Card>
@@ -228,7 +235,7 @@ class SummaryDashboard extends Component<Props> {
             <Col span={4}>
 
               <Card style={{textAlign : 'center'}}>
-                İndirim
+                {lang.discount}
                 <Divider/>
                 <Progress type="circle" percent={discountPercent} format={() => this.props.dashboardSummaryReport.discount + TL} />
               </Card>
@@ -238,7 +245,7 @@ class SummaryDashboard extends Component<Props> {
             <Col span={4}>
 
               <Card style={{textAlign : 'center'}}>
-                Sepet Değeri
+                {lang.basketValue}
                 <Divider/>
                 <Progress type="circle" percent={basketPercent} format={() => this.props.dashboardSummaryReport.basketSize ? this.props.dashboardSummaryReport.basketSize.toFixed(2) + TL: '' } />
               </Card>
@@ -248,7 +255,7 @@ class SummaryDashboard extends Component<Props> {
             <Col span={4}>
 
               <Card style={{textAlign : 'center'}}>
-                Satış/Ürün Sayısı
+                {lang.numOfSaleAndProduct}
                 <Divider/>
                 <Progress status="exception" type="circle" percent={saleCountPercent} format={() => saleCountText } />
               </Card>
@@ -258,7 +265,7 @@ class SummaryDashboard extends Component<Props> {
             <Col span={4}>
 
               <Card style={{textAlign : 'center'}}>
-                Müşteri Sayısı
+                {lang.numberOfCustomer}
                 <Divider/>
                 <Progress type="circle" percent={0} format={() => this.props.dashboardSummaryReport.customerCount } />
               </Card>
@@ -308,8 +315,8 @@ class SummaryDashboard extends Component<Props> {
                      }
                    }}
                    pagination={{ pageSize: 6 }}
-                   title={() => <div style={{fontWeight:'bold', fontSize:'16px', textAlign:'center'}}>Satış Özet Listesi</div>}
-                   footer={() => <div ><Button onClick={() => this.handleDownload(this.props.dates[0].unix(),this.props.dates[1].unix())} type="primary" icon="download" >Excel indir</Button></div>}
+                   title={() => <div style={{fontWeight:'bold', fontSize:'16px', textAlign:'center'}}>{lang.saleSummaryList}</div>}
+                   footer={() => <div ><Button onClick={() => this.handleDownload(this.props.dates[0].unix(),this.props.dates[1].unix())} type="primary" icon="download" >{lang.downloadExcel}</Button></div>}
                    //footer={() => <div ><a href="http://localhost/index.txt">Download </a> </div>}
             />
           </Row>

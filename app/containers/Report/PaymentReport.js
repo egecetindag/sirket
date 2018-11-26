@@ -8,6 +8,9 @@ import { getPaymentReportExcel } from "../../services/ReportServices";
 import { extractFileName } from "./ExtractFileName";
 import { saveAs } from "file-saver";
 
+import {lang} from '../../services/config'
+
+
 class PaymentReport extends Component<Props> {
   props: Props
   constructor(props) {
@@ -49,10 +52,10 @@ class PaymentReport extends Component<Props> {
 
         if (error.response) {
           console.log('Error', error.response.status);
-          message.error('Dosya indirme hatası! ' ,error.response.status);
+          message.error(lang.fileDownloadError ,error.response.status);
         } else {
           console.log('Error', error.message);
-          message.error('Dosya indirme hatası! ' ,error.message);
+          message.error(lang.fileDownloadError ,error.message);
         }
       })
   }
@@ -78,18 +81,21 @@ class PaymentReport extends Component<Props> {
         }
       },
       series: [{
-        name : "Ödeme",
+        name : lang.payment,
         data: []
       },{
-        name : "Harcama",
+        name : lang.expense,
         data: []
       },{
-        name : "Tahsilat",
+        name : lang.receiving,
         data: []
-      }]
+      }],
+      credits:{
+        enabled: false
+      },
     };
 
-    var TL = '₺';
+    var TL = lang.currency;
 
     configForBar.series[0].data = this.props.paymentReport ? this.props.paymentReport.payments: [] ;
     configForBar.series[1].data = this.props.paymentReport ? this.props.paymentReport.expenses: [] ;
@@ -109,30 +115,30 @@ class PaymentReport extends Component<Props> {
 
     const columns = [
       {
-        title: 'Kişi',
+        title: lang.person,
         dataIndex: 'person',
         key: 'person',
       },{
-        title: 'Miktar',
+        title: lang.amount,
         dataIndex: 'amount',
         key: 'amount',
         render: (text) => <div style={{color:'red'}}>{text}</div>
       },{
-        title: 'Tür',
+        title: lang.type,
         dataIndex: 'type',
         key: 'type',
         render: (text) => <div style={{color:'red'}}>{text}</div>
       },{
-        title: 'Tarih',
+        title: lang.date,
         dataIndex: 'timestamp',
         key: 'timestamp',
         render: (text) => <div>{moment.unix(text).format('DD/MM/YYYY')}</div>
       },{
-        title: 'Durum',
+        title: lang.status,
         dataIndex: 'status',
         key: 'status',
       },{
-        title: 'Detay',
+        title: lang.detail,
         dataIndex: 'detail',
         key: 'detail',
       },
@@ -147,7 +153,7 @@ class PaymentReport extends Component<Props> {
 
               <Card style={{textAlign : 'center'}}>
                 <div>
-                  Toplam
+                  {lang.total}
                 </div>
                 <Divider/>
                 <Progress type="circle" percent={100} format={() => totalResult + TL}  />
@@ -158,7 +164,7 @@ class PaymentReport extends Component<Props> {
             <Col span={6}>
 
               <Card style={{textAlign : 'center'}}>
-                Tahsilat
+                {lang.receiving}
                 <Divider/>
                 <Progress type="circle" percent={receivingPercent} format={() => this.props.paymentReport.totalReceivings + TL} />
               </Card>
@@ -168,7 +174,7 @@ class PaymentReport extends Component<Props> {
             <Col span={6}>
 
               <Card style={{textAlign : 'center'}}>
-                Ödeme
+                {lang.payment}
                 <Divider/>
                 <Progress type="circle" percent={paymentPercent} format={() => this.props.paymentReport.totalPayments + TL} />
               </Card>
@@ -178,7 +184,7 @@ class PaymentReport extends Component<Props> {
             <Col span={6}>
 
               <Card style={{textAlign : 'center'}}>
-                Harcama
+                {lang.expense}
                 <Divider/>
                 <Progress type="circle" percent={expensePercent} format={() => this.props.paymentReport.totalExpenses + TL} />
               </Card>
@@ -207,8 +213,8 @@ class PaymentReport extends Component<Props> {
                      }
                    }}
                    pagination={{ pageSize: 6 }}
-                   title={() => <div style={{fontWeight:'bold', fontSize:'16px', textAlign:'center'}}>Gelir/Gider Listesi</div>}
-                   footer={() => <div ><Button type="primary" icon="download" onClick={() => this.handleDownload(this.props.dates[0].unix(),this.props.dates[1].unix())}>Excel indir</Button></div>}
+                   title={() => <div style={{fontWeight:'bold', fontSize:'16px', textAlign:'center'}}>{lang.incomeAndExpenseList}</div>}
+                   footer={() => <div ><Button type="primary" icon="download" onClick={() => this.handleDownload(this.props.dates[0].unix(),this.props.dates[1].unix())}>{lang.downloadExcel}</Button></div>}
             />
           </Row>
 

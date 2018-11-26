@@ -12,6 +12,8 @@ import {finishSale} from '../actions/SaleActions';
 import { retrieveStockByBarcode, retrieveStocks, retrieveStocksCategories } from '../actions/StockActions'
 import ProductReducer from '../reducers/ProductReducer';
 import { CustomImage } from '../assets/ProductPhotos/CustomImage';
+var Mousetrap = require('mousetrap');
+
 const Search = Input.Search;
 const Option = Select.Option
 const confirm = Modal.confirm;
@@ -287,6 +289,17 @@ class SalePage extends Component<Props> {
         }
     }
     render() {
+
+        // # Set shortcuts
+        Mousetrap.bind(['command+k', 'ctrl+k'], function() {
+            console.log('command k or control k');
+ 
+            // return false to prevent default browser behavior
+            // and stop event from bubbling
+            return false;
+        });
+        // #
+
         var breadcrumbNameMap = {}
         breadcrumbNameMap['/sale'] = (
 
@@ -418,7 +431,7 @@ class SalePage extends Component<Props> {
                         <Button className='calculate-sale veresiye'>
                           <div>
                             <div><Icon type="form" theme="outlined" style={{fontSize:'1.5em'}} /></div>
-                            <div style={{fontSize:'0.7em'}}>Veresiye</div>
+                            <div style={{fontSize:'0.7em'}}>{lang.onCredit}</div>
                           </div>
                         </Button>
                         <Button onClick={this.emptyBasketConfirm} className='calculate-sale bosalt'>
