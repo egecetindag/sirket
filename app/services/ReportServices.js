@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export const getDailySummarySaleReportService = (first, last) => {
   const config = { headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') } }
-  return axios.get(pHost + `/getSaleSummaryReportDaily?timeInterval=${first},${last}`, config)
+  return axios.get(pHost + `/getSaleSummaryReport?timeInterval=${first},${last}`, config)
 }
 
 export const getCurrentStockReportService = (name,category) => {
@@ -37,7 +37,7 @@ export const getDashboardReportExcel = (first, last) => {
     headers: { 'Authorization': 'Bearer ' + localStorage.getItem('userToken') },
     responseType: 'blob',
   }
-  return axios.get(pHost + `/getSaleSummaryReportDailyAsExcel?timeInterval=${first},${last}`, config)
+  return axios.get(pHost + `/getSaleSummaryReportAsExcel?timeInterval=${first},${last}`, config)
 }
 
 export const getStockReportExcel = () => {
