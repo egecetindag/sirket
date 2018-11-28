@@ -247,7 +247,7 @@ class SummaryDashboard extends Component<Props> {
               <Card style={{textAlign : 'center'}}>
                 {lang.basketValue}
                 <Divider/>
-                <Progress type="circle" percent={basketPercent} format={() => this.props.dashboardSummaryReport.basketSize ? this.props.dashboardSummaryReport.basketSize.toFixed(2) + TL: '' } />
+                <Progress type="circle" percent={basketPercent} format={() => this.props.dashboardSummaryReport.basketValue ? this.props.dashboardSummaryReport.basketValue.toFixed(2) + TL: '' } />
               </Card>
 
             </Col>

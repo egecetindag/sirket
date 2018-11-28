@@ -168,7 +168,7 @@ class SalePage extends Component<Props> {
 
 
     componentDidMount() {
-        this.props.retrieveStocks({});
+        this.props.retrieveStocks({isFavorite:true});  // default olarak favorileri donder
         this.props.retrieveStocksCategories();
     }
     handleSearch = (e) => {
@@ -461,7 +461,7 @@ class SalePage extends Component<Props> {
                             <Select
                                 style={{ width: '300px', marginRight: ' 5px' }}
                                 onSelect={this.handleSelect}
-                                defaultValue={lang.bestSellers}
+                                defaultValue={lang.favorite}
                                 showSearch
                                 // placeholder='Select Category'
                                 filterOption={(input, option) => (option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}

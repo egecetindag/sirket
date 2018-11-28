@@ -7,10 +7,10 @@ export const CustomImage = ({height, width,divWith, name}) =>{
         imgStyle: {
             borderRadius: '7px',
             marginBottom:  '15px',
-            // height: height ? height : '115px',
-            // width: width ? width : '150px',
-            height: height ? height : '90px',
-            width: width ? width : '100px',
+            height: height ? height : '115px',
+            width: width ? width : '150px',
+            // height: height ? height : '90px',
+            // width: width ? width : '100px',
         }
     }
     

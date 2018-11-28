@@ -44,14 +44,17 @@ class StockPage extends Component<Props> {
   handleOk = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        console.log(this.state.selected)
         const dataToSend = {
-          productId: this.state.product.id,
+          productId: this.state.selected.id,
           qty: values.adet,
           dealerId: parseInt(values.dealer),
           isFavorite: values.favorite,
         }
         // console.log('data', dataToSend)
         if (this.state.type === 'create') {
+          console.log(this.state.product)
+          dataToSend.productId = this.state.product.id
           this.props.createStock(dataToSend, this.state.name);
         }
         if (this.state.type === 'edit') {
@@ -70,7 +73,11 @@ class StockPage extends Component<Props> {
       }
     });
 
+  }
 
+  onChangeSwitch = (values) =>{
+    console.log("on change:",values);
+    // this.selected.isFavorite = values
   }
   // handleEdit = () => {
   //     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -150,12 +157,20 @@ class StockPage extends Component<Props> {
 
   };
 
+  handleSetFavorite = () => {
+
+    console.log(this.state.selected)
+    this.props.setFavoriteProduct(this.state.selected.product.id,!this.state.selected.isFavorite)
+
+  }
+
   render() {
 
     const menu = (
       <Menu>
         <MenuItem>
-          <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="star" />{lang.favorite}</Button>
+          <Button onClick={() => this.handleSetFavorite()} style={{ border: '0', background: 'transparent' }}><Icon type="star" 
+          theme={this.state.selected ? (this.state.selected.isFavorite ? "filled" : "outlined") : "outlined"}/>{lang.favorite}</Button>
         </MenuItem>
         <MenuItem>
           <Button onClick={() => this.handleModalOpen('edit')} style={{ border: '0', background: 'transparent' }}><Icon type="edit" />{lang.edit}</Button>
@@ -425,7 +440,7 @@ class StockPage extends Component<Props> {
                       required: false, message: lang.favorite
                     }],
                   })(
-                    <Switch checked={selected.isFavorite} />
+                    <Switch defaultChecked={selected.isFavorite} onChange={this.onChangeSwitch} />
                   )}
                 </FormItem>
 

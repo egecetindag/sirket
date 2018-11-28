@@ -11,6 +11,7 @@ import { saveAs } from "file-saver";
 
 import {lang} from '../../services/config'
 
+
 class StockReport extends Component<Props> {
   props: Props
   constructor(props) {
@@ -20,6 +21,8 @@ class StockReport extends Component<Props> {
       selected: {},
     }
   }
+
+
 
   componentDidMount(){
     this.props.retrieveStockReport('','');
@@ -32,7 +35,17 @@ class StockReport extends Component<Props> {
   }
   handleSelect =(value) =>{
     console.log("handle search:",value);
+    this.setState({
+      selected: value
+    })
     this.props.retrieveStockReport('',value);
+  }
+  handleOnChange =(value) =>{
+    // console.log("changed search:1",this.state.selected);
+    // if(this.state.selected){
+    //   console.log("changed search:2",this.state.selected);
+    // }
+    // this.props.retrieveStockReport('',selected.name);
   }
   onSearchChange = (e) =>{
     this.setState({
@@ -195,6 +208,8 @@ class StockReport extends Component<Props> {
               showSearch
               placeholder='Select Category'
               filterOption={(input, option) => (option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              allowClear={true}
+              onChange={this.handleOnChange}
             >
               {this.props.stockCategories.map((category, index) => {
                 return (
