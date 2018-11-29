@@ -46,7 +46,7 @@ class StockPage extends Component<Props> {
       if (!err) {
         console.log(this.state.selected)
         const dataToSend = {
-          productId: this.state.selected.id,
+          productId: this.state.selected.product.id,
           qty: values.adet,
           dealerId: parseInt(values.dealer),
           isFavorite: values.favorite,
@@ -324,7 +324,7 @@ class StockPage extends Component<Props> {
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('dealer', {
-                    initialValue: type === 'edit' ? selected.dealerId : lang.selectDealer,
+                    initialValue: type === 'edit' ? selected.dealerName : lang.selectDealer,
                     rules: [{
                       required: false
                     }],
@@ -345,7 +345,7 @@ class StockPage extends Component<Props> {
                       required: true, message: lang.typeName
                     }],
                   })(
-                    <Input disabled={type === 'edit'} />
+                    <Input disabled={true} />
                   )}
 
                 </FormItem>
@@ -359,7 +359,8 @@ class StockPage extends Component<Props> {
                       required: false
                     }],
                   })(
-                    <Input disabled={type === 'edit'} />
+                    //{/* <Input disabled={type === 'edit'} /> */}
+                    <Input disabled={true} />
                   )}
                 </FormItem>
                 <FormItem
@@ -372,7 +373,7 @@ class StockPage extends Component<Props> {
                       required: false
                     }],
                   })(
-                    <Input disabled={type === 'edit'} />
+                    <Input disabled={true} />
                   )}
                 </FormItem>
 
@@ -401,7 +402,7 @@ class StockPage extends Component<Props> {
                       required: true, message: lang.typeBuyingPrice
                     }],
                   })(
-                    <InputNumber min={0} formatter={value => `${value}₺`} />
+                    <InputNumber min={0} formatter={value => `${value + lang.currency}`} disabled={true}/>
                   )}
                 </FormItem>
                 <FormItem
@@ -414,7 +415,7 @@ class StockPage extends Component<Props> {
                       required: true, message: lang.typeSalePrice
                     }],
                   })(
-                    <InputNumber min={0} formatter={value => `${value}₺`} />
+                    <InputNumber min={0} formatter={value => `${value + lang.currency}`} disabled={true}/>
                   )}
                 </FormItem>
                 <FormItem

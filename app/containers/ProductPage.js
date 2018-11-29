@@ -359,7 +359,7 @@ class ProductPage extends Component<Props> {
                                         required: true, message: lang.typeBuyingPrice
                                     }],
                                 })(
-                                    <InputNumber min={0} formatter={value => `${value}₺`} />
+                                    <InputNumber min={0} formatter={value => `${value + lang.currency}`} />
                                 )}
                             </FormItem>
                             <FormItem
@@ -372,7 +372,7 @@ class ProductPage extends Component<Props> {
                                         required: true, message: lang.typeSalePrice
                                     }],
                                 })(
-                                    <InputNumber min={0} formatter={value => `${value}₺`} />
+                                    <InputNumber min={0} formatter={value => `${value + lang.currency}`} />
                                 )}
                             </FormItem>
                           {/*<FormItem>*/}

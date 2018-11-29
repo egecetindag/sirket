@@ -236,6 +236,7 @@ class PaymentPage extends Component<Props> {
                 onRow={(record) => ({
                         onClick: () => {
                           this.setState({selected: record});
+                          console.log(record)
                         }
                       })}
                 pagination={{ pageSize: 6 }}
@@ -264,7 +265,7 @@ class PaymentPage extends Component<Props> {
                   style={{ display: 'flex' }}
                 >
                   {getFieldDecorator('personId', {
-                        initialValue: type === 'edit' ? selected.name : '',
+                        initialValue: type === 'edit' ? selected.personName : '',
                         rules: [{
                           required: false, message: lang.choosePerson
                         }],
@@ -287,7 +288,7 @@ class PaymentPage extends Component<Props> {
                         required: true, message: lang.typeAmount
                       }],
                     })(
-                      <Input />
+                      <InputNumber min={0} formatter={value => `${value + lang.currency}`} />
                     )}
 
                   </FormItem>

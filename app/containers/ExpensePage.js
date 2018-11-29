@@ -118,7 +118,7 @@ class ExpensePage extends Component<Props> {
         },
         {
             title: lang.delete,
-            render:() =><Popconfirm placement="topLeft" title={areUSureToRemoveItem} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button></Popconfirm>
+            render:() =><Popconfirm placement="topLeft" title={lang.areUSureToRemoveItem} onConfirm={this.handleDelete} okText="Yes" cancelText="No"><Button style={{border:'0', background:'transparent'}}><Icon type="delete" /></Button></Popconfirm>
         },
     
     ]
@@ -208,7 +208,7 @@ class ExpensePage extends Component<Props> {
                         required: true, message: lang.typeAmount
                       }],
                     })(
-                      <Input />
+                      <InputNumber min={0} formatter={value => `${value + lang.currency}`} />
                     )}
 
                   </FormItem>

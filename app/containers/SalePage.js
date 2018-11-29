@@ -300,6 +300,36 @@ class SalePage extends Component<Props> {
         });
         // #
 
+        Mousetrap.bind(['f2'], () => {
+            console.log('f2');
+            //clear
+            this.emptyBasketConfirm()
+            // return false to prevent default browser behavior
+            // and stop event from bubbling
+            return false;
+        });
+        Mousetrap.bind(['f8'], () => {
+            console.log('f8');
+            this.finishSale()
+            // return false to prevent default browser behavior
+            // and stop event from bubbling
+            return false;
+        });
+        Mousetrap.bind(['f9'], () => {
+            console.log('f9');
+ 
+            // return false to prevent default browser behavior
+            // and stop event from bubbling
+            return false;
+        });
+        Mousetrap.bind(['f10'], () => {
+            console.log('f10');
+ 
+            // return false to prevent default browser behavior
+            // and stop event from bubbling
+            return false;
+        });
+
         var breadcrumbNameMap = {}
         breadcrumbNameMap['/sale'] = (
 
@@ -417,12 +447,14 @@ class SalePage extends Component<Props> {
                           <div>
                             <div><Icon type="check-circle" theme="outlined" style={{fontSize:'1.5em'}} /></div>
                             <div style={{fontSize:'0.7em'}}>{lang.endSale}</div>
+                            <div style={{fontSize:'0.7em'}}>(F8)</div>
                           </div>
                         </Button>
                         <Button className='calculate-sale fiyat'>
                           <div>
                             <div><Icon type="tag" theme="outlined" style={{fontSize:'1.5em'}} /></div>
                             <div style={{fontSize:'0.7em'}}>{lang.showPrice}</div>
+                            <div style={{fontSize:'0.7em'}}>(F10)</div>
                           </div>
                         </Button>
 
@@ -432,12 +464,14 @@ class SalePage extends Component<Props> {
                           <div>
                             <div><Icon type="form" theme="outlined" style={{fontSize:'1.5em'}} /></div>
                             <div style={{fontSize:'0.7em'}}>{lang.onCredit}</div>
+                            <div style={{fontSize:'0.7em'}}>(F7)</div>
                           </div>
                         </Button>
                         <Button onClick={this.emptyBasketConfirm} className='calculate-sale bosalt'>
                           <div>
                             <div><Icon type="delete" theme="outlined" style={{fontSize:'1.5em'}} /></div>
                             <div style={{fontSize:'0.7em'}}>{lang.empty}</div>
+                            <div style={{fontSize:'0.7em'}}>(F2)</div>
                           </div>
                         </Button>
                       </div>
