@@ -135,4 +135,5 @@ export const lang = {
     grossProfit: 'Gross Profit',
     onCredit: 'On Credit',
     favorite: 'Favorite',
+    others: 'Others',
 }

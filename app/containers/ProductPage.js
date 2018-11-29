@@ -326,7 +326,7 @@ class ProductPage extends Component<Props> {
                                 style={{ display: 'flex' }}
                             >
                                 {getFieldDecorator('category', {
-                                    initialValue: type === 'edit' ? selected.category : '',
+                                    initialValue: type === 'edit' ? selected.category : lang.others,
                                     rules: [{
                                         required: false
                                     }],
