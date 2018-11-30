@@ -182,9 +182,23 @@ class ReceivingPage extends Component<Props> {
         dataIndex: 'name',
         key: 'name',
       }, {
+        title: lang.qty,
+        dataIndex: 'qty',
+        key: 'qty',
+      },{
         title: lang.salePrice,
         dataIndex: 'salePrice',
         key: 'salePrice',
+      },
+      {
+        title: lang.discount,
+        dataIndex: 'discount',
+        key: 'discount',
+      },
+      {
+        title: lang.totalCost,
+        dataIndex: 'totalCost',
+        key: 'totalCost',
       },
     ]
         const { getFieldDecorator } = this.props.form;   

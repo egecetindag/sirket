@@ -308,24 +308,39 @@ class SalePage extends Component<Props> {
             console.log(values);
             if (!err) {
                 
-                var tempProductIds = [];
-                this.state.products.forEach((stockItem,Index) => {
-                    tempProductIds.push(stockItem.product.id)
-                });
+                // var tempProductIds = [];
+                // this.state.products.forEach((stockItem,Index) => {
+                //     tempProductIds.push(stockItem.product.id)
+                // });
 
-                // console.log(tempProductIds)
+                // // console.log(tempProductIds)
 
-                var finalProductIds = tempProductIds.join(",")
+                // var finalProductIds = tempProductIds.join(",")
 
                 // console.log(finalProductIds);
+
+                let basket = {};
+                let basketProducts =[];
+                this.state.products.map(product =>{
+                    let a = {};
+                    a.id = product.product.id;
+                    a.qty = this.state.quantities[product.id];
+                    a.discount = 0;
+                    basketProducts.push(a);
+                })
+                basket.itemStr = JSON.stringify(basketProducts);
+                basket.totalPrice = this.calculateTotal();
+                basket.totalDiscount =0;
 
                 const dataToSend = {
                     personId: parseInt(values.personId),
                     amount: parseFloat(values.amount),
                     expectedDate: parseInt(moment(values.expectedDate).format('X')),
                     status: values.status,
-                    productIds: finalProductIds,
+                    productIds: basket.itemStr,
                 }
+
+                console.log("dataToSend",dataToSend);
 
 
                 this.setState({
