@@ -178,11 +178,11 @@ class ReceivingPage extends Component<Props> {
     ]
 
     const columnsForModal = [{
-        title: 'Ürün',
+        title: lang.productName,
         dataIndex: 'name',
         key: 'name',
       }, {
-        title: 'Satış Fiyatı',
+        title: lang.salePrice,
         dataIndex: 'salePrice',
         key: 'salePrice',
       },

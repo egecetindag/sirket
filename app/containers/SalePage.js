@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {lang} from '../services/config'
 type Props = {};
-import { List, Icon, Avatar, Button, Input, Table, Row, Col, Breadcrumb,Card, Dropdown, Menu, Select, Modal, message } from 'antd'
+import { List, Icon, Avatar, Button, Input, Table, Row, Col, Breadcrumb,Card, Dropdown, Menu, Select, Modal, message,DatePicker,Form,InputNumber } from 'antd'
 import { Link } from 'react-router-dom';
 import { connect, Switch, Route } from 'react-redux';
 import { ProductPage } from './ProductPage'
@@ -12,7 +12,13 @@ import {finishSale} from '../actions/SaleActions';
 import { retrieveStockByBarcode, retrieveStocks, retrieveStocksCategories } from '../actions/StockActions'
 import ProductReducer from '../reducers/ProductReducer';
 import { CustomImage } from '../assets/ProductPhotos/CustomImage';
+import {retrieveClients} from '../actions/ClientActions';
+import {createReceiving} from '../actions/ReceivingActions';
+
+import moment from 'moment'
 var Mousetrap = require('mousetrap');
+
+const FormItem = Form.Item;
 
 const Search = Input.Search;
 const Option = Select.Option
@@ -35,6 +41,7 @@ class SalePage extends Component<Props> {
             selectedButton: 1,
             startedWriting: true,
             selectedRow: undefined,
+            OcVisible:false,
         }
     }
     numberSelected = (number) => {
@@ -170,6 +177,7 @@ class SalePage extends Component<Props> {
     componentDidMount() {
         this.props.retrieveStocks({isFavorite:true});  // default olarak favorileri donder
         this.props.retrieveStocksCategories();
+        this.props.retrieveClients('')
     }
     handleSearch = (e) => {
 
@@ -288,6 +296,71 @@ class SalePage extends Component<Props> {
             message.warn(lang.selectProductToRemove)
         }
     }
+
+    handleOcCancel = () => {
+        this.props.form.resetFields();
+        this.setState({
+            OcVisible: false,
+        })
+    }
+    handleOcOk = () => {
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            console.log(values);
+            if (!err) {
+                
+                var tempProductIds = [];
+                this.state.products.forEach((stockItem,Index) => {
+                    tempProductIds.push(stockItem.product.id)
+                });
+
+                // console.log(tempProductIds)
+
+                var finalProductIds = tempProductIds.join(",")
+
+                // console.log(finalProductIds);
+
+                const dataToSend = {
+                    personId: parseInt(values.personId),
+                    amount: parseFloat(values.amount),
+                    expectedDate: parseInt(moment(values.expectedDate).format('X')),
+                    status: values.status,
+                    productIds: finalProductIds,
+                }
+
+
+                this.setState({
+                    products: [],
+                    quantities: {},
+                    startedWriting: true,
+                    selectedRow: undefined,
+                })
+
+                 this.props.createReceiving(dataToSend,'')
+
+                // if(this.state.type === 'create'){
+                //     this.props.createPayment(dataToSend, this.state.name);
+                // }
+                // if(this.state.type === 'edit'){
+                //     dataToSend.id =this.state.selected.id;
+                //     this.props.updatePayment(dataToSend, this.state.name);
+                // }
+                setTimeout(() => {
+                    this.setState({
+                        OcVisible: false
+                    })
+                }, 1000);
+                this.props.form.resetFields()
+            }
+        });
+
+    }
+    handeOcModalOpen = () => {
+        this.setState({
+             OcVisible: true,
+        
+        })
+        // console.log("products",this.state.products)
+    }
     render() {
 
         // # Set shortcuts
@@ -317,7 +390,7 @@ class SalePage extends Component<Props> {
         });
         Mousetrap.bind(['f9'], () => {
             console.log('f9');
- 
+            this.handeOcModalOpen()
             // return false to prevent default browser behavior
             // and stop event from bubbling
             return false;
@@ -374,7 +447,7 @@ class SalePage extends Component<Props> {
             }
         ]
         const breadcrumbItems = extraBreadcrumbItems;
-
+        const { getFieldDecorator } = this.props.form;
 
         return (
             <div style={{ display: 'flex', position: 'absolute', height: '89%', width: '98%' }}>
@@ -460,11 +533,11 @@ class SalePage extends Component<Props> {
 
                       </div>
                       <div style={{ display: 'flex', width: '100%',height:'50%' }}>
-                        <Button className='calculate-sale veresiye'>
+                        <Button className='calculate-sale veresiye' onClick={this.handeOcModalOpen}>
                           <div>
                             <div><Icon type="form" theme="outlined" style={{fontSize:'1.5em'}} /></div>
                             <div style={{fontSize:'0.7em'}}>{lang.onCredit}</div>
-                            <div style={{fontSize:'0.7em'}}>(F7)</div>
+                            <div style={{fontSize:'0.7em'}}>(F9)</div>
                           </div>
                         </Button>
                         <Button onClick={this.emptyBasketConfirm} className='calculate-sale bosalt'>
@@ -534,6 +607,98 @@ class SalePage extends Component<Props> {
 
 
                     </div>
+
+
+            <Modal
+              title={lang.sendToOnCredit}
+              visible={this.state.OcVisible}
+              onCancel={this.handleOcCancel}
+              footer={[
+                <Button onClick={this.handleOcCancel}>{lang.close}</Button>,
+                <Button type="primary" onClick={this.handleOcOk} icon="check">
+                            Send
+                </Button>
+                    ]}
+            >
+              <Form className='stock-form'>
+                <FormItem
+                  label={lang.name}
+                  style={{ display: 'flex' }}
+                >
+                  {getFieldDecorator('personId', {
+                        initialValue: '',
+                        rules: [{
+                          required: false, message: lang.choosePerson
+                        }],
+                      })(
+                    <Select placeholder={lang.choosePerson} style={{ width: '200px' }}
+                            showSearch
+                            filterOption={(input, option) => (option.props.children).toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >{this.props.clients.map(p => <Option key={p.id}>{p.name}</Option>)}</Select>
+                      )}
+              </FormItem>
+
+                <div>
+                  <FormItem
+                    label={lang.amount}
+                    style={{ display: 'flex' }}
+                  >
+                    {getFieldDecorator('amount', {
+                      initialValue: this.calculateTotal(),
+                      rules: [{
+                        required: true, message: lang.typeAmount
+                      }],
+                    })(
+                      <InputNumber min={0} formatter={value => `${value + lang.currency}`} />
+                    )}
+
+                  </FormItem>
+                  
+                  <FormItem
+                    label={lang.paymentDate}
+                    style={{ display: 'flex' }}
+                  >
+                    {getFieldDecorator('expectedDate', {
+                      initialValue: '',
+                      rules: [{
+                        required: false
+                      }],
+                    })(
+                      <DatePicker placeholder={lang.pickDate} />
+                    )}
+
+                  </FormItem>
+                  <FormItem
+                    label={lang.status}
+                    style={{ display: 'flex' }}
+                  >
+                    {getFieldDecorator('status', {
+                      initialValue: 'Bekliyor',
+                      rules: [{
+                        required: false
+                      }],
+                    })(
+                      <Select style={{ width: 120 }}>
+                        <Option value="Bekliyor">{lang.pending}</Option>
+                        <Option value="Bitti">{lang.finished}</Option>
+                        <Option value="Gecikmiş">{lang.overdue}</Option>
+                      </Select>
+                    )}
+
+                  </FormItem>
+
+                </div>
+
+              </Form>
+            </Modal>
+
+
+
+
+
+
+
+
                 </div>
             </div>
         );
@@ -541,18 +706,21 @@ class SalePage extends Component<Props> {
 
 
 }
-function mapStateToProps({ stockReducer }) {
+function mapStateToProps({ stockReducer, clientReducer }) {
     const { retrieveStocksSuccess, stocks, retrieveStockByBarcodeSuccess, stockByBarcode, stockCategories, stockCategoriesSuccess } = stockReducer;
+    const { clients } = clientReducer;
     return {
         retrieveStocksSuccess,
         stocks,
         retrieveStockByBarcodeSuccess,
         stockByBarcode,
         stockCategories,
-        stockCategoriesSuccess
+        stockCategoriesSuccess,
+        clients
 
     }
 }
 
-const ConnectedPage = connect(mapStateToProps, { retrieveStocks,finishSale, retrieveStockByBarcode, retrieveStocksCategories })(SalePage);
-export { ConnectedPage as SalePage }
+const ConnectedPage = connect(mapStateToProps, { retrieveStocks,finishSale, retrieveStockByBarcode, retrieveStocksCategories,retrieveClients, createReceiving})(SalePage);
+const WrappedPage = Form.create()(ConnectedPage);
+export { WrappedPage as SalePage }

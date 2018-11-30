@@ -134,4 +134,6 @@ export const lang = {
     onCredit: 'On Credit',
     favorite: 'Favorite',
     others: 'Others',
+    sendToOnCredit : 'Send To On Credit Records',
+    productName : 'Product Name',
 }
