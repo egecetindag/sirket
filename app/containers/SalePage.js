@@ -42,6 +42,8 @@ class SalePage extends Component<Props> {
             startedWriting: true,
             selectedRow: undefined,
             OcVisible:false,
+            showPriceVisible : false,
+            singleProductPrice : 0,
         }
     }
     numberSelected = (number) => {
@@ -249,12 +251,12 @@ class SalePage extends Component<Props> {
         this.setState({ visible: flag });
     }
     handleSelect = (e) => {
-        if (e !== lang.bestSellers) {
+        if (e !== lang.favorite) {
             this.props.retrieveStocks({ category: e })
             history.push('/sale/' + e);
         }
         else {
-            this.props.retrieveStocks({})
+            this.props.retrieveStocks({isFavorite:true})
             history.push('/sale');
         }
     }
@@ -297,12 +299,7 @@ class SalePage extends Component<Props> {
         }
     }
 
-    handleOcCancel = () => {
-        this.props.form.resetFields();
-        this.setState({
-            OcVisible: false,
-        })
-    }
+
     handleOcOk = () => {
         this.props.form.validateFieldsAndScroll((err, values) => {
             console.log(values);
@@ -376,16 +373,44 @@ class SalePage extends Component<Props> {
         })
         // console.log("products",this.state.products)
     }
+    handleOcCancel = () => {
+        this.props.form.resetFields();
+        this.setState({
+            OcVisible: false,
+        })
+    }
+
+    handeShowPriceModalOpen = () => {
+        this.setState({
+             showPriceVisible: true,
+        
+        })
+        // console.log("products",this.state.products)
+    }
+    handleShowPriceCancel = () => {
+        this.props.form.resetFields();
+        this.setState({
+            showPriceVisible: false,
+            singleProductPrice: 0
+        })
+    }
+    searchPriceForSingleProduct = () => {
+        this.setState({
+            singleProductPrice: 10
+        })
+        console.log(this.state.singleProductPrice)
+    }
+
     render() {
 
         // # Set shortcuts
-        Mousetrap.bind(['command+k', 'ctrl+k'], function() {
-            console.log('command k or control k');
+        // Mousetrap.bind(['command+k', 'ctrl+k'], function() {
+        //     console.log('command k or control k');
  
-            // return false to prevent default browser behavior
-            // and stop event from bubbling
-            return false;
-        });
+        //     // return false to prevent default browser behavior
+        //     // and stop event from bubbling
+        //     return false;
+        // });
         // #
 
         Mousetrap.bind(['f2'], () => {
@@ -413,6 +438,7 @@ class SalePage extends Component<Props> {
         Mousetrap.bind(['f10'], () => {
             console.log('f10');
  
+            this.handeShowPriceModalOpen()
             // return false to prevent default browser behavior
             // and stop event from bubbling
             return false;
@@ -538,7 +564,7 @@ class SalePage extends Component<Props> {
                             <div style={{fontSize:'0.7em'}}>(F8)</div>
                           </div>
                         </Button>
-                        <Button className='calculate-sale fiyat'>
+                        <Button className='calculate-sale fiyat' onClick={this.handeShowPriceModalOpen}>
                           <div>
                             <div><Icon type="tag" theme="outlined" style={{fontSize:'1.5em'}} /></div>
                             <div style={{fontSize:'0.7em'}}>{lang.showPrice}</div>
@@ -622,6 +648,7 @@ class SalePage extends Component<Props> {
 
 
                     </div>
+
 
 
             <Modal
@@ -709,6 +736,52 @@ class SalePage extends Component<Props> {
 
 
 
+
+        <Modal
+              title={lang.seePrice}
+              visible={this.state.showPriceVisible}
+              onCancel={this.handleShowPriceCancel}
+              footer={[
+                <Button onClick={this.handleShowPriceCancel}>{lang.close}</Button>,
+                
+                    ]}
+            >
+
+              <Form className='stock-form'>
+                <FormItem
+                  label={lang.barcode}
+                  style={{ display: 'flex' }}
+                >
+                  {getFieldDecorator('barcode', {
+                        initialValue: '',
+                        rules: [{
+                          required: false, message: lang.choosePerson
+                        }],
+                      })(
+                    <Input onChange={this.searchPriceForSingleProduct}/>
+                      )}
+              </FormItem>
+
+                <div>
+                  <FormItem
+                    label={lang.price}
+                    style={{ display: 'flex' }}
+                  >
+                    {getFieldDecorator('amount', {
+                      initialValue: 0,
+                    })(
+                      <Button size="large" type="primary">
+                      {this.state.singleProductPrice + " " + lang.currency}
+                      </Button>
+                    )}
+
+                  </FormItem>
+                  
+
+                </div>
+
+              </Form>
+            </Modal>
 
 
 

@@ -1,4 +1,5 @@
 import * as t from '../actions/types'
+import {lang} from '../services/config'
 
 const initialState = {
     stocks: [],
@@ -44,7 +45,7 @@ export default (state = initialState, action) => {
             }
         case t.RETRIEVE_STOCKS_CATEGORIES_SUCCESS:
             var a =[]
-            a.push('En Cok Satanlar');
+            a.push(lang.favorite);
             action.payload.data.map(data => a.push(data))
             return {
                 ...state,

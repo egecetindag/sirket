@@ -137,4 +137,5 @@ export const lang = {
     sendToOnCredit : 'Send To On Credit Records',
     productName : 'Product Name',
     totalCost: 'Total Cost',
+    seePrice:'See Price',
 }
