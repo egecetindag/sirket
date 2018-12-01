@@ -158,7 +158,7 @@ class ReceivingPage extends Component<Props> {
                 }else if (text === 'Bitti'){
                   return <div><Icon type='check' style={{color:'#59a856'}}/> {lang.finished}</div>
                 }else if (text === 'Gecikmiş'){
-                  return <div><Icon type='exclamation-circle-o' style={{color:'#f76255'}}/> {lang.pending}</div>
+                  return <div><Icon type='exclamation-circle-o' style={{color:'#f76255'}}/> {lang.overdue}</div>
                 }
             }
 

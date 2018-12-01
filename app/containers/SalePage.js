@@ -302,7 +302,8 @@ class SalePage extends Component<Props> {
 
     handleOcOk = () => {
         this.props.form.validateFieldsAndScroll((err, values) => {
-            console.log(values);
+            
+            console.log("values",values);
             if (!err) {
                 
                 // var tempProductIds = [];
@@ -329,6 +330,8 @@ class SalePage extends Component<Props> {
                 basket.totalPrice = this.calculateTotal();
                 basket.totalDiscount =0;
 
+
+
                 const dataToSend = {
                     personId: parseInt(values.personId),
                     amount: parseFloat(values.amount),
@@ -336,6 +339,16 @@ class SalePage extends Component<Props> {
                     status: values.status,
                     productIds: basket.itemStr,
                 }
+
+                // setTimeout(() => {
+                //   // server validate
+                //     this.props.form.setFields({
+                //       amount: {
+                //         value: this.calculateTotal(),
+                //       },
+                //     });
+                  
+                // }, 500);
 
                 console.log("dataToSend",dataToSend);
 
