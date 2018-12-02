@@ -138,4 +138,5 @@ export const lang = {
     productName : 'Product Name',
     totalCost: 'Total Cost',
     seePrice:'See Price',
+    addToBasket:'Add To Basket',
 }

@@ -51,6 +51,39 @@ export const retrieveStocksCategories = () => {
   
     }
   }
+  export const deleteStockForSingleItem = () => {
+    return async (dispatch) => {
+      dispatch({
+        type: t.DELETE_STOCK_FOR_ITEM_SUCCESS,
+      })
+
+    }
+  }
+
+  export const retrieveStockForSingleItem = (str) => {
+    return async (dispatch) => {
+      try {
+
+        let response = await dispatch(()=>s.retrieveStockByBarcodeService(str));
+        if (response.status === 200) {
+          dispatch({
+            type: t.RETRIEVE_STOCK_FOR_ITEM_SUCCESS,
+            payload: response.data
+          })
+        } else {
+          throw Error
+        }
+      }
+      catch (error) {
+        console.log('error', error)
+        dispatch({
+          type: t.RETRIEVE_STOCK_FOR_ITEM_FAILURE
+        })
+      }
+  
+    }
+  }
+
 export const retrieveStockByBarcode = (str) => {
   return async (dispatch) => {
     try {

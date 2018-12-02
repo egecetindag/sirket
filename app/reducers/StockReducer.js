@@ -6,7 +6,8 @@ const initialState = {
     retrieveStocksSuccess: false,
     stockByBarcode: {},
     stockCategories: [],
-    stockCategoriesSuccess: false
+    stockCategoriesSuccess: false,
+    stockForItem : undefined
 };
 
 export default (state = initialState, action) => {
@@ -33,11 +34,21 @@ export default (state = initialState, action) => {
                 retrieveStockByBarcodeSuccess: true,
                 stockByBarcode: action.payload.data.items[0]
             }
+        case t.RETRIEVE_STOCK_FOR_ITEM_SUCCESS:
+            return {
+                ...state,
+                stockForItem: action.payload.data.items[0]
+            }
         case t.RETRIEVE_STOCK_BY_BARCODE_REQUEST:
             return {
                 ...state,
                 retrieveStockByBarcodeSuccess: false,
             }
+        case t.DELETE_STOCK_FOR_ITEM_SUCCESS:
+        return{
+            ...state,
+            stockForItem:undefined
+        }
         case t.RETRIEVE_STOCK_BY_BARCODE_FAILURE:
             return {
                 ...state,
