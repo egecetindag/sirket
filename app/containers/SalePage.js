@@ -85,9 +85,19 @@ class SalePage extends Component<Props> {
             case '-':
                 if (this.state.selectedRow !== undefined) {
                     const key = this.state.products[this.state.selectedRow].id;
-                    this.setState({
-                        quantities: { ...this.state.quantities, [key]: this.state.quantities[key] - 1 },
-                    })
+                    const qty = this.state.quantities[key] - 1;
+                    if(qty === 0){
+                        let qtys = {...this.state.quantities}
+                        delete qtys[key]; 
+                        this.setState({
+                            quantities: qtys,
+                        })
+                    }
+                    else{
+                        this.setState({
+                            quantities: { ...this.state.quantities, [key]: qty },
+                        })
+                    }
                 }
                 break;
 
@@ -507,7 +517,7 @@ class SalePage extends Component<Props> {
 
         return (
             <div style={{ display: 'flex', position: 'absolute', height: '89%', width: '98%' }}>
-                <div style={{ width: '35%', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+                <div style={{ width: '35%', display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px )', justifyContent: 'space-between' }}>
                     {/* <div className='sale-total'><div style={{ fontSize: '1.4em' }}>Toplam</div><div style={{ fontSize: '1.3em' }}>{this.calculateTotal()}₺</div></div> */}
 
 
@@ -610,7 +620,7 @@ class SalePage extends Component<Props> {
 
                 </div>
 
-                <div style={{ border: '1px solid #d9d9d9', width: '65%', marginLeft: '1%', background:'#fbf9ff' }}>
+                <div style={{ border: '1px solid #d9d9d9',height: 'calc(100vh - 100px )', width: '65%', marginLeft: '1%', background:'#fbf9ff' }}>
                     <div style={{ display: 'flex', height: '45px', padding: '15px', backgroundColor: '#f3f3f3', justifyContent: 'space-between' }}>
                         <div className='sale-header'>
                             <div className="demo">
@@ -637,7 +647,7 @@ class SalePage extends Component<Props> {
                             />
                         </div>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '95%' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: 'calc(100% - 45px )' }}>
                         <div style={{ display: 'flex', flexWrap: 'wrap', overflowY: 'auto' }}>
                             {this.state.stocks.map((stock, index) => {
                                 return (
