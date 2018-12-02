@@ -375,6 +375,8 @@ class SalePage extends Component<Props> {
                     })
                 }, 1000);
                 this.props.form.resetFields()
+            }else{
+                console.log(err)
             }
         });
 
@@ -693,7 +695,7 @@ class SalePage extends Component<Props> {
                       )}
               </FormItem>
 
-                <div>
+                
                   <FormItem
                     label={lang.amount}
                     style={{ display: 'flex' }}
@@ -742,8 +744,6 @@ class SalePage extends Component<Props> {
 
                   </FormItem>
 
-                </div>
-
               </Form>
             </Modal>
 
@@ -760,40 +760,42 @@ class SalePage extends Component<Props> {
                     ]}
             >
 
-              <Form className='stock-form'>
-                <FormItem
-                  label={lang.barcode}
-                  style={{ display: 'flex' }}
-                >
-                  {getFieldDecorator('barcode', {
-                        initialValue: '',
-                        rules: [{
-                          required: false, message: lang.choosePerson
-                        }],
-                      })(
-                    <Input onChange={this.searchPriceForSingleProduct}/>
-                      )}
-              </FormItem>
 
-                <div>
-                  <FormItem
-                    label={lang.price}
-                    style={{ display: 'flex' }}
-                  >
-                    {getFieldDecorator('amount', {
-                      initialValue: 0,
-                    })(
-                      <Button size="large" type="primary">
-                      {this.state.singleProductPrice + " " + lang.currency}
-                      </Button>
-                    )}
-
-                  </FormItem>
+          {/*<Form className='stock-form2'>
+                      <FormItem
+                        label={lang.barcode}
+                        style={{ display: 'flex' }}
+                      >
+                        {getFieldDecorator('barcode', {
+                              initialValue: '',
+                              rules: [{
+                                required: false, message: lang.choosePerson
+                              }],
+                            })(
+                          <Input onChange={this.searchPriceForSingleProduct}/>
+                            )}
+                    </FormItem>
+          
+                      <div>
+                        <FormItem
+                          label={lang.price}
+                          style={{ display: 'flex' }}
+                        >
+                          {getFieldDecorator('amount', {
+                            initialValue: 0,
+                          })(
+                            <Button size="large" type="primary">
+                            {this.state.singleProductPrice + " " + lang.currency}
+                            </Button>
+                          )}
+          
+                        </FormItem>
                   
 
                 </div>
 
               </Form>
+              */}
             </Modal>
 
 
