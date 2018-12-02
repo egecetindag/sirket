@@ -51,8 +51,8 @@
     align-items: center
 }
 .sale-products{
-    height: 180px;
-    /*width: 135px;*/
+    height: 15%;
+    width: 20%;
     padding: 15px;
     margin: 15px;
     position: relative;

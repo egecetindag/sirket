@@ -7,8 +7,8 @@ export const CustomImage = ({height, width,divWith, name}) =>{
         imgStyle: {
             borderRadius: '7px',
             marginBottom:  '15px',
-            height: height ? height : '115px',
-            width: width ? width : '150px',
+            height: height ? height : '80%',
+            width: width ? width : '90%',
             // height: height ? height : '90px',
             // width: width ? width : '100px',
         }
@@ -17,13 +17,13 @@ export const CustomImage = ({height, width,divWith, name}) =>{
     try{
         //path = require(name)
       if (name.length <= 0) {
-        return <div style={{width: divWith ? '' : '150px', display:'flex', justifyContent:'center'}}><div style={style.imgStyle}/></div>
+        return <div style={{width: divWith ? '' : '100%', display:'flex', justifyContent:'center'}}><div style={style.imgStyle}/></div>
       }
-        return <div style={{width: divWith ? '' : '150px', display:'flex', justifyContent:'center'}}><img style={style.imgStyle} src={name}/></div>
+        return <div style={{width: divWith ? '' : '100%', display:'flex', justifyContent:'center'}}><img style={style.imgStyle} src={name}/></div>
     }
     catch(err){
 
-        return <div style={{width: divWith ? '' : '150px', display:'flex', justifyContent:'center'}}><div style={style.imgStyle}/></div>
+        return <div style={{width: divWith ? '' : '100%', display:'flex', justifyContent:'center'}}><div style={style.imgStyle}/></div>
     }
 
 }
