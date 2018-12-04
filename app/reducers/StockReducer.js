@@ -1,5 +1,5 @@
 import * as t from '../actions/types'
-import {lang} from '../services/config'
+import { lang } from '../services/config'
 
 const initialState = {
     stocks: [],
@@ -7,7 +7,7 @@ const initialState = {
     stockByBarcode: {},
     stockCategories: [],
     stockCategoriesSuccess: false,
-    stockForItem : undefined
+    stockForItem: undefined
 };
 
 export default (state = initialState, action) => {
@@ -45,17 +45,17 @@ export default (state = initialState, action) => {
                 retrieveStockByBarcodeSuccess: false,
             }
         case t.DELETE_STOCK_FOR_ITEM_SUCCESS:
-        return{
-            ...state,
-            stockForItem:undefined
-        }
+            return {
+                ...state,
+                stockForItem: undefined
+            }
         case t.RETRIEVE_STOCK_BY_BARCODE_FAILURE:
             return {
                 ...state,
                 retrieveStockByBarcodeSuccess: false,
             }
         case t.RETRIEVE_STOCKS_CATEGORIES_SUCCESS:
-            var a =[]
+            var a = []
             a.push(lang.favorite);
             action.payload.data.map(data => a.push(data))
             return {

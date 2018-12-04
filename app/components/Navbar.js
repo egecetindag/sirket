@@ -85,7 +85,7 @@ class Navbar extends Component<Props> {
 
     render() {
         return (
-            <div>
+            <div style={{backgroundColor:'#1f2831'}}>
                 <Menu
                     onClick={this.handleClick}
                     mode="horizontal"
@@ -140,9 +140,9 @@ class Navbar extends Component<Props> {
                         <div className='navbar-icon'><Icons iconName="settings-work-tool" /></div>
                         <div>{lang.settings}</div>
                     </MenuItem>
+                   
                 </Menu>
-                <div>
-
+                <div style={{width:'10%'}}>
                     <Button onClick={this.showDrawer} className='navbar-button'><Icon style={{ color: 'white', fontSize: '2em' }} type="ellipsis" /></Button>
                 </div>
                 <Drawer
@@ -153,14 +153,9 @@ class Navbar extends Component<Props> {
                     onClose={this.onClose}
                     visible={this.state.visible}
                 >
-
-
-                     
                     <Avatar size={116} icon="user" />
-                    
                     <Divider />
                     <Button onClick ={this.handleLogout} >Logout</Button>
-                
                 </Drawer>
             </div>
 

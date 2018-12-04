@@ -3,7 +3,10 @@
     font-size: 32px;
     margin-bottom: -12px;
 }
-    
+.navbar-menu{
+    width: 90%;
+    border-bottom: none
+}
 .navbar-menu > .ant-menu-item{
     width: 10%;
     text-align: center;    

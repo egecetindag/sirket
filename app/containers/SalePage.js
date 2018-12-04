@@ -9,7 +9,7 @@ import { history } from '../store/configureStore'
 import '../assets/styles/sale.css';
 import { Icons } from '../assets/Icons';
 import { finishSale } from '../actions/SaleActions';
-import { retrieveStockByBarcode, retrieveStocks, retrieveStocksCategories, retrieveStockForSingleItem,deleteStockForSingleItem } from '../actions/StockActions'
+import { retrieveStockByBarcode, retrieveStocks, retrieveStocksCategories, retrieveStockForSingleItem, deleteStockForSingleItem } from '../actions/StockActions'
 import ProductReducer from '../reducers/ProductReducer';
 import { CustomImage } from '../assets/ProductPhotos/CustomImage';
 import { retrieveClients } from '../actions/ClientActions';
@@ -414,16 +414,16 @@ class SalePage extends Component<Props> {
         this.props.deleteStockForSingleItem();
         this.setState({
             showPriceVisible: false,
-            barcodeForSP:''
+            barcodeForSP: ''
         })
     }
     searchPriceForSingleProduct = (e) => {
-   
+
         if (e.target.value.length === 12) {
             this.props.retrieveStockForSingleItem(e.target.value);
         }
         this.setState({
-            barcodeForSP :e.target.value
+            barcodeForSP: e.target.value
         })
     }
 
@@ -771,19 +771,30 @@ class SalePage extends Component<Props> {
                         ]}
                     >
 
-                       <Input value={this.state.barcodeForSP} onChange={this.searchPriceForSingleProduct} />
+                        <Input value={this.state.barcodeForSP} onChange={this.searchPriceForSingleProduct} />
                         {this.props.stockForItem &&
-                        <div style={{display:'flex',alignItems:'center', justifyContent:'space-around'}}>
-                            <div className='sale-products' style={{width:'35%'}} >
-                                <CustomImage name={this.props.stockForItem.product.imagePath} />
-                                <div style={{ backgroundColor: 'white', color: '#383c43', margin: '-15px', display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', height: '50px' }}>
-                                    <div className='txt' style={this.props.stockForItem.product.name.length < 10 ? { fontSize: '1.2em' } : this.props.stockForItem.product.name.length < 15 ? { fontSize: '1em' } : this.props.stockForItem.product.name.length < 20 ? { fontSize: '0.8em' } : { fontSize: '0.8em', display: 'flex', flexWrap: 'wrap', width: '160px' }}>
-                                        {this.props.stockForItem.product.name}
+                            <div style={{ display: 'flex', alignItems: 'center', margin: '4%',justifyContent: 'space-around' }}>
+                                <div style={{ width: '70%' }}>
+                                    <div> 
+                                        <CustomImage name={this.props.stockForItem.product.imagePath} />
+                                        <div style={{ backgroundColor: 'white', color: '#383c43', margin: '0px', display: 'flex', alignItems: 'center', fontSize: '20px', flexDirection: 'column', height: '50px' }}>
+                                            <div className='txt' style={this.props.stockForItem.product.name.length < 10 ? { fontSize: '1.2em' } : this.props.stockForItem.product.name.length < 15 ? { fontSize: '1em' } : this.props.stockForItem.product.name.length < 20 ? { fontSize: '0.8em' } : { fontSize: '0.8em', display: 'flex', flexWrap: 'wrap', width: '160px' }}>
+                                                {this.props.stockForItem.product.name}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className='filter'><Icons iconName='shopping' height='0px' /></div>
-                                    <div className='ribbon'><div className='shadow' />{this.props.stockForItem.product.salePrice}{lang.currency}<span className='ribbon-a' /></div></div>
-
-                            </div>
+                                    <div style={{ display: 'flex' }}>
+                                        <div className='show-price'>{this.props.stockForItem.product.salePrice}{lang.currency}</div>
+                                        <div className='show-price-button'>
+                                        <Button >
+                                            <div className='show-price-hidden'>
+                                                <Icon type='shopping-cart'/>
+                                            </div>
+                                            {lang.addToBasket}
+                                        </Button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         }
                         {/*<Form className='stock-form2'>
@@ -850,6 +861,6 @@ function mapStateToProps({ stockReducer, clientReducer }) {
     }
 }
 
-const ConnectedPage = connect(mapStateToProps, { retrieveStocks, finishSale, retrieveStockByBarcode,deleteStockForSingleItem, retrieveStockForSingleItem, retrieveStocksCategories, retrieveClients, createReceiving })(SalePage);
+const ConnectedPage = connect(mapStateToProps, { retrieveStocks, finishSale, retrieveStockByBarcode, deleteStockForSingleItem, retrieveStockForSingleItem, retrieveStocksCategories, retrieveClients, createReceiving })(SalePage);
 const WrappedPage = Form.create()(ConnectedPage);
 export { WrappedPage as SalePage }
