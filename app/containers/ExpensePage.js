@@ -152,7 +152,13 @@ class ExpensePage extends Component<Props> {
                           this.setState({selected: record});
                         }
                       })}
-                pagination={{ pageSize: 6 }}
+                pagination={{
+                                showSizeChanger: true, 
+                                pageSizeOptions: ["6","8","10","15","20"], 
+                                hideOnSinglePage: true,
+                                defaultPageSize: 8
+
+                }}
               />
 
             </div>

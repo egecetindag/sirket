@@ -4,11 +4,11 @@
     margin-bottom: -12px;
 }
 .navbar-menu{
-    width: 90%;
+    width: 100%;
     border-bottom: none
 }
 .navbar-menu > .ant-menu-item{
-    width: 10%;
+    width: 9%;
     text-align: center;    
 }
 .navbar-menu > .ant-menu-item  .anticon{

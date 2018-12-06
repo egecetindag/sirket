@@ -79,6 +79,10 @@ class Navbar extends Component<Props> {
             case '11':
             // history.push('/report');
             break;
+            case '12':
+                this.showDrawer();
+            // history.push('/report');
+            break;
 
         }
     }
@@ -140,11 +144,13 @@ class Navbar extends Component<Props> {
                         <div className='navbar-icon'><Icons iconName="settings-work-tool" /></div>
                         <div>{lang.settings}</div>
                     </MenuItem>
+                    <MenuItem key="12">
+                            <div className='navbar-icon'><Icons iconName="exit" /></div>
+                            <div>Exit</div>
+                    </MenuItem>
                    
                 </Menu>
-                <div style={{width:'10%'}}>
-                    <Button onClick={this.showDrawer} className='navbar-button'><Icon style={{ color: 'white', fontSize: '2em' }} type="ellipsis" /></Button>
-                </div>
+               
                 <Drawer
                     style={{textAlign:'center'}}
                     title={lang.drawerTitle}

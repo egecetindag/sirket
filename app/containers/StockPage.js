@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 type Props = {};
-import { Table, Button, Icon, Modal, Select, Form,Menu, Input, InputNumber,Checkbox,Switch, Popconfirm ,Dropdown} from 'antd'
+import { Table, Button, Icon, Modal, Select, Form,Menu, Input, InputNumber,Checkbox,Switch, Popconfirm ,Dropdown,Pagination} from 'antd'
 const Search = Input.Search;
 const FormItem = Form.Item;
 import { Link } from 'react-router-dom';
@@ -73,6 +73,10 @@ class StockPage extends Component<Props> {
       }
     });
 
+  }
+
+  onShowSizeChange = (current, pageSize) => {
+    console.log(current, pageSize);
   }
 
   onChangeSwitch = (values) =>{
@@ -266,7 +270,8 @@ class StockPage extends Component<Props> {
 
           </div>
         </div>
-        <div className='page-body'>
+        <div className='page-body' >
+          
           <Table
             dataSource={this.props.stocks}
             columns={columns}
@@ -278,8 +283,15 @@ class StockPage extends Component<Props> {
                 onClick: () => this.setState({ selected: record })
               }
             }}
-            pagination={{ pageSize: 8 }}
+            pagination={{showSizeChanger: true, 
+                          pageSizeOptions: ["6","8","10","15","20"], 
+                          hideOnSinglePage: true,
+                          defaultPageSize: 8
+
+                        }}
+                      
           />
+          
         </div>
 
 
