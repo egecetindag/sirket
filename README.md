@@ -2,7 +2,7 @@
 
 - Point of Sale with barcode scanning
 - Inventory Management
-- Acoounting
+- Accounting
 - Reporting
 
 # Technologies
@@ -27,6 +27,7 @@
 
 <img src="https://i.imgur.com/yNvS40A.png" />
 
+<br/>
 <br/>
 
 <img src="https://i.imgur.com/FulohHr.png" />
