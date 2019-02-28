@@ -8,4 +8,6 @@
 ### User Interface of the project
 
 <br/>
-![img](https://i.imgur.com/eMUT43E.jpg)
+
+<img src="https://i.imgur.com/eMUT43E.jpg" />
+
